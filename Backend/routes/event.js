@@ -3,19 +3,24 @@ const router = express.Router();
 const axios = require("axios");
 const validations = require("./validation");
 const multer = require("multer");
+const eventData = require("../data/events");
 
 const upload = multer({ dest: "images/" });
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    let hello = { message: "Hello" };
-    const imagePath = req.file.path;
-    // const description = req.body.description;
+    const imageName = req.file.filename;
+    let event = await eventData.createEvent(
+      req.body.title,
+      req.body.description,
+      req.body.time,
+      req.body.capacity,
+      req.body.address,
+      req.body.address2,
+      imageName
+    );
 
-    // Save this data to a database probably
-
-    console.log(imagePath);
-    return res.json(hello);
+    return res.json(event);
   } catch (e) {
     if (e.name == "AxiosError")
       return res.status(e.response.status || 404).json({
