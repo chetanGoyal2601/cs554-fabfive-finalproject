@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -14,11 +13,15 @@ const CreateEvent = () => {
   const [response, setResponse] = useState();
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
-  const [time, setTime] = useState("");
+  // const [time, setTime] = useState("");
   const [capacity, setCapacity] = useState("");
   const [address, setAddress] = useState("");
   const [address2, setAddress2] = useState("");
-  const [startDate, setStartDate] = React.useState(dayjs("2022-04-07"));
+  const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
 
   const submit = async (event) => {
     event.preventDefault();
@@ -26,7 +29,7 @@ const CreateEvent = () => {
     formData.append("image", file);
     formData.append("description", description);
     formData.append("title", title);
-    formData.append("time", time);
+    formData.append("time", value);
     formData.append("capacity", capacity);
     formData.append("address", address);
     formData.append("address2", address2);
@@ -98,7 +101,7 @@ const CreateEvent = () => {
             placeholder="Apartment, studio, or floor"
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Time : </Form.Label>
           <br />
           <Form.Control
@@ -106,7 +109,7 @@ const CreateEvent = () => {
             type="text"
             placeholder="Time"
           />
-        </Form.Group>
+        </Form.Group> */}
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Capacity : </Form.Label>
           <br />
@@ -120,13 +123,22 @@ const CreateEvent = () => {
         <input
           onChange={(e) => setCapacity(e.target.value)}
           type="number"
-        ></input>
-        <button type="submit">Submit</button> */}
+        ></input>*/}
+
+        <br />
+        <br />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            label="Date&Time picker"
+            value={value}
+            onChange={handleChange}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+        <br />
+        <button type="submit">Submit</button>
       </Form>
-      <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-      />
+
       {response && response.title && <p>{response.title}</p>}
       {response && response.description && <p>{response.description}</p>}
       {response && response.time && <p>{response.time}</p>}
