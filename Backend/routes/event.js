@@ -33,4 +33,20 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
+router.get("/:page", async (req, res) => {
+  try {
+    let events = await eventData.getAll(req.params.page);
+    return res.json(events);
+  } catch (e) {
+    if (e.name == "AxiosError")
+      return res.status(e.response.status || 404).json({
+        errors: e.response.statusText,
+      });
+    else
+      return res.status(e.code || 404).json({
+        errors: e.message,
+      });
+  }
+});
+
 module.exports = router;

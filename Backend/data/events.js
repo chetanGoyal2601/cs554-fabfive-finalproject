@@ -48,7 +48,35 @@ async function get(id) {
   return event;
 }
 
+async function getAll(page = 0) {
+  page = parseInt(page);
+
+  let start = page == 0 ? 0 : (page - 1) * 50;
+  //let end = start + 50 < sweetList.length ? start + 50 : sweetList.length;
+
+  const eventCollection = await events();
+  const eventList = await eventCollection
+    .find({})
+    .skip(start)
+    .limit(start + 20)
+    .toArray();
+
+  const eventCount = await eventCollection.countDocuments();
+
+  const numOfPages = Math.ceil(eventCount / 20);
+
+  if (eventList.length == 0) throw { message: "No sweets", code: 404 };
+
+  for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
+    eventList[indexOne]._id = eventList[indexOne]._id.toString();
+  }
+
+  let data = { results: eventList, numOfPages };
+  return data;
+}
+
 module.exports = {
   createEvent,
   get,
+  getAll,
 };

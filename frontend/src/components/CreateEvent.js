@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const [capacity, setCapacity] = useState("");
   const [address, setAddress] = useState("");
   const [address2, setAddress2] = useState("");
-  const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
+  const [value, setValue] = React.useState(dayjs("2023-01-01T08:00"));
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -129,9 +129,12 @@ const CreateEvent = () => {
         <br />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
-            label="Date&Time picker"
+            label="Event Date & Time"
             value={value}
             onChange={handleChange}
+            type="datetime-local"
+            minDate={new Date()}
+            minTime={dayjs("2018-01-01T08:00")}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
