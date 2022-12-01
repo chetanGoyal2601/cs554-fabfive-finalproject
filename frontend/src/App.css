@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+
+.pokelink{
+  text-decoration: none
+  }
+
+  .link {
+    padding-right: 10px;
+  }
+
+  dt, dd {
+    display: inline-block;
+    margin: 0;
+  }
+  
+  dd {
+    font-weight: bold;
+    font-size: 1.3em
+  }
+  
+  dt {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .showlink {
+    padding: 0.4rem 0.8rem;
+    background-color: rgb(219, 238, 9);
+    border-radius: 3px;
+    color: #02322c;
+    text-decoration: none !important;
+    margin: 5px;
+  }
+  
+  .showlink2 {
+    padding: 0.2rem 0.8rem;
+    background-color: rgb(219, 238, 9);
+    border-radius: 3px;
+    color: #02322c;
+    text-decoration: none !important;
+    margin: 5px;
+  }

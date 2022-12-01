@@ -33,10 +33,56 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-router.get("/:page", async (req, res) => {
+router.get("/page/:page", async (req, res) => {
   try {
     let events = await eventData.getAll(req.params.page);
     return res.json(events);
+  } catch (e) {
+    if (e.name == "AxiosError")
+      return res.status(e.response.status || 404).json({
+        errors: e.response.statusText,
+      });
+    else
+      return res.status(e.code || 404).json({
+        errors: e.message,
+      });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  // try {
+  //   req.params.id = validation.checkId(req.params.id, "Band ID");
+  // } catch (e) {
+  //   return res.status(400).json({ error: e });
+  // }
+  try {
+    const event = await eventData.get(req.params.id);
+    res.json(event);
+  } catch (e) {
+    res.status(404).json({ error: e });
+  }
+});
+
+router.patch("/:id", async (req, res) => {
+  try {
+    let event = await eventData.setRsvp(req.params.id);
+    return res.json(event);
+  } catch (e) {
+    if (e.name == "AxiosError")
+      return res.status(e.response.status || 404).json({
+        errors: e.response.statusText,
+      });
+    else
+      return res.status(e.code || 404).json({
+        errors: e.message,
+      });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    let event = await eventData.remove(req.params.id);
+    return res.json(event);
   } catch (e) {
     if (e.name == "AxiosError")
       return res.status(e.response.status || 404).json({

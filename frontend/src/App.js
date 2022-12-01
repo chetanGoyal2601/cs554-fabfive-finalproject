@@ -6,6 +6,8 @@ import {
   NavLink,
 } from "react-router-dom";
 import CreateEvent from "./components/CreateEvent";
+import Events from "./components/Events";
+import Event from "./components/Event";
 import Home from "./components/Home";
 
 // import Jeff_Passport_Photo from ".../Backend/images";
@@ -32,14 +34,18 @@ function App() {
     <Router>
       <div className="App">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <h1 className="App-title">Welcome to the React.js Pokemon API</h1>
+        <h1 className="App-title">Welcome to the MakeEventHappen!</h1>
         <nav>
           <NavLink className="showlink" to="/">
             Home
           </NavLink>{" "}
           |{" "}
-          <NavLink className="showlink" to="/event">
-            New Events
+          <NavLink className="showlink" to="/createevent">
+            Create Event
+          </NavLink>{" "}
+          |{" "}
+          <NavLink className="showlink" to="/events/page/0">
+            Events
           </NavLink>
         </nav>
         <br />
@@ -47,7 +53,9 @@ function App() {
         <div className="App-body">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route exact path="/event" element={<CreateEvent />} />
+            <Route exact path="/createevent" element={<CreateEvent />} />
+            <Route exact path="/events/page/:page" element={<Events />} />
+            <Route exact path="/event/:id" element={<Event />} />
           </Routes>
         </div>
       </div>
