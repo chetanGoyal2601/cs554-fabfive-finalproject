@@ -86,36 +86,37 @@ async function setRsvp(eventId, userId) {
   const event = await this.get(eventId);
   let seatsAvailable = event.seatsAvailable;
 
-  if (eventId.guests.includes(userId)) {
-    eventId.guests.splice(eventId.guests.indexOf(userId), 1);
+  if (event.rsvps.includes(userId)) {
+    event.rsvps.splice(event.rsvps.indexOf(userId), 1);
     seatsAvailable++;
   } else {
-    eventId.guests.push(userId);
+    event.rsvps.push(userId);
     seatsAvailable--;
   }
 
   let newEvent = {
-    title: eventId.title,
-    description: eventId.description,
-    time: eventId.description,
-    capacity: eventId.capacity,
+    title: event.title,
+    description: event.description,
+    time: event.time,
+    capacity: event.capacity,
     seatsAvailable,
-    address: eventId.address,
-    address2: eventId.address2,
-    image: eventId.image,
-    rsvps: eventId.rsvps,
+    address: event.address,
+    address2: event.address2,
+    image: event.image,
+    rsvps: event.rsvps,
+    host: event.host,
   };
 
   const updatedInfo = await eventCollection.updateOne(
-    { _id: ObjectId(newEvent) },
-    { $set: event }
+    { _id: ObjectId(eventId) },
+    { $set: newEvent }
   );
 
   if (updatedInfo.modifiedCount === 0) {
     throw { message: "Could not update event successfully", code: 500 };
   }
-
-  return await this.get(eventId);
+  let answer = { event: await this.get(eventId), updated: true };
+  return answer;
 }
 
 async function remove(eventId) {

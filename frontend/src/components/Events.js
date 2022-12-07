@@ -11,7 +11,7 @@ import { nanoid } from "nanoid";
 
 import Alert from "@mui/material/Alert";
 let path = "http://localhost:3001/";
-// let userId = "123";
+let userId = "123";
 
 const Events = () => {
   const [isError, setIsError] = useState(false);
@@ -24,7 +24,25 @@ const Events = () => {
   let { page } = useParams();
   let card = null;
 
-  function updateRSVP(eventId) {}
+  async function updateRSVP(eventId) {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:3001/event/${eventId}`,
+        { data: { page: page, userId: loggedInUser } },
+        {
+          headers: { Accept: "application/json" },
+        }
+      );
+      if (data.results.length > 0) {
+        setEventData(data.results);
+        setIsError(false);
+      } else {
+        setIsError(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   async function deleteEvent(eventId) {
     try {
@@ -60,7 +78,7 @@ const Events = () => {
 
   function chatWithHost(eventId, loggedInUser) {}
 
-  function removeRsvp(eventId, loggedInUser) {}
+  // function removeRsvp(eventId, loggedInUser) {}
 
   useEffect(() => {
     async function fetchData() {
@@ -123,7 +141,7 @@ const Events = () => {
               <Typography variant="body2" color="textSecondary" component="p">
                 {event.address
                   ? event.address + ", " + event.address2
-                  : "No Time Mentioned"}
+                  : "No Address Mentioned"}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 Spots available :{" "}
@@ -184,34 +202,36 @@ const Events = () => {
             </div>
           )}
 
-          {loggedInUser && event.rsvps.includes(loggedInUser) && (
-            <div>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  chatWithHost(event._id, loggedInUser);
-                }}
-              >
-                Chat with Host
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  joinDiscussion(event._id, loggedInUser);
-                }}
-              >
-                Enter Discussion
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  removeRsvp(event._id, loggedInUser);
-                }}
-              >
-                Remove RSVP
-              </Button>
-            </div>
-          )}
+          {loggedInUser &&
+            event.rsvps &&
+            event.rsvps.includes(loggedInUser) && (
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    chatWithHost(event._id, loggedInUser);
+                  }}
+                >
+                  Chat with Host
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    joinDiscussion(event._id, loggedInUser);
+                  }}
+                >
+                  Enter Discussion
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    updateRSVP(event._id, loggedInUser);
+                  }}
+                >
+                  Remove RSVP
+                </Button>
+              </div>
+            )}
           <br />
           <br />
         </Card>
