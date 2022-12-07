@@ -10,6 +10,7 @@ const upload = multer({ dest: "images/" });
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     const imageName = req.file.filename;
+    const user = "23";
     let event = await eventData.createEvent(
       req.body.title,
       req.body.description,
@@ -17,6 +18,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       req.body.capacity,
       req.body.address,
       req.body.address2,
+      user,
       imageName
     );
 
@@ -36,6 +38,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 router.get("/page/:page", async (req, res) => {
   try {
     let events = await eventData.getAll(req.params.page);
+    // events.userId = "23";
     return res.json(events);
   } catch (e) {
     if (e.name == "AxiosError")
@@ -82,7 +85,12 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     let event = await eventData.remove(req.params.id);
-    return res.json(event);
+    let events = null;
+    if (event.deleted) {
+      events = await eventData.getAll(parseInt(req.body.page));
+      events.userId = "123";
+    }
+    return res.json(events);
   } catch (e) {
     if (e.name == "AxiosError")
       return res.status(e.response.status || 404).json({

@@ -7,9 +7,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { nanoid } from "nanoid";
 
 import Alert from "@mui/material/Alert";
 let path = "http://localhost:3001/";
+// let userId = "123";
 
 const Events = () => {
   const [isError, setIsError] = useState(false);
@@ -17,9 +19,48 @@ const Events = () => {
   const [next, setNext] = useState(true); // for checking if next page exists or not
   const [eventData, setEventData] = useState(undefined);
   const [loading, setLoading] = useState(true);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
   let { page } = useParams();
+  let card = null;
 
   function updateRSVP(eventId) {}
+
+  async function deleteEvent(eventId) {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3001/event/${eventId}`,
+        { data: { page: page } },
+        {
+          headers: { Accept: "application/json" },
+        }
+      );
+      if (data.results.length > 0) {
+        setEventData(data.results);
+        setIsError(false);
+      } else {
+        setIsError(true);
+      }
+      // if (data.deleted) {
+      //   for (let i = 0; i < eventData.length; i++) {
+      //     if (eventData[i]._id === eventId) {
+      //       let newEventData = [...eventData];
+      //       newEventData.splice(i, 1);
+      //       setEventData(newEventData);
+      //       break;
+      //     }
+      //   }
+      // }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function joinDiscussion(eventId, loggedInUser) {}
+
+  function chatWithHost(eventId, loggedInUser) {}
+
+  function removeRsvp(eventId, loggedInUser) {}
 
   useEffect(() => {
     async function fetchData() {
@@ -31,6 +72,8 @@ const Events = () => {
         else setPrevious(true);
         if (data.next === null) setNext(false);
         else setNext(true);
+
+        if (data.userId) setLoggedInUser(data.userId);
 
         if (data.results.length > 0) {
           setEventData(data.results);
@@ -49,11 +92,10 @@ const Events = () => {
   if (isError) {
     return <Alert severity="error">Error! Page not found!</Alert>;
   }
-  let card;
 
   const buildCard = (event) => {
     return (
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={event.title}>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={nanoid()}>
         {/* <div key={pokemon.name}> */}
         <Card sx={{ maxWidth: 350, border: 3, borderColor: "red" }}>
           <Link className="pokelink" to={`/event/${event._id}`}>
@@ -85,7 +127,9 @@ const Events = () => {
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 Spots available :{" "}
-                {event.capacity ? event.capacity : "No capacity Mentioned"}
+                {event.seatsAvailable
+                  ? event.seatsAvailable
+                  : "No capacity Mentioned"}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 {event.description
@@ -95,14 +139,79 @@ const Events = () => {
               </Typography>
             </CardContent>
           </Link>
-          <Button
-            variant="contained"
-            onClick={() => {
-              updateRSVP(event.id);
-            }}
-          >
-            RSVP
-          </Button>
+          {loggedInUser &&
+            event.rsvps &&
+            event.host &&
+            event.seatsAvailable &&
+            !event.rsvps.includes(loggedInUser) &&
+            event.host !== loggedInUser &&
+            event.seatsAvailable > 0 && (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  updateRSVP(event._id);
+                }}
+              >
+                RSVP
+              </Button>
+            )}
+          {loggedInUser && event.host && loggedInUser === event.host && (
+            <div>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  deleteEvent(event._id);
+                }}
+              >
+                Delete Event
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  joinDiscussion(event._id, loggedInUser);
+                }}
+              >
+                Enter Discussion
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  chatWithHost(event._id, loggedInUser);
+                }}
+              >
+                Chat
+              </Button>
+            </div>
+          )}
+
+          {loggedInUser && event.rsvps.includes(loggedInUser) && (
+            <div>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  chatWithHost(event._id, loggedInUser);
+                }}
+              >
+                Chat with Host
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  joinDiscussion(event._id, loggedInUser);
+                }}
+              >
+                Enter Discussion
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  removeRsvp(event._id, loggedInUser);
+                }}
+              >
+                Remove RSVP
+              </Button>
+            </div>
+          )}
           <br />
           <br />
         </Card>

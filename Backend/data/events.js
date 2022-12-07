@@ -10,6 +10,7 @@ async function createEvent(
   capacity,
   address,
   address2,
+  userId,
   image
 ) {
   const eventCollection = await events();
@@ -19,10 +20,12 @@ async function createEvent(
     description,
     time: time.slice(0, -7),
     capacity,
+    seatsAvailable: capacity,
     address,
     address2,
     image,
     rsvps: [],
+    host: userId,
   };
 
   const insertInfo = await eventCollection.insertOne(newEvent);
@@ -52,14 +55,14 @@ async function get(id) {
 async function getAll(page = 0) {
   page = parseInt(page);
 
-  let start = page == 0 ? 0 : (page - 1) * 20;
+  let start = page == 0 ? 0 : page * 20;
   //let end = start + 50 < sweetList.length ? start + 50 : sweetList.length;
 
   const eventCollection = await events();
   const eventList = await eventCollection
     .find({})
     .skip(start)
-    .limit(start + 20)
+    .limit(20)
     .toArray();
 
   const eventCount = await eventCollection.countDocuments();
@@ -81,11 +84,14 @@ async function getAll(page = 0) {
 async function setRsvp(eventId, userId) {
   const eventCollection = await events();
   const event = await this.get(eventId);
+  let seatsAvailable = event.seatsAvailable;
 
   if (eventId.guests.includes(userId)) {
     eventId.guests.splice(eventId.guests.indexOf(userId), 1);
+    seatsAvailable++;
   } else {
     eventId.guests.push(userId);
+    seatsAvailable--;
   }
 
   let newEvent = {
@@ -93,6 +99,7 @@ async function setRsvp(eventId, userId) {
     description: eventId.description,
     time: eventId.description,
     capacity: eventId.capacity,
+    seatsAvailable,
     address: eventId.address,
     address2: eventId.address2,
     image: eventId.image,
@@ -121,7 +128,7 @@ async function remove(eventId) {
 
   const eventCollection = await events();
   const event = await this.get(eventId);
-  const deletionInfo = await bandCollection.deleteOne({
+  const deletionInfo = await eventCollection.deleteOne({
     _id: ObjectId(eventId),
   });
 
