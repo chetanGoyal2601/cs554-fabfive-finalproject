@@ -2,6 +2,20 @@ const mongoCollections = require("../config/mongoCollections");
 const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validation = require("./validation");
+const Months = {
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  June: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
+};
 
 async function createEvent(
   title,
@@ -15,10 +29,26 @@ async function createEvent(
 ) {
   const eventCollection = await events();
 
+  let splitTime = time.slice(0, -7).split(" ");
+  let inputDate = splitTime[4].split(":");
+
+  let eventDate = new Date(
+    parseInt(splitTime[3]),
+    Months[splitTime[2]],
+    parseInt(splitTime[1]),
+    parseInt(inputDate[0]),
+    parseInt(inputDate[1]),
+    0
+  );
+
+  eventDate.setHours(eventDate.getHours() - 5);
+  time = eventDate.toString().slice(0, 21);
+
   let newEvent = {
     title,
     description,
-    time: time.slice(0, -7),
+    time,
+    eventDate,
     capacity,
     seatsAvailable: capacity,
     address,
@@ -58,14 +88,20 @@ async function getAll(page = 0) {
   let start = page == 0 ? 0 : page * 20;
   //let end = start + 50 < sweetList.length ? start + 50 : sweetList.length;
 
+  let currentDate = new Date();
+
   const eventCollection = await events();
+
   const eventList = await eventCollection
-    .find({})
+    .find({
+      eventDate: { $gte: currentDate },
+    })
+    .sort({ eventDate: 1 })
     .skip(start)
     .limit(20)
     .toArray();
 
-  const eventCount = await eventCollection.countDocuments();
+  const eventCount = await eventList.length;
 
   const numOfPages = Math.ceil(eventCount / 20);
 

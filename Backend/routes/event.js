@@ -10,7 +10,7 @@ const upload = multer({ dest: "images/" });
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     const imageName = req.file.filename;
-    const user = "23";
+    const user = "123";
     let event = await eventData.createEvent(
       req.body.title,
       req.body.description,
@@ -92,7 +92,7 @@ router.delete("/:id", async (req, res) => {
     let event = await eventData.remove(req.params.id);
     let events = null;
     if (event.deleted) {
-      events = await eventData.getAll(parseInt(req.body.data.page));
+      events = await eventData.getAll(parseInt(req.body.page));
       events.userId = "123";
     }
     return res.json(events);

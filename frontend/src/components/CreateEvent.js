@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const [capacity, setCapacity] = useState("");
   const [address, setAddress] = useState("");
   const [address2, setAddress2] = useState("");
-  const [value, setValue] = React.useState(dayjs("2023-01-01T08:00"));
+  const [value, setValue] = React.useState(dayjs(new Date()));
 
   const handleChange = (newValue) => {
     setValue(newValue);
