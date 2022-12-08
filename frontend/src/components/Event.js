@@ -9,7 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
 
 let path = "http://localhost:3001/";
 
@@ -17,15 +17,66 @@ const Event = () => {
   const [eventData, setEventData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   let { id } = useParams();
   let address;
+
+  async function updateRSVP(eventId) {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:3001/event/${eventId}`,
+        { data: { page: null, userId: loggedInUser } },
+        {
+          headers: { Accept: "application/json" },
+        }
+      );
+      if (data) {
+        if (data.userId) setLoggedInUser(data.userId);
+        setIsError(false);
+        setEventData(data.event);
+        setLoading(false);
+      } else {
+        setIsError(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function deleteEvent(eventId) {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3001/event/${eventId}`,
+        { data: { page: null, userId: loggedInUser } },
+        {
+          headers: { Accept: "application/json" },
+        }
+      );
+      if (data) {
+        if (data.userId) setLoggedInUser(data.userId);
+        setIsError(false);
+        setIsDeleted(true);
+        setLoading(false);
+      } else {
+        setIsError(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function joinDiscussion(eventId, loggedInUser) {}
+
+  function chatWithHost(eventId, loggedInUser) {}
 
   useEffect(() => {
     async function fetchData() {
       try {
         const { data } = await axios.get(`http://localhost:3001/event/${id}`);
         if (data) {
+          if (data.userId) setLoggedInUser(data.userId);
           setIsError(false);
           setEventData(data);
           setLoading(false);
@@ -38,7 +89,12 @@ const Event = () => {
     fetchData();
   }, [id]);
 
-  if (isError) return <Alert severity="error">Error! Pokemon not found!</Alert>;
+  if (isDeleted)
+    return (
+      <Alert severity="success">Event has been successfully deleted!</Alert>
+    );
+
+  if (isError) return <Alert severity="error">Error! Event not found!</Alert>;
 
   if (eventData && eventData.address) {
     address = eventData.address;
@@ -84,9 +140,93 @@ const Event = () => {
                 <dd>N/A</dd>
               )}
               <br />
+              <dt className="title">
+                Spots available :{" "}
+                {eventData.seatsAvailable
+                  ? eventData.seatsAvailable
+                  : "No capacity Mentioned"}
+              </dt>
+              <br />
               <dt className="title">Description:</dt>
               <dd>{eventData.description}</dd>
             </dl>
+            {loggedInUser &&
+              eventData.rsvps &&
+              eventData.host &&
+              eventData.seatsAvailable &&
+              !eventData.rsvps.includes(loggedInUser) &&
+              eventData.host !== loggedInUser &&
+              eventData.seatsAvailable > 0 && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    updateRSVP(eventData._id);
+                  }}
+                >
+                  RSVP
+                </Button>
+              )}
+            {loggedInUser &&
+              eventData.host &&
+              loggedInUser === eventData.host && (
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      deleteEvent(eventData._id);
+                    }}
+                  >
+                    Delete Event
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      joinDiscussion(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Enter Discussion
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      chatWithHost(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Chat
+                  </Button>
+                </div>
+              )}
+
+            {loggedInUser &&
+              eventData.rsvps &&
+              eventData.rsvps.includes(loggedInUser) && (
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      chatWithHost(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Chat with Host
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      joinDiscussion(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Enter Discussion
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      updateRSVP(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Remove RSVP
+                  </Button>
+                </div>
+              )}
             <br />
             <Link to="/events/page/0">Back to all events</Link>
           </Typography>

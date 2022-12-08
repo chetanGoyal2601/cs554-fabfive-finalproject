@@ -11,7 +11,7 @@ import { nanoid } from "nanoid";
 
 import Alert from "@mui/material/Alert";
 let path = "http://localhost:3001/";
-let userId = "123";
+// let userId = "123";
 
 const Events = () => {
   const [isError, setIsError] = useState(false);
@@ -48,7 +48,7 @@ const Events = () => {
     try {
       const { data } = await axios.delete(
         `http://localhost:3001/event/${eventId}`,
-        { data: { page: page } },
+        { data: { page: page, userId: loggedInUser } },
         {
           headers: { Accept: "application/json" },
         }

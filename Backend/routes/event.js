@@ -38,7 +38,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 router.get("/page/:page", async (req, res) => {
   try {
     let events = await eventData.getAll(req.params.page);
-    events.userId = "23";
+    events.userId = "123";
     return res.json(events);
   } catch (e) {
     if (e.name == "AxiosError")
@@ -60,6 +60,7 @@ router.get("/:id", async (req, res) => {
   // }
   try {
     const event = await eventData.get(req.params.id);
+    event.userId = "123";
     res.json(event);
   } catch (e) {
     res.status(404).json({ error: e });
@@ -70,10 +71,11 @@ router.patch("/:id", async (req, res) => {
   try {
     let event = await eventData.setRsvp(req.params.id, req.body.data.userId);
     let events = null;
-    if (event.updated) {
+    if (event.updated && req.body.data.page != null) {
       events = await eventData.getAll(parseInt(req.body.data.page));
-      events.userId = "123";
     }
+    if (event.updated && req.body.data.page === null) events = event;
+    events.userId = "123";
     return res.json(events);
   } catch (e) {
     if (e.name == "AxiosError")
@@ -91,10 +93,11 @@ router.delete("/:id", async (req, res) => {
   try {
     let event = await eventData.remove(req.params.id);
     let events = null;
-    if (event.deleted) {
+    if (event.deleted && req.body.page != null) {
       events = await eventData.getAll(parseInt(req.body.page));
-      events.userId = "123";
     }
+    if (event.deleted && req.body.page === null) events = event;
+    events.userId = "123";
     return res.json(events);
   } catch (e) {
     if (e.name == "AxiosError")
