@@ -98,7 +98,8 @@ const Event = () => {
 
   if (eventData && eventData.address) {
     address = eventData.address;
-    if (eventData.address2) address = address + ", " + eventData.address2;
+    if (eventData.address2 && eventData.address2.length > 0)
+      address = address + ", " + eventData.address2;
   } else {
     address = "No Address provided";
   }

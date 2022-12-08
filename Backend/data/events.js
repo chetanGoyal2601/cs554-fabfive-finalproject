@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
-const validation = require("./validation");
+const validations = require("./validation");
 const Months = {
   Jan: 0,
   Feb: 1,
@@ -27,6 +27,14 @@ async function createEvent(
   userId,
   image
 ) {
+  title = validations.checkString(title, "Title");
+  description = validations.checkString(description, "Description");
+  address = validations.checkString(address, "Address");
+  address2 = validations.checkAddress2(address2, "Address 2");
+  time = validations.checkString(time, "Date & Time");
+  image = validations.checkString(image, "Image Name");
+  capacity = validations.checkNumber(capacity, "Capacity");
+  // userId = validations.checkId(userId, "User ID");
   const eventCollection = await events();
 
   let splitTime = time.slice(0, -7).split(" ");
@@ -71,7 +79,7 @@ async function createEvent(
 
 async function get(id) {
   if (!id) throw { message: "You must provide an id to search for", code: 400 };
-  id = validation.checkId(id);
+  id = validations.checkId(id);
 
   const eventCollection = await events();
   const event = await eventCollection.findOne({ _id: ObjectId(id) });
@@ -82,8 +90,8 @@ async function get(id) {
   return event;
 }
 
-async function getAll(page = 0) {
-  page = parseInt(page);
+async function getAll(page) {
+  page = validations.checkNumber(page, "Page Number");
 
   let start = page == 0 ? 0 : page * 20;
   //let end = start + 50 < sweetList.length ? start + 50 : sweetList.length;
@@ -118,6 +126,9 @@ async function getAll(page = 0) {
 }
 
 async function setRsvp(eventId, userId) {
+  eventId = validations.checkId(eventId, "Event ID");
+  // userId = validations.checkId(userId, "User ID");
+
   const eventCollection = await events();
   const event = await this.get(eventId);
   let seatsAvailable = event.seatsAvailable;
@@ -155,16 +166,15 @@ async function setRsvp(eventId, userId) {
   return answer;
 }
 
-async function remove(eventId) {
-  // if (!id) throw "You must provide an id to remove for";
-  // if (typeof id !== "string") throw "Id must be a string";
-  // if (id.trim().length === 0)
-  //   throw "id cannot be an empty string or just spaces";
-  // id = id.trim();
-  // if (!ObjectId.isValid(id)) throw "invalid object ID";
+async function remove(eventId, userId) {
+  eventId = validations.checkId(eventId, "Event ID");
+  // userId = validations.checkId(userId, "User ID");
 
   const eventCollection = await events();
   const event = await this.get(eventId);
+
+  if (event.host != userId)
+    throw { message: "You are not authorised to delete this event", code: 403 };
   const deletionInfo = await eventCollection.deleteOne({
     _id: ObjectId(eventId),
   });

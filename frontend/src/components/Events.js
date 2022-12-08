@@ -112,6 +112,14 @@ const Events = () => {
   }
 
   const buildCard = (event) => {
+    let address;
+    if (event && event.address) {
+      address = event.address;
+      if (event.address2 && event.address2.length > 0)
+        address = address + ", " + event.address2;
+    } else {
+      address = "No Address provided";
+    }
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={nanoid()}>
         {/* <div key={pokemon.name}> */}
@@ -139,9 +147,7 @@ const Events = () => {
                 {event.time ? event.time : "No Time Mentioned"}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {event.address
-                  ? event.address + ", " + event.address2
-                  : "No Address Mentioned"}
+                {address}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 Spots available :{" "}

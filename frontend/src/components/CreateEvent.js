@@ -49,6 +49,7 @@ const CreateEvent = () => {
           type="file"
           accept="image/*"
           alt="Jeff"
+          required
         ></input>
         <br />
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -58,6 +59,7 @@ const CreateEvent = () => {
             onChange={(e) => setTitle(e.target.value)}
             type="text"
             placeholder="My Title"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -69,6 +71,7 @@ const CreateEvent = () => {
             as="textarea"
             rows={3}
             cols={100}
+            required
           />
         </Form.Group>
         {/* <label>Description</label>
@@ -89,6 +92,7 @@ const CreateEvent = () => {
             onChange={(e) => setAddress(e.target.value)}
             type="text"
             placeholder="1234 Main St"
+            required
           />
         </Form.Group>
 
@@ -117,6 +121,7 @@ const CreateEvent = () => {
             onChange={(e) => setCapacity(e.target.value)}
             type="number"
             placeholder="Capacity"
+            required
           />
         </Form.Group>
         {/* <label>Capacity</label>
@@ -134,6 +139,7 @@ const CreateEvent = () => {
             onChange={handleChange}
             type="datetime-local"
             minDate={new Date()}
+            maxDate={new Date().setFullYear(2023)}
             minTime={dayjs("2018-01-01T08:00")}
             renderInput={(params) => <TextField {...params} />}
           />
