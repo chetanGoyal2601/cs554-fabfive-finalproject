@@ -114,7 +114,11 @@ const Events = () => {
   }, [page]);
 
   if (isError) {
-    return <Alert severity="error">{errorMessage}</Alert>;
+    return (
+      <Alert severity="error">
+        {errorMessage ? errorMessage : "Error! Could not load page."}
+      </Alert>
+    );
   }
 
   const buildCard = (event) => {

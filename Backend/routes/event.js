@@ -27,7 +27,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     );
     req.body.capacity = validations.checkNumber(req.body.capacity, "Capacity");
   } catch (e) {
-    return res.status(400).json({ error: e ? e.message : e });
+    return res.status(400).json({ error: e.message ? e.message : e });
   }
 
   try {
@@ -46,14 +46,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     return res.json(event);
   } catch (e) {
-    if (e.name == "AxiosError")
-      return res.status(e.response.status || 404).json({
-        errors: e.response.statusText,
-      });
-    else
-      return res.status(e.code || 404).json({
-        errors: e.message,
-      });
+    return res.status(400).json({ error: e.message ? e.message : e });
   }
 });
 
