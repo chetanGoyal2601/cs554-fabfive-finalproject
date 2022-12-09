@@ -109,11 +109,15 @@ async function getAll(page) {
     .limit(20)
     .toArray();
 
-  const eventCount = await eventList.length;
+  const eventCount = await eventCollection
+    .find({
+      eventDate: { $gte: currentDate },
+    })
+    .toArray();
 
-  const numOfPages = Math.ceil(eventCount / 20);
+  const numOfPages = Math.ceil(eventCount.length / 20);
 
-  if (eventList.length == 0) throw { message: "No sweets", code: 404 };
+  if (eventList.length == 0) throw { message: "No events", code: 404 };
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();

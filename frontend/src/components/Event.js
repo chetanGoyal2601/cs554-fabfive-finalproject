@@ -17,6 +17,7 @@ const Event = () => {
   const [eventData, setEventData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -41,7 +42,8 @@ const Event = () => {
         setIsError(true);
       }
     } catch (e) {
-      console.log(e);
+      setIsError(true);
+      setErrorMessage(e.response.data.errors);
     }
   }
 
@@ -63,7 +65,8 @@ const Event = () => {
         setIsError(true);
       }
     } catch (e) {
-      console.log(e);
+      setIsError(true);
+      setErrorMessage(e.response.data.errors);
     }
   }
 
@@ -83,16 +86,13 @@ const Event = () => {
         }
       } catch (e) {
         setIsError(true);
-        setLoading(false);
+        setErrorMessage(e.response.data.errors);
       }
     }
     fetchData();
   }, [id]);
 
-  if (isDeleted)
-    return (
-      <Alert severity="success">Event has been successfully deleted!</Alert>
-    );
+  if (isDeleted) return <Alert severity="success">{errorMessage}</Alert>;
 
   if (isError) return <Alert severity="error">Error! Event not found!</Alert>;
 

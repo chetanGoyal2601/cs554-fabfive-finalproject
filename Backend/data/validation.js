@@ -39,11 +39,11 @@ module.exports = {
     return strVal;
   },
   checkNumber(strVal, varName) {
-    if (!strVal)
+    if (strVal === null || strVal === undefined)
       throw { message: `Error: You must provide a ${varName}`, code: 400 };
-    if (typeof strVal !== "string")
-      throw { message: `Error:${varName} must be a string`, code: 400 };
-    strVal = strVal.trim();
+    // if (typeof strVal !== "string")
+    //   throw { message: `Error:${varName} must be a string`, code: 400 };
+    if (typeof strVal == "string") strVal = strVal.trim();
     if (strVal.length === 0)
       throw {
         message: `Error: ${varName} cannot be an empty string or just spaces`,

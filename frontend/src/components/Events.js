@@ -15,6 +15,7 @@ let path = "http://localhost:3001/";
 
 const Events = () => {
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [previous, setPrevious] = useState(true); // for checking if previous page is there or not
   const [next, setNext] = useState(true); // for checking if next page exists or not
   const [eventData, setEventData] = useState(undefined);
@@ -38,9 +39,11 @@ const Events = () => {
         setIsError(false);
       } else {
         setIsError(true);
+        setErrorMessage();
       }
     } catch (e) {
-      console.log(e);
+      setIsError(true);
+      setErrorMessage(e.response.data.errors);
     }
   }
 
@@ -70,7 +73,8 @@ const Events = () => {
       //   }
       // }
     } catch (e) {
-      console.log(e);
+      setIsError(true);
+      setErrorMessage(e.response.data.errors);
     }
   }
 
@@ -96,19 +100,21 @@ const Events = () => {
         if (data.results.length > 0) {
           setEventData(data.results);
           setIsError(false);
-        } else {
+        } else if (data.results.length === 0 && page > 0) {
           setIsError(true);
-        }
+        } else if (data.results.length === 0 && page === 0)
+          setEventData(data.result);
         setLoading(false);
       } catch (e) {
         setIsError(true);
+        setErrorMessage(e.response.data.errors);
       }
     }
     fetchData();
   }, [page]);
 
   if (isError) {
-    return <Alert severity="error">Error! Page not found!</Alert>;
+    return <Alert severity="error">{errorMessage}</Alert>;
   }
 
   const buildCard = (event) => {
