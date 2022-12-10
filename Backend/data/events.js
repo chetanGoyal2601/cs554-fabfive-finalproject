@@ -2,6 +2,8 @@ const mongoCollections = require("../config/mongoCollections");
 const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
+const user = require("./users");
+
 const Months = {
   Jan: 0,
   Feb: 1,
@@ -64,6 +66,7 @@ async function createEvent(
     image,
     rsvps: [],
     host: userId,
+    ratings: [],
   };
 
   const insertInfo = await eventCollection.insertOne(newEvent);
@@ -86,6 +89,7 @@ async function get(id) {
   if (event === null) throw { message: "No event with that id", code: 404 };
 
   event._id = event._id.toString();
+  // event.hostName = await user.getUsername(event.host);
 
   return event;
 }
@@ -121,6 +125,7 @@ async function getAll(page) {
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();
+    //eventList[indexOne].hostName = user.getUsername(eventList[indexOne].host);
   }
 
   let previous = page <= 0 || page > numOfPages ? null : page - 1;
@@ -156,6 +161,7 @@ async function setRsvp(eventId, userId) {
     image: event.image,
     rsvps: event.rsvps,
     host: event.host,
+    ratings: event.ratings,
   };
 
   const updatedInfo = await eventCollection.updateOne(
@@ -191,10 +197,71 @@ async function remove(eventId, userId) {
   return answer;
 }
 
+async function setRating(eventId, userId, rating) {
+  let flag = false;
+  eventId = validations.checkId(eventId, "Event ID");
+  // userId = validations.checkId(userId, "User ID");
+  rating = validations.checkFloat(rating, "Rating");
+
+  if (rating < 1 || rating > 5)
+    throw {
+      message: "Rating can be only between 1 to 5",
+      code: 403,
+    };
+
+  const eventCollection = await events();
+  const event = await this.get(eventId);
+
+  // if (!event.rsvps.includes(userId))
+  //   throw {
+  //     message: "You are not authorised to rate the Host for this event",
+  //     code: 403,
+  //   };
+
+  for (let index = 0; index < event.ratings.length; index++) {
+    let element = event.ratings[index];
+    if (element.userId == userId) {
+      event.ratings[index].rating = rating;
+      flag = true;
+      break;
+    }
+  }
+  if (!flag) {
+    let newRating = { userId, rating };
+    event.ratings.push(newRating);
+  }
+
+  let newEvent = {
+    title: event.title,
+    description: event.description,
+    time: event.time,
+    capacity: event.capacity,
+    seatsAvailable: event.seatsAvailable,
+    address: event.address,
+    address2: event.address2,
+    image: event.image,
+    rsvps: event.rsvps,
+    host: event.host,
+    ratings: event.ratings,
+  };
+
+  const updatedInfo = await eventCollection.updateOne(
+    { _id: ObjectId(eventId) },
+    { $set: newEvent }
+  );
+
+  if (updatedInfo.modifiedCount === 0) {
+    throw { message: "Could not update event successfully", code: 500 };
+  }
+  let answer = { event: await this.get(eventId), updated: true };
+  return answer;
+}
+
 module.exports = {
   createEvent,
   get,
   getAll,
   setRsvp,
   remove,
+  setRating,
 };

@@ -4,6 +4,7 @@ const axios = require("axios");
 const validations = require("../data/validation");
 const multer = require("multer");
 const eventData = require("../data/events");
+const userData = require("../data/users");
 
 const upload = multer({ dest: "images/" });
 
@@ -32,7 +33,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const imageName = req.file.filename;
-    const userId = "123";
+    const userId = "23";
     let event = await eventData.createEvent(
       req.body.title,
       req.body.description,
@@ -43,7 +44,11 @@ router.post("/", upload.single("image"), async (req, res) => {
       userId,
       imageName
     );
-
+    // let user = await userData.setCurrentlyHosted(
+    //   req.params.id,
+    //   req.body.data.userId,
+    //   "Add"
+    // );
     return res.json(event);
   } catch (e) {
     return res.status(400).json({ error: e.message ? e.message : e });
@@ -58,7 +63,7 @@ router.get("/page/:page", async (req, res) => {
   }
   try {
     let events = await eventData.getAll(req.params.page);
-    events.userId = "123";
+    events.userId = "23";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -75,7 +80,7 @@ router.get("/:id", async (req, res) => {
   }
   try {
     const event = await eventData.get(req.params.id);
-    event.userId = "123";
+    event.userId = "23";
     res.json(event);
   } catch (e) {
     res.status(404).json({ error: e.message ? e.message : e });
@@ -91,7 +96,9 @@ router.patch("/:id", async (req, res) => {
   }
   try {
     let event = await eventData.setRsvp(req.params.id, req.body.data.userId);
+    // let user = await userData.setRsvp(req.params.id, req.body.data.userId);
     let events = null;
+    // if (event.updated && user.updated && req.body.data.page != null)
     if (event.updated && req.body.data.page != null) {
       req.body.data.page = validations.checkNumber(
         req.body.data.page,
@@ -100,7 +107,7 @@ router.patch("/:id", async (req, res) => {
       events = await eventData.getAll(req.body.data.page);
     }
     if (event.updated && req.body.data.page === null) events = event;
-    events.userId = "123";
+    events.userId = "23";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -118,13 +125,42 @@ router.delete("/:id", async (req, res) => {
   }
   try {
     let event = await eventData.remove(req.params.id, req.body.userId);
+    // let user = await userData.setCurrentlyHosted(
+    //   req.params.id,
+    //   req.body.data.userId,
+    //   "Delete"
+    // );
     let events = null;
     if (event.deleted && req.body.page != null) {
       req.body.page = validations.checkNumber(req.body.page, "Page Number");
       events = await eventData.getAll(req.body.page);
     }
     if (event.deleted && req.body.page === null) events = event;
-    events.userId = "123";
+    events.userId = "23";
+    return res.json(events);
+  } catch (e) {
+    return res.status(e.code || 404).json({
+      errors: e.message ? e.message : e,
+    });
+  }
+});
+
+router.post("/rating/:id", async (req, res) => {
+  try {
+    req.params.id = validations.checkId(req.params.id, "Event ID");
+    // req.body.data.userId = validations.checkId(req.body.data.userId, "User ID"); // Need to verify body.data or body
+    req.body.rating = validations.checkFloat(req.body.rating, "Rating");
+  } catch (e) {
+    return res.status(400).json({ error: e ? e.message : e });
+  }
+  try {
+    let events = await eventData.setRating(
+      req.params.id,
+      req.body.userId,
+      req.body.rating
+    );
+    events.userId = "23";
+    // userData.calcAvgRating(123);
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
