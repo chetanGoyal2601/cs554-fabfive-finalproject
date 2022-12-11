@@ -154,6 +154,8 @@ const Event = () => {
       </div>
     );
   } else {
+    let currentDate = new Date();
+    let eventDate = new Date(eventData.eventDate);
     return (
       <Card variant="outlined">
         <CardHeader title={eventData.name} component="div" />
@@ -184,37 +186,53 @@ const Event = () => {
                 <dd>N/A</dd>
               )}
               <br />
-              <dt className="title">
-                Spots available :{" "}
-                {eventData.seatsAvailable
-                  ? eventData.seatsAvailable
-                  : "No capacity Mentioned"}
-              </dt>
+              {eventDate > currentDate && (
+                <dt className="title">
+                  Spots available :{" "}
+                  {eventData.seatsAvailable
+                    ? eventData.seatsAvailable
+                    : "No capacity Mentioned"}
+                </dt>
+              )}
               <br />
               <dt className="title">Description:</dt>
               <dd>{eventData.description}</dd>
             </dl>
-            <Typography component="legend">Rate the host</Typography>
-            <Rating
-              name="hover-feedback"
-              value={value}
-              precision={0.5}
-              getLabelText={getLabelText}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-                setRating(eventData._id, newValue);
-              }}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }}
-              emptyIcon={
-                <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-              }
-            />
-            {value !== null && (
-              <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-            )}
             {loggedInUser &&
+              eventData.host &&
+              eventData.host !== loggedInUser &&
+              eventData.rsvps &&
+              eventData.rsvps.includes(loggedInUser) &&
+              eventData.eventDate &&
+              eventDate < currentDate && (
+                <div>
+                  <Typography component="legend">Rate the host</Typography>
+                  <Rating
+                    name="hover-feedback"
+                    value={value}
+                    precision={0.5}
+                    getLabelText={getLabelText}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                      setRating(eventData._id, newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                      setHover(newHover);
+                    }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+                  {value !== null && (
+                    <Box sx={{ ml: 2 }}>
+                      {labels[hover !== -1 ? hover : value]}
+                    </Box>
+                  )}
+                </div>
+              )}
+            {loggedInUser &&
+              eventData.eventDate &&
+              eventDate > currentDate &&
               eventData.rsvps &&
               eventData.host &&
               eventData.seatsAvailable &&
@@ -231,6 +249,7 @@ const Event = () => {
                 </Button>
               )}
             {loggedInUser &&
+              eventDate > currentDate &&
               eventData.host &&
               loggedInUser === eventData.host && (
                 <div>

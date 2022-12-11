@@ -122,6 +122,7 @@ const Events = () => {
   }
 
   const buildCard = (event) => {
+    let currentDate = new Date();
     let address;
     if (event && event.address) {
       address = event.address;
@@ -174,6 +175,7 @@ const Events = () => {
             </CardContent>
           </Link>
           {loggedInUser &&
+            event.eventDate > currentDate &&
             event.rsvps &&
             event.host &&
             event.seatsAvailable &&
@@ -189,36 +191,40 @@ const Events = () => {
                 RSVP
               </Button>
             )}
-          {loggedInUser && event.host && loggedInUser === event.host && (
-            <div>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  deleteEvent(event._id);
-                }}
-              >
-                Delete Event
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  joinDiscussion(event._id, loggedInUser);
-                }}
-              >
-                Enter Discussion
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  chatWithHost(event._id, loggedInUser);
-                }}
-              >
-                Chat
-              </Button>
-            </div>
-          )}
+          {loggedInUser &&
+            event.eventDate > currentDate &&
+            event.host &&
+            loggedInUser === event.host && (
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    deleteEvent(event._id);
+                  }}
+                >
+                  Delete Event
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    joinDiscussion(event._id, loggedInUser);
+                  }}
+                >
+                  Enter Discussion
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    chatWithHost(event._id, loggedInUser);
+                  }}
+                >
+                  Chat
+                </Button>
+              </div>
+            )}
 
           {loggedInUser &&
+            event.eventDate > currentDate &&
             event.rsvps &&
             event.rsvps.includes(loggedInUser) && (
               <div>
