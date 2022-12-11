@@ -149,15 +149,18 @@ router.post("/rating/:id", async (req, res) => {
   try {
     req.params.id = validations.checkId(req.params.id, "Event ID");
     // req.body.data.userId = validations.checkId(req.body.data.userId, "User ID"); // Need to verify body.data or body
-    req.body.rating = validations.checkFloat(req.body.rating, "Rating");
+    req.body.data.rating = validations.checkFloat(
+      req.body.data.rating,
+      "Rating"
+    );
   } catch (e) {
     return res.status(400).json({ error: e ? e.message : e });
   }
   try {
     let events = await eventData.setRating(
       req.params.id,
-      req.body.userId,
-      req.body.rating
+      req.body.data.rating,
+      req.body.data.userId
     );
     events.userId = "23";
     // userData.calcAvgRating(123);

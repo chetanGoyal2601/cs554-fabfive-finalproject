@@ -197,7 +197,7 @@ async function remove(eventId, userId) {
   return answer;
 }
 
-async function setRating(eventId, userId, rating) {
+async function setRating(eventId, rating, userId) {
   let flag = false;
   eventId = validations.checkId(eventId, "Event ID");
   // userId = validations.checkId(userId, "User ID");
