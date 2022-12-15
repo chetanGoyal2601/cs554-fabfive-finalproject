@@ -62,6 +62,30 @@ module.exports = {
       };
     return strVal;
   },
+  checkFloat(strVal, varName) {
+    if (strVal === null || strVal === undefined)
+      throw { message: `Error: You must provide a ${varName}`, code: 400 };
+    // if (typeof strVal !== "string")
+    //   throw { message: `Error:${varName} must be a string`, code: 400 };
+    if (typeof strVal == "string") strVal = strVal.trim();
+    if (strVal.length === 0)
+      throw {
+        message: `Error: ${varName} cannot be an empty string or just spaces`,
+        code: 400,
+      };
+    if (isNaN(strVal))
+      throw {
+        message: `Error: ${strVal} is not a valid value for ${varName} as it does not contain only number`,
+        code: 400,
+      };
+    strVal = parseFloat(strVal);
+    if (strVal < 0)
+      throw {
+        message: `Error: ${strVal} is not a valid value for ${varName} as it should be a positive number`,
+        code: 400,
+      };
+    return strVal;
+  },
   checkAddress2(strVal, varName) {
     if (!strVal) strVal = "";
     else {
