@@ -32,7 +32,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const imageName = req.file.filename;
-    const userId = "123";
+    const userId = "345";
     let event = await eventData.createEvent(
       req.body.title,
       req.body.description,
@@ -65,7 +65,7 @@ router.get("/page/:page", async (req, res) => {
   }
   try {
     let events = await eventData.getAll(req.params.page);
-    events.userId = "123";
+    events.userId = "345";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -82,7 +82,7 @@ router.get("/:id", async (req, res) => {
   }
   try {
     const event = await eventData.get(req.params.id);
-    event.userId = "123";
+    event.userId = "345";
     res.json(event);
   } catch (e) {
     res.status(404).json({ error: e.message ? e.message : e });
@@ -107,7 +107,7 @@ router.patch("/:id", async (req, res) => {
       events = await eventData.getAll(req.body.data.page);
     }
     if (event.updated && req.body.data.page === null) events = event;
-    events.userId = "123";
+    events.userId = "345";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -131,7 +131,7 @@ router.delete("/:id", async (req, res) => {
       events = await eventData.getAll(req.body.page);
     }
     if (event.deleted && req.body.page === null) events = event;
-    events.userId = "123";
+    events.userId = "345";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({

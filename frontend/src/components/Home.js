@@ -1,46 +1,19 @@
-import Carousel from 'react-bootstrap/Carousel';
 const Home = () => {
-  return (
-    <Carousel fade>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={require('../img/Stevens.jpg')}
-          alt="First slide"
-        />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={require('../img/Stevens.jpg')}
-          alt="Second slide"
-        />
+  return(
 
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={require('../img/Stevens.jpg')}
-          alt="Third slide"
-        />
-
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
-  );
+    <div className='Home-Page-Background'>
+      <div className='row d-flex p-4 '>
+        <div className='col flex-col'>
+          <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} className="img-size"/>
+        </div>
+        {/* <div className='col flex-col'>
+          <img alt="MakeEventHappen" src={require('../img/Stevens-Logo.png')} className="img-size"/>
+          <p className='quote'>" Bright Lights <br/> & Party Nights !!!! "</p>
+        </div> */}
+      </div>
+     
+    </div>
+  )
 }
 
 export default Home;

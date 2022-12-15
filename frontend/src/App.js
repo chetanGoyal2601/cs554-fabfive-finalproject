@@ -4,11 +4,17 @@ import {
   Route,
   Routes,
   NavLink,
+  Link
 } from "react-router-dom";
 import CreateEvent from "./components/CreateEvent";
 import Events from "./components/Events";
 import Event from "./components/Event";
 import Home from "./components/Home";
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import Jeff_Passport_Photo from ".../Backend/images";
 
@@ -31,25 +37,32 @@ function App() {
   // };
 
   return (
+    
     <Router>
       <div className="App">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <h1 className="App-title">Welcome to the MakeEventHappen!</h1>
-        <nav>
-          <NavLink className="showlink" to="/">
-            Home
-          </NavLink>{" "}
-          |{" "}
-          <NavLink className="showlink" to="/createevent">
-            Create Event
-          </NavLink>{" "}
-          |{" "}
-          <NavLink className="showlink" to="/events/page/0">
-            Events
-          </NavLink>
-        </nav>
-        <br />
-        <br />
+      <Navbar  variant="dark" className="Nav-bar-background">
+        <Container>
+          <Navbar.Brand href="https://www.stevens.edu/" target="_blank">
+         <img
+                alt="Stevens"
+                src={require('../src/img/Stevens-Logo.png')}
+                width="35"
+                height="35"
+                className="d-inline-block align-top"
+              />
+             {' '}Stevens Institute of Technology
+          </Navbar.Brand>
+          <Navbar.Brand href="/">Make Event Happen</Navbar.Brand>{' '}
+          <Nav>
+              {/* <div className="mb-2">
+                <Button variant="outline-light" size="md">Login</Button>{' '}
+                <Button variant="primary" size="md" >SignUp</Button>
+              </div> */}
+              <Nav.Link as={Link}  to="/createevent">Create Event</Nav.Link>
+              <Nav.Link as={Link}  to="/events/page/0">Events</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
         <div className="App-body">
           <Routes>
             <Route path="/" element={<Home />} />

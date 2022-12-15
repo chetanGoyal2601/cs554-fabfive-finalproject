@@ -6,9 +6,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import { nanoid } from "nanoid";
-
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 import Alert from "@mui/material/Alert";
 let path = "http://localhost:3001/";
 // let userId = "123";
@@ -127,107 +128,76 @@ const Events = () => {
       address = "No Address provided";
     }
     return (
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={nanoid()}>
-        {/* <div key={pokemon.name}> */}
-        <Card sx={{ maxWidth: 350, border: 3, borderColor: "red" }}>
-          <Link className="pokelink" to={`/event/${event._id}`}>
-            <CardMedia
-              component="img"
-              image={path + event.image}
-              alt={event._id}
-            />
-            <CardContent>
-              <Typography
-                sx={{
-                  borderBottom: "1px solid #178577",
-                  fontWeight: "bold",
-                  color: "#ee0000",
-                }}
-                gutterBottom
-                variant="h6"
-                component="h2"
-              >
-                {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {event.time ? event.time : "No Time Mentioned"}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {address}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Spots available :{" "}
-                {event.seatsAvailable
-                  ? event.seatsAvailable
-                  : "No capacity Mentioned"}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {event.description
-                  ? event.description.substring(0, 139) + "..."
-                  : "No Description"}
-                <span>More Info</span>
-              </Typography>
-            </CardContent>
-          </Link>
-          {loggedInUser &&
-            event.rsvps &&
-            event.host &&
-            event.seatsAvailable &&
-            !event.rsvps.includes(loggedInUser) &&
-            event.host !== loggedInUser &&
-            event.seatsAvailable > 0 && (
-              <Button
-                variant="contained"
-                onClick={() => {
-                  updateRSVP(event._id);
-                }}
-              >
-                RSVP
-              </Button>
-            )}
-          {loggedInUser && event.host && loggedInUser === event.host && (
-            <div>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  deleteEvent(event._id);
-                }}
-              >
-                Delete Event
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  joinDiscussion(event._id, loggedInUser);
-                }}
-              >
-                Enter Discussion
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  chatWithHost(event._id, loggedInUser);
-                }}
-              >
-                Chat
-              </Button>
-            </div>
-          )}
-
-          {loggedInUser &&
-            event.rsvps &&
-            event.rsvps.includes(loggedInUser) && (
-              <div>
+        <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()}>
+          {/* <div key={pokemon.name}> */}
+          <Card style={{ height: '30rem' }}  sx={{ maxWidth: 350, border: 3, borderRadius: 3 ,marginLeft:6, backgroundColor:"#1e0a3c"}}>
+            <Link to={`/event/${event._id}`}>
+              <CardMedia
+                component="img"
+                image={path + event.image}
+                alt={event._id}
+              />
+              <CardContent>
+                <Typography class="text-uppercase"
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily:"caligraphy",
+                    color: "#ffffff",
+                  }}
+                  gutterBottom
+                  variant="h6"
+                  component="h4"
+                >
+                  {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
+                </Typography>
+                <Typography variant="body2" color="#ffffff" component="p">
+                  {event.time ? event.time : "No Time Mentioned"}
+                </Typography>
+                <Typography variant="body2" color="#ffffff" component="p">
+                  {address}
+                </Typography>
+                <Typography variant="body2" color="#ffffff" component="p">
+                  Spots available :{" "}
+                  {event.seatsAvailable
+                    ? event.seatsAvailable
+                    : "No capacity Mentioned"}
+                </Typography>
+                <Typography variant="body2" color="#ffffff" component="p">
+                  {event.description
+                    ? event.description.substring(0, 139) + "..."
+                    : "No Description"}
+                  <p class="text-white">More Info..</p>
+                </Typography>
+              </CardContent>
+            </Link>
+            {loggedInUser &&
+              event.rsvps &&
+              event.host &&
+              event.seatsAvailable &&
+              !event.rsvps.includes(loggedInUser) &&
+              event.host !== loggedInUser &&
+              event.seatsAvailable > 0 && (
                 <Button
-                  variant="contained"
+                  variant="light"
                   onClick={() => {
-                    chatWithHost(event._id, loggedInUser);
+                    updateRSVP(event._id);
                   }}
                 >
-                  Chat with Host
+                  RSVP
+                </Button>
+              )}
+            {loggedInUser && event.host && loggedInUser === event.host && (
+              <div>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    deleteEvent(event._id);
+                  }}
+                >
+                  Delete Event
                 </Button>
                 <Button
-                  variant="contained"
+                  variant="primary"
                   onClick={() => {
                     joinDiscussion(event._id, loggedInUser);
                   }}
@@ -235,19 +205,50 @@ const Events = () => {
                   Enter Discussion
                 </Button>
                 <Button
-                  variant="contained"
+                  variant="primary"
                   onClick={() => {
-                    updateRSVP(event._id, loggedInUser);
+                    chatWithHost(event._id, loggedInUser);
                   }}
                 >
-                  Remove RSVP
+                  Chat
                 </Button>
               </div>
             )}
-          <br />
-          <br />
-        </Card>
-      </Grid>
+
+            {loggedInUser &&
+              event.rsvps &&
+              event.rsvps.includes(loggedInUser) && (
+                <div>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      chatWithHost(event._id, loggedInUser);
+                    }}
+                  >
+                    Chat with Host
+                  </Button>{' '}
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      joinDiscussion(event._id, loggedInUser);
+                    }}
+                  >
+                    Enter Discussion
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      updateRSVP(event._id, loggedInUser);
+                    }}
+                  >
+                    Remove RSVP
+                  </Button>
+                </div>
+              )}
+            <br />
+            <br />
+          </Card>
+        </Grid>
     );
   };
 
