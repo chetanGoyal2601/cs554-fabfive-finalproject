@@ -43,7 +43,7 @@ const Events = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -74,7 +74,7 @@ const Events = () => {
       // }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -107,7 +107,7 @@ const Events = () => {
         setLoading(false);
       } catch (e) {
         setIsError(true);
-        setErrorMessage(e.response.data.errors);
+        setErrorMessage(e.response.data.error);
       }
     }
     fetchData();

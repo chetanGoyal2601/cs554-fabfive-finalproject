@@ -67,7 +67,7 @@ router.get("/page/:page", async (req, res) => {
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
-      errors: e.message ? e.message : e,
+      error: e.message ? e.message : e,
     });
   }
 });
@@ -111,7 +111,7 @@ router.patch("/:id", async (req, res) => {
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
-      errors: e.message ? e.message : e,
+      error: e.message ? e.message : e,
     });
   }
 });
@@ -140,7 +140,7 @@ router.delete("/:id", async (req, res) => {
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
-      errors: e.message ? e.message : e,
+      error: e.message ? e.message : e,
     });
   }
 });
@@ -167,7 +167,7 @@ router.post("/rating/:id", async (req, res) => {
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
-      errors: e.message ? e.message : e,
+      error: e.message ? e.message : e,
     });
   }
 });

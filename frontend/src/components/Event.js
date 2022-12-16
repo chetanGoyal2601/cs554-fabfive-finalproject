@@ -134,7 +134,7 @@ const Event = () => {
         }
       } catch (e) {
         setIsError(true);
-        setErrorMessage(e.response.data.errors);
+        setErrorMessage(e.response.data.error);
       }
     }
     fetchData();
