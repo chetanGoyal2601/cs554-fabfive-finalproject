@@ -142,7 +142,12 @@ const Event = () => {
 
   if (isDeleted) return <Alert severity="success">{errorMessage}</Alert>;
 
-  if (isError) return <Alert severity="error">Error! Event not found!</Alert>;
+  if (isError)
+    return (
+      <Alert severity="error">
+        {errorMessage ? errorMessage : "Error! Could not load page."}
+      </Alert>
+    );
 
   if (eventData && eventData.address) {
     address = eventData.address;
@@ -170,9 +175,11 @@ const Event = () => {
         break;
       }
     }
+
     for (let rating of eventData.ratings) {
       sum += rating.rating;
     }
+
     return (
       <Card variant="outlined">
         <CardHeader title={eventData.name} component="div" />

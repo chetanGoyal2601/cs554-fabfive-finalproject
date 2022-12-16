@@ -142,6 +142,9 @@ async function setRsvp(eventId, userId) {
   const event = await this.get(eventId);
   let seatsAvailable = event.seatsAvailable;
 
+  if (event.eventDate < new Date())
+    throw { message: "You're late, Event RSVP expired!", code: 404 };
+
   if (event.rsvps.includes(userId)) {
     event.rsvps.splice(event.rsvps.indexOf(userId), 1);
     seatsAvailable++;
@@ -162,6 +165,7 @@ async function setRsvp(eventId, userId) {
     rsvps: event.rsvps,
     host: event.host,
     ratings: event.ratings,
+    eventDate: event.eventDate,
   };
 
   const updatedInfo = await eventCollection.updateOne(
@@ -243,6 +247,7 @@ async function setRating(eventId, rating, userId) {
     rsvps: event.rsvps,
     host: event.host,
     ratings: event.ratings,
+    eventDate: event.eventDate,
   };
 
   const updatedInfo = await eventCollection.updateOne(
