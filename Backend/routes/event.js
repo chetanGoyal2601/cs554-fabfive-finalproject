@@ -163,7 +163,7 @@ router.post("/rating/:id", async (req, res) => {
       req.body.data.userId
     );
     events.userId = "23";
-    // userData.calcAvgRating(123);
+    // userData.calcAvgRating(23);
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({

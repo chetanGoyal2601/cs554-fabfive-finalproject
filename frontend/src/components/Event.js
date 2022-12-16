@@ -39,7 +39,7 @@ const Event = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(-1);
 
   let { id } = useParams();
@@ -64,7 +64,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -87,7 +87,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -102,6 +102,11 @@ const Event = () => {
       );
       if (data) {
         if (data.userId) setLoggedInUser(data.userId);
+        for (let rating of data.event.ratings) {
+          if (loggedInUser === rating.userId) {
+            setValue(rating.rating);
+          }
+        }
         setIsError(false);
         setLoading(false);
       } else {
@@ -109,7 +114,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -156,6 +161,18 @@ const Event = () => {
   } else {
     let currentDate = new Date();
     let eventDate = new Date(eventData.eventDate);
+    let userRating = null;
+    let sum = 0;
+
+    for (let rating of eventData.ratings) {
+      if (loggedInUser === rating.userId) {
+        userRating = rating.rating;
+        break;
+      }
+    }
+    for (let rating of eventData.ratings) {
+      sum += rating.rating;
+    }
     return (
       <Card variant="outlined">
         <CardHeader title={eventData.name} component="div" />
@@ -209,12 +226,14 @@ const Event = () => {
                   <Typography component="legend">Rate the host</Typography>
                   <Rating
                     name="hover-feedback"
-                    value={value}
+                    value={value ? value : userRating}
                     precision={0.5}
                     getLabelText={getLabelText}
                     onChange={(event, newValue) => {
-                      setValue(newValue);
-                      setRating(eventData._id, newValue);
+                      if (newValue) {
+                        setValue(newValue);
+                        setRating(eventData._id, newValue);
+                      }
                     }}
                     onChangeActive={(event, newHover) => {
                       setHover(newHover);
@@ -249,6 +268,19 @@ const Event = () => {
                 </Button>
               )}
             {loggedInUser &&
+              eventDate < currentDate &&
+              eventData.host &&
+              loggedInUser === eventData.host && (
+                <div>
+                  <Typography component="legend">Host Rating</Typography>
+                  <Rating
+                    name="read-only"
+                    value={sum / eventData.ratings.length}
+                    readOnly
+                  />
+                </div>
+              )}
+            {loggedInUser &&
               eventDate > currentDate &&
               eventData.host &&
               loggedInUser === eventData.host && (
@@ -281,6 +313,8 @@ const Event = () => {
               )}
 
             {loggedInUser &&
+              eventDate &&
+              eventDate > currentDate &&
               eventData.rsvps &&
               eventData.rsvps.includes(loggedInUser) && (
                 <div>
