@@ -28,13 +28,14 @@
   font-size: large;
   font-weight: 200;
   position: absolute;
-  box-shadow:
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.5);
+  /* box-shadow:
   0 2.8px 2.2px rgba(0, 0, 0, 0.034),
   0 6.7px 5.3px rgba(0, 0, 0, 0.048),
   0 12.5px 10px rgba(0, 0, 0, 0.06),
   0 22.3px 17.9px rgba(0, 0, 0, 0.072),
   0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-  0 100px 80px rgba(0, 0, 0, 0.12)
+  0 100px 80px rgba(0, 0, 0, 0.12) */
 }
 
 .Home-Page-Background{
@@ -63,6 +64,9 @@
 .img-padding{
   /* padding-right: 50px; */
   margin-top:40px;
+}
+.word_wrap{
+  word-wrap: break-word;
 }
 .purple_background{
   background-color:#1e0a3c;
@@ -119,8 +123,10 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
-
+/* Btn margin events page*/
+.margin{
+ margin: auto;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

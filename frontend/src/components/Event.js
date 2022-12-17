@@ -4,15 +4,16 @@ import axios from "axios";
 import noImage from "../img/download.jpeg";
 // import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-import Card from "@mui/material/Card";
+import Card from 'react-bootstrap/Card';
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import Button from "react-bootstrap/Button";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
+import Nav from 'react-bootstrap/Nav';
 
 let path = "http://localhost:3001/";
 const labels = {
@@ -184,47 +185,47 @@ const Event = () => {
     <div className="purple_background">
       <div className="row">
         <div className="col p-4">
-          <Card className="text-center" variant="secondary" bg="secondary" style={{ width: '65rem',height:'45rem',alignItems:"center", marginLeft:"auto",marginRight:"auto",borderRadius:"15px"}} >
+          <Card  variant="light" bg="light" style={{ width: '85rem',height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
+    overflow: "hidden"}} >
             <CardHeader title={eventData.time} component="div" />
-            <CardMedia
-              component="img" height="300"
-              image={
-                eventData.image // && show.thumbnail[0].path
-                  ? path + eventData.image
-                  : noImage
-              }
-            />
+              <CardMedia
+                component="img" height="320"
+                alt="EventsImage"
+                image={
+                  eventData.image // && show.thumbnail[0].path
+                    ? path + eventData.image
+                    : noImage
+                }
+              />
             
             <CardContent component="div">
-              <Typography variant="body2" color="black" component="div">
-                  <dl>
-                    <dt className="title">Time :</dt>
-                    {eventData && eventData.time ? (
-                      <dd>{eventData.time}</dd>
-                    ) : (
-                      <dd>N/A</dd>
-                    )}
-                    <br />
-                    <dt className="title">Address:</dt>
+              {/* <Typography variant="body2" color="black" component="div"> */}
+              <Card.Header></Card.Header>
+              <Card.Body>
+                <Card.Title> Time :</Card.Title>
+                      {eventData && eventData.time ? (
+                        <Card.Text>{eventData.time}</Card.Text>
+                      ) : (
+                        <Card.Text>N/A</Card.Text>
+                      )}
+                      <Card.Title>Address: </Card.Title>
 
-                  {eventData && eventData.address ? (
-                    <dd>{address}</dd>
-                  ) : (
-                    <dd>N/A</dd>
-                  )}
-                  <br />
-                  {eventDate > currentDate && (
-                    <dt className="title">
-                      Spots available :{" "}
-                      {eventData.seatsAvailable
-                        ? eventData.seatsAvailable
-                        : "No capacity Mentioned"}
-                    </dt>
-                  )}
-                  <br />
-                  <dt className="title">Description:</dt>
-                  <dd>{eventData.description}</dd>
-                </dl>
+                    {eventData && eventData.address ? (
+                    <Card.Text>{address}</Card.Text>
+                    ) : (
+                      <Card.Text>N/A</Card.Text>
+                    )}
+                    {eventDate > currentDate && (
+                    <Card.Title>
+                        Spots available :{" "}
+                        {eventData.seatsAvailable
+                          ? eventData.seatsAvailable
+                          : "No capacity Mentioned"}
+                    </Card.Title>
+                    )}
+                    <Card.Title>Description: </Card.Title>
+                    <Card.Text className="word_wrap">{eventData.description}</Card.Text>
+             
             
               {loggedInUser &&
                 eventData.host &&
@@ -269,8 +270,8 @@ const Event = () => {
                 !eventData.rsvps.includes(loggedInUser) &&
                 eventData.host !== loggedInUser &&
                 eventData.seatsAvailable > 0 && (
-                  <Button
-                    variant="contained"
+                  <Button size="md"
+                    variant="dark"
                     onClick={() => {
                       updateRSVP(eventData._id);
                     }}
@@ -295,25 +296,25 @@ const Event = () => {
                   eventDate > currentDate &&
                   eventData.host &&
                   loggedInUser === eventData.host && (
-                    <div>
-                      <Button
-                        variant="contained"
+                    <div className="mb-2">
+                      <Button size="md"
+                        variant="danger"
                         onClick={() => {
                           deleteEvent(eventData._id);
                         }}
                       >
                         Delete Event
-                      </Button>
-                      <Button
-                        variant="contained"
+                      </Button>{' '}
+                      <Button size="md"
+                        variant="primary"
                         onClick={() => {
                           joinDiscussion(eventData._id, loggedInUser);
                         }}
                       >
                         Enter Discussion
-                      </Button>
-                      <Button
-                        variant="contained"
+                      </Button>{' '}
+                      <Button size="md"
+                        variant="dark"
                         onClick={() => {
                           chatWithHost(eventData._id, loggedInUser);
                         }}
@@ -328,25 +329,25 @@ const Event = () => {
                 eventDate > currentDate &&
                 eventData.rsvps &&
                 eventData.rsvps.includes(loggedInUser) && (
-                  <div>
-                    <Button
-                      variant="contained"
+                  <div className="mb-2">
+                  <Button size="md"
+                      variant="primary"
                       onClick={() => {
                         chatWithHost(eventData._id, loggedInUser);
                       }}
                     >
                       Chat with Host
-                    </Button>
-                    <Button
-                      variant="contained"
+                    </Button>{' '}
+                    <Button size="md"
+                      variant="secondary"
                       onClick={() => {
                         joinDiscussion(eventData._id, loggedInUser);
                       }}
                     >
                       Enter Discussion
-                    </Button>
-                    <Button
-                      variant="contained"
+                    </Button>{' '}
+                    <Button size="md"
+                      variant="danger"
                       onClick={() => {
                         updateRSVP(eventData._id, loggedInUser);
                       }}
@@ -356,9 +357,9 @@ const Event = () => {
                   </div>
                 )}
               <br />
-              <Link to="/events/page/0">Back to all events</Link>
-          </Typography>
-          </CardContent>
+              <Nav.Link as={Link}  to="/events/page/0" style={{fontSize:"18px",fontWeight:"bold",color:"#1e0a3c"}}>Back to all events</Nav.Link>
+              </Card.Body>
+            </CardContent>
           </Card>
         </div>
     </div>

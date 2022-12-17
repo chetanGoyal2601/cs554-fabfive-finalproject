@@ -11,6 +11,7 @@ import { nanoid } from "nanoid";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Alert from "@mui/material/Alert";
+import { CardHeader } from "@mui/material";
 let path = "http://localhost:3001/";
 // let userId = "123";
 
@@ -134,11 +135,11 @@ const Events = () => {
       address = "No Address provided";
     }
     return (
-      
-      <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()} >
+     
+      <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()}>
         <Card sx={{ maxWidth: 380, border: 3,borderColor:"white", borderRadius: 8,marginLeft:"auto",marginRight:"auto"}}>
           <Link className="link" sx={{fontWeight:600}} to={`/event/${event._id}`}>
-            <CardMedia
+            <CardMedia height={200}
               component="img"
               image={path + event.image}
               alt={event._id}
@@ -163,14 +164,14 @@ const Events = () => {
                     ? event.seatsAvailable
                     : "No capacity Mentioned"}
                 </Typography>
-                <blockquote className="blockquote mb-0">
+                {/* <blockquote className="blockquote mb-0">
                 <p variant="body2" color="black" component="p">
                   {event.description
                     ? event.description.substring(0, 139) + "..."
                     : "No Description"}
                     <p class="text-secondary">More Info..</p>
                 </p>
-                </blockquote>
+                </blockquote> */}
             </CardContent>
           </Link>
           {loggedInUser &&
@@ -194,7 +195,7 @@ const Events = () => {
             eventDate > currentDate &&
             event.host &&
             loggedInUser === event.host && (
-              <div>
+              <div className="p-2">
                 <Button
                   variant="danger"
                   onClick={() => {
@@ -202,15 +203,15 @@ const Events = () => {
                   }}
                 >
                   Delete Event
-                </Button>
-                <Button sx={{marginLeft:"auto",marginRight:"auto"}}
+                </Button>{' '}
+                <Button
                   variant="secondary"
                   onClick={() => {
                     joinDiscussion(event._id, loggedInUser);
                   }}
                 >
                   Enter Discussion
-                </Button>
+                </Button>{' '}
                 <Button
                   variant="primary"
                   onClick={() => {
@@ -227,7 +228,7 @@ const Events = () => {
               event.rsvps && eventDate > currentDate &&
               event.rsvps.includes(loggedInUser) && (
                 <div>
-                  <Button style={{margin:5}}
+                  <Button
                     variant="primary"
                     onClick={() => {
                       chatWithHost(event._id, loggedInUser);
@@ -235,14 +236,14 @@ const Events = () => {
                   >
                     Chat with Host
                   </Button>{' '}
-                  <Button
+                  <Button  
                     variant="secondary"
                     onClick={() => {
                       joinDiscussion(event._id, loggedInUser);
                     }}
                   >
                     Enter Discussion
-                  </Button>
+                  </Button>{' '}
                   <Button 
                     variant="danger"
                     onClick={() => {
@@ -256,7 +257,6 @@ const Events = () => {
             <br />
             <br />
           </Card>
-         
         </Grid>
         
         
@@ -280,7 +280,7 @@ const Events = () => {
   if (loading) {
     return (
       <div>
-        <h2>Loading....</h2>
+        <h4>Loading....</h4>
       </div>
     );
   } else {
@@ -299,10 +299,11 @@ const Events = () => {
             Next
           </Link>
         )}
-        <br />
-        <br />
-        <br />
-        <Grid container className="confetti-Background" spacing={12}>
+        <br/>
+        <br/>
+        <br/>
+        <Grid container className="confetti-Background" spacing={12}  alignItems={"center"}  paddingLeft={10} paddingRight={10}>
+         
           {card}
         </Grid>
       </div>

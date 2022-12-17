@@ -40,7 +40,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const imageName = req.file.filename;
-    const userId = "23";
+    const userId = "123";
     let event = await eventData.createEvent(
       req.body.title,
       req.body.description,
@@ -64,8 +64,8 @@ router.post("/", upload.single("image"), async (req, res) => {
 
 router.get("/user", async (req, res) => {
   try {
-    let userId = { userId: "23" };
-    // userData.calcAvgRating(23);
+    let userId = { userId: "123" };
+    // userData.calcAvgRating(123);
     return res.json(userId);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -82,7 +82,7 @@ router.get("/page/:page", async (req, res) => {
   }
   try {
     let events = await eventData.getAll(req.params.page);
-    events.userId = "23";
+    events.userId = "123";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -99,7 +99,7 @@ router.get("/:id", async (req, res) => {
   }
   try {
     const event = await eventData.get(req.params.id);
-    event.userId = "23";
+    event.userId = "123";
     res.json(event);
   } catch (e) {
     res.status(404).json({ error: e.message ? e.message : e });
@@ -132,7 +132,7 @@ router.patch("/:id", async (req, res) => {
       events = await eventData.getAll(req.body.data.page);
     }
     if (event.updated && req.body.data.page === null) events = event;
-    events.userId = "23";
+    events.userId = "123";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -167,7 +167,7 @@ router.delete("/:id", async (req, res) => {
       events = await eventData.getAll(req.body.page);
     }
     if (event.deleted && req.body.page === null) events = event;
-    events.userId = "23";
+    events.userId = "123";
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
@@ -199,8 +199,8 @@ router.post("/rating/:id", async (req, res) => {
       req.body.data.rating,
       req.body.data.userId
     );
-    events.userId = "23";
-    // userData.calcAvgRating(23);
+    events.userId = "123";
+    // userData.calcAvgRating(123);
     return res.json(events);
   } catch (e) {
     return res.status(e.code || 404).json({
