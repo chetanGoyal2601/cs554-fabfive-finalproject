@@ -11,20 +11,17 @@ import Alert from "@mui/material/Alert";
 
 const CreateEvent = () => {
   const [file, setFile] = useState();
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
   const [response, setResponse] = useState();
+  // const [time, setTime] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [address, setAddress] = useState("");
+  const [address2, setAddress2] = useState("");
   const [value, setValue] = React.useState(dayjs(new Date()));
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
-
-  const [form, setForm] = useState({});
-  const [errors, setErrors] = useState({});
-
-  const setField = (field, value) => {
-    setForm({ ...form, [field]: value });
-
-    if (!!errors[field]) setErrors({ ...errors, [field]: null });
-  };
 
   useEffect(() => {
     async function fetchData() {
@@ -32,6 +29,8 @@ const CreateEvent = () => {
         const { data } = await axios.get(`http://localhost:3001/event/user`);
         if (data) {
           if (data.userId) setLoggedInUser(data.userId);
+
+          setIsError(false);
         }
       } catch (e) {
         setIsError(true);
@@ -45,57 +44,25 @@ const CreateEvent = () => {
     setValue(newValue);
   };
 
-  const validationForm = () => {
-    const { title, description, address, capacity } = form;
-
-    const newErrors = {};
-
-    if (!title || title.trim() === "") newErrors.title = "Please enter a Title";
-
-    if (!description || description.trim() === "")
-      newErrors.description = "Please enter a Description";
-
-    if (!address || address.trim() === "")
-      newErrors.address = "Please enter an Address";
-
-    if (!capacity || capacity.trim() === "")
-      newErrors.capacity = "Please enter an Capacity";
-    else {
-      if (isNaN(capacity)) newErrors.capacity = "Please enter a valid Capacity";
-    }
-    return newErrors;
-  };
-
   const submit = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("description", description);
+    formData.append("title", title);
+    formData.append("time", value);
+    formData.append("capacity", capacity);
+    formData.append("address", address);
+    formData.append("address2", address2);
 
-    const formErrors = validationForm();
-
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-    } else {
-      const { title, description, address, address2, capacity } = form;
-      const formData = new FormData();
-      formData.append("image", file);
-      formData.append("description", description);
-      formData.append("title", title);
-      formData.append("time", value);
-      formData.append("capacity", capacity);
-      formData.append("address", address);
-      formData.append("address2", address2);
-      try {
-        const result = await axios.post(
-          "http://localhost:3001/event",
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
-        setResponse(result.data);
-      } catch (e) {
-        setIsError(true);
-        setErrorMessage(e.response.data.error);
-      }
+    try {
+      const result = await axios.post("http://localhost:3001/event", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setResponse(result.data);
+    } catch (e) {
+      setIsError(true);
+      setErrorMessage(e.response.data.error);
     }
   };
 
@@ -112,80 +79,73 @@ const CreateEvent = () => {
     );
 
   if (loggedInUser && loggedInUser === "false") {
+    console.log("Redirect");
     //redirect to Login
     return <Navigate to="/" />;
   } else {
     return (
       <div className="App">
         <Form onSubmit={submit}>
-          <Form.Label>Event Poster : </Form.Label>
-          <br />
           <input
             filename={file}
             onChange={(e) => setFile(e.target.files[0])}
             type="file"
             accept="image/*"
             alt="Jeff"
-            // required
+            required
           ></input>
           <br />
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Title : </Form.Label>
             <br />
             <Form.Control
-              onChange={(e) => setField("title", e.target.value)}
-              // isInvalid={!!errors.title}
+              onChange={(e) => setTitle(e.target.value)}
               type="text"
               placeholder="My Title"
-              // required
-            ></Form.Control>
-            <div className="red">{errors.title}</div>
+              required
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Description : </Form.Label>
             <br />
             <Form.Control
-              onChange={(e) => setField("description", e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               type="text"
               as="textarea"
               rows={3}
               cols={100}
-              // required
+              required
             />
-            <div className="red">{errors.description}</div>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Address : </Form.Label>
             <br />
             <Form.Control
-              onChange={(e) => setField("address", e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
               type="text"
               placeholder="1234 Main St"
-              // required
+              required
             />
-            <div className="red">{errors.address}</div>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formGridAddress2">
             <Form.Label>Address 2 : </Form.Label>
             <br />
             <Form.Control
-              onChange={(e) => setField("address2", e.target.value)}
+              onChange={(e) => setAddress2(e.target.value)}
               type="text"
               placeholder="Apartment, studio, or floor"
             />
-            <div className="red">{errors.address2}</div>
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Capacity : </Form.Label>
             <br />
             <Form.Control
-              onChange={(e) => setField("capacity", e.target.value)}
+              onChange={(e) => setCapacity(e.target.value)}
               type="number"
               placeholder="Capacity"
-              // required
+              required
             />
-            <div className="red">{errors.capacity}</div>
           </Form.Group>
           <br />
           <br />

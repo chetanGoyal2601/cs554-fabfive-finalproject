@@ -29,10 +29,17 @@ router.post("/", upload.single("image"), async (req, res) => {
       "Address 2"
     );
     req.body.time = validations.checkString(req.body.time, "Date & Time");
-    req.file.filename = validations.checkString(
-      req.file.filename,
-      "Image Name"
-    );
+    if (req.file) {
+      req.file.filename = validations.checkString(
+        req.file.filename,
+        "Image Name"
+      );
+    } else {
+      throw {
+        message: "You need to provide an Image for Event Poster",
+        code: 400,
+      };
+    }
     req.body.capacity = validations.checkNumber(req.body.capacity, "Capacity");
   } catch (e) {
     return res.status(400).json({ error: e.message ? e.message : e });
@@ -64,8 +71,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
 router.get("/user", async (req, res) => {
   try {
-    let userId = { userId: "false" };
-    // userData.calcAvgRating(23);
+    let userId = { userId: "123" };
     return res.json(userId);
   } catch (e) {
     return res.status(e.code || 404).json({
