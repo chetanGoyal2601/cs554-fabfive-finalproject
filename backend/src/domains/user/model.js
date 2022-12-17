@@ -10,15 +10,13 @@ const UserSchema = new Schema({
     rating:{ type: Number },
     is_host:{ type: Boolean, required: true },
     rsvp_d:Array,
-    currently_hosted:Array,
-    past_hosted:Array,
+    events:Array,
     reviews:Array,
     comments:Array,
     reviews_upvoted:Array,
     reviews_downvoted:Array,
     comments_upvoted:Array,
     comments_downvoted:Array,
-    all_chats:Array,
     verified: { type: Boolean, required: true }
 });
 
