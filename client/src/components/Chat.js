@@ -16,8 +16,8 @@ import axios from 'axios';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Circle } from "better-react-spinkit";
 import person_placeholder from '../img/person_placeholder.jpeg';
-
-
+// import '../css/Chat.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 

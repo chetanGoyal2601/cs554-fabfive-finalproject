@@ -3,6 +3,8 @@ import bgImg from '../img/img1.png';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../css/User.css';
+
 export default function Form() {
   async function blah(email){
     let data={}

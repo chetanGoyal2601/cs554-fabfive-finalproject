@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon -r dotenv/config index.js dotenv_config_path=env/local.env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,10 +12,20 @@
   "dependencies": {
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "dotenv": "^16.0.3",
+    "cors": "^2.8.5",
+    "bcrypt": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.1.0",
     "mongodb": "^4.12.1",
+    "mongoose": "^6.7.4",
+    "nodemailer": "^6.8.0",
     "redis": "^4.5.1",
     "socket.io": "^4.4.0",
     "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": "18.11.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

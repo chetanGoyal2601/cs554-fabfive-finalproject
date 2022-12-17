@@ -7,8 +7,6 @@ import User_profile from './components/profile';
 import Logout from './components/Logout';
 import Forgot_Password from './components/Forgot_Password';
 import New_Password from './components/New_Password';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 
 const App = () => {
   return (

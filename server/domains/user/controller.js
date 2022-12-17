@@ -3,8 +3,8 @@ const verifyHashedData = require("./../../util/verifyHashedData");
 const User = require("./model");
 const mongoCollections = require("../../config/mongoCollections");
 const userCollection = mongoCollections.users;
-const events = mongoCollections.events;
-const event = require("./events");
+// const events = mongoCollections.events;
+// const event = require("./events");
 
 const createNewUser = async (data) => {
   let today = new Date();
@@ -202,17 +202,17 @@ const getUserByEmail = async (email) => {
     if (!fetchedUsers.length) {
       throw Error("Invalid credentials entered!");
     }
-    const eventCollection = await event();
-    for (i=0;i< fetchedUsers.rsvp_d.length;i++){
-      const get_event = await event.get(fetchedUsers.rsvp_d[i]);
-      rsvp.push(get_event)
-    }
-    for (i=0;i< fetchedUsers.is_host.length;i++){
-      const get_host = await event.get(fetchedUsers.is_host[i]);
-      host.push(get_host)
-    }
+    // const eventCollection = await event();
+    // for (i=0;i< fetchedUsers.rsvp_d.length;i++){
+    //   const get_event = await event.get(fetchedUsers.rsvp_d[i]);
+    //   rsvp.push(get_event)
+    // }
+    // for (i=0;i< fetchedUsers.is_host.length;i++){
+    //   const get_host = await event.get(fetchedUsers.is_host[i]);
+    //   host.push(get_host)
+    // }
 
-    return {data:fetchedUsers,rsvp_data:rsvp,host_data:host};
+    return {fetchedUsers};
   } catch (error) {
     throw error;
   }

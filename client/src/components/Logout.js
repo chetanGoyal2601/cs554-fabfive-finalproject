@@ -2,6 +2,8 @@ import React from 'react'
 import bgImg from '../img/img1.png';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import '../css/User.css';
+
 //import { useCookies } from 'react-cookie';
 
 
