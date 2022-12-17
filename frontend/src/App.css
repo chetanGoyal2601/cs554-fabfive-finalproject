@@ -70,12 +70,11 @@
 }
 .purple_background{
   background-color:#1e0a3c;
-  /* background-image: linear-gradient(to bottom right, #1e0a3c,#cc99ff); */
-  /* background-image: url('../src/img/Stevens_bg.jpeg'); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  background-image: url('../src/img/logo_transparent.png');
 }
 .link{
   text-decoration: none;

@@ -185,11 +185,11 @@ const Event = () => {
     <div className="purple_background">
       <div className="row">
         <div className="col p-4">
-          <Card  variant="light" bg="light" style={{ width: '85rem',height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
-    overflow: "hidden"}} >
+          <Card  variant="light" bg="light" style={{ width: '50rem',height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
+          overflow: "hidden",borderColor:"#1e0a3c",borderWidth:6}}>
             <CardHeader title={eventData.time} component="div" />
-              <CardMedia
-                component="img" height="320"
+              <CardMedia style={{width:'30rem',height:'28rem',borderBottomRightRadius:"20px",borderBottomLeftRadius:"20px"}}
+                component="img" 
                 alt="EventsImage"
                 image={
                   eventData.image // && show.thumbnail[0].path
@@ -200,7 +200,11 @@ const Event = () => {
             
             <CardContent component="div">
               {/* <Typography variant="body2" color="black" component="div"> */}
-              <Card.Header></Card.Header>
+              {eventData && eventData.title ? (
+                       <Card.Header as="h2">{eventData.title}</Card.Header>
+                      ) : (
+                        <Card.Header>N/A</Card.Header>
+                      )}
               <Card.Body>
                 <Card.Title> Time :</Card.Title>
                       {eventData && eventData.time ? (
