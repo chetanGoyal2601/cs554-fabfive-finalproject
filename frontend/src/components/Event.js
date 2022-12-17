@@ -291,20 +291,6 @@ const Event = () => {
                     />
                   </div>
                 )}
-              {loggedInUser &&
-                eventDate > currentDate &&
-                eventData.host &&
-                loggedInUser === eventData.host && (
-                  // <div>
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        updateRSVP(eventData._id);
-                      }}
-                    >
-                      RSVP
-                    </Button>
-                  )}
                 {loggedInUser &&
                   eventDate > currentDate &&
                   eventData.host &&
