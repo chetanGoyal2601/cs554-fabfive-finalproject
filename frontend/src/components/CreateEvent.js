@@ -136,7 +136,7 @@ const CreateEvent = () => {
             <br />
             <Form.Control
               onChange={(e) => setAddress(e.target.value)}
-              type="text"
+              type="text" 
               placeholder="1234 Main St"
               required
             />

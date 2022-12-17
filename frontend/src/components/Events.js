@@ -225,21 +225,21 @@ const Events = () => {
               </div>
             )}
 
-          {loggedInUser &&
+          {/* {loggedInUser &&
             eventDate > currentDate &&
             event.rsvps &&
             event.rsvps.includes(loggedInUser) && (
               <div>
-                <Button
-                  variant="danger"
+                <Button 
+                variant="contained"
                   onClick={() => {
-                    deleteEvent(event._id);
+                    chatWithHost(event._id, loggedInUser);
                   }}
                 >
-                  Delete Event
+                  Chat with Host
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="contained"
                   onClick={() => {
                     joinDiscussion(event._id, loggedInUser);
                   }}
@@ -247,18 +247,18 @@ const Events = () => {
                   Enter Discussion
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="contained"
                   onClick={() => {
-                    chatWithHost(event._id, loggedInUser);
+                    updateRSVP(event._id, loggedInUser);
                   }}
                 >
-                  Chat
+                  Remove RSVP
                 </Button>
               </div>
-            )}
+            )} */}
 
-            {loggedInUser &&
-              event.rsvps &&
+             {loggedInUser &&
+              event.rsvps && eventDate > currentDate &&
               event.rsvps.includes(loggedInUser) && (
                 <div>
                   <Button style={{margin:5}}
@@ -286,7 +286,7 @@ const Events = () => {
                     Remove RSVP
                   </Button>
                 </div>
-              )}
+              )} 
             <br />
             <br />
           </Card>

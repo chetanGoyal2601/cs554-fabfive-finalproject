@@ -64,7 +64,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
 router.get("/user", async (req, res) => {
   try {
-    let userId = { userId: "false" };
+    let userId = { userId: "23" };
     // userData.calcAvgRating(23);
     return res.json(userId);
   } catch (e) {
