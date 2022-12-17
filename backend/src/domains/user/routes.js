@@ -18,16 +18,35 @@ router.post("/signup", async (req, res) => {
     dateOfBirth = dateOfBirth.trim();
     gender = gender.trim();
 
+    const singupVlidation = (email)=>{
+      // Define list of valid domains as an array
+      let domain_list = ['stevens.edu'];
+      let domain = email.substring(email.lastIndexOf("@") +1);
+      // Check if the domain is present in the array of valid domains
+      if (domain_list.includes(domain)) {
+          return true;
+      } else {
+          return false;
+      }
+  }
+  if(singupVlidation(email)===false){
+    throw Error('Email should contain @stevens.edu');
+  }
+  let today = new Date();
     if (name == "" || email == "" || password == "" || dateOfBirth == "") {
       throw Error("Empty input fields!");
     } else if (!/^[a-zA-Z ]*$/.test(name)) {
       throw Error("Invalid name entered");
     } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       throw Error("Invalid email entered");
-    } else if (!new Date(dateOfBirth).getTime()) {
+    } 
+    else if(new Date(dateOfBirth)>=today){
+      throw Error("Date of Birth should be in the past");
+    }
+    else if (!new Date(dateOfBirth).getTime()) {
       throw Error("Invalid date of birth entered");
     } else if (password.length < 8) {
-      throw Error("Password is too short!");
+      throw Error("Password should be atleast 8 characters!");
     } else {
 
       const newUser = await createNewUser({
