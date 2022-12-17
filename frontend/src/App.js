@@ -41,10 +41,10 @@ function App() {
     <Router>
       <div className="App">
       <div className="App-body">
-      <Navbar  variant="dark" className="Nav-bar-background">
-        <Container>
+      <Navbar collapseOnSelect expand='lg'  variant="dark" className="Nav-bar-background" >
+        <Container fluid>
           <Navbar.Brand href="https://www.stevens.edu/" target="_blank">
-         <img
+         <img 
                 alt="Stevens"
                 src={require('../src/img/Stevens-Logo.png')}
                 width="35"
@@ -53,7 +53,15 @@ function App() {
               />
              {' '}Stevens Institute of Technology
           </Navbar.Brand>
-          <Navbar.Brand href="/">Make Event Happen</Navbar.Brand>{' '}
+          <Navbar.Brand href="/">
+          <img
+                alt="Stevens"
+                src={require('../src/img/logo_transparent.png')}
+                width="35"
+                height="35"
+                className="d-inline-block align-top"
+              />{' '}
+            Make Event Happen</Navbar.Brand>
           <Nav>
               {/* <div className="mb-2">
                 <Button variant="outline-light" size="md">Login</Button>{' '}

@@ -88,7 +88,7 @@ const CreateEvent = () => {
   return (
    
     <div className="App Home-Page-Background">
-    <Container className="form-background">
+    <Container fluid>
     <div className="register">
       <div className="row">
       <div className="col-7">
@@ -179,9 +179,9 @@ const CreateEvent = () => {
           <Button variant="primary" type="submit">Submit</Button>
         </Form>
     </div>
-    <div className="col-5">
-        <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} className="img-size"/>
-     </div>
+      <div className="col-5">
+          <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} className="img-size"/>
+      </div>
      </div>
    </div>
     </Container>

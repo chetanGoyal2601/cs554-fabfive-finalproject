@@ -135,25 +135,20 @@ const Events = () => {
     }
     return (
       
-      <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()}>
-        <Card sx={{ maxWidth: 350, border: 3, borderRadius: 3 ,marginLeft:"auto",marginRight:"auto",height: "auto"}}>
+      <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()} >
+        <Card sx={{ maxWidth: 380, border: 3,borderColor:"white", borderRadius: 8,marginLeft:"auto",marginRight:"auto"}}>
           <Link className="link" sx={{fontWeight:600}} to={`/event/${event._id}`}>
             <CardMedia
               component="img"
               image={path + event.image}
               alt={event._id}
             />
-            <CardContent >
-              <Typography class="text-uppercase"
-                    sx={{
+            <CardContent  sx={{
                       fontWeight: "bold",
-                      fontFamily:"caligraphy",
                       color: "black",
-                    }}
-                  gutterBottom
-                  variant="h6"
-                  component="h4"
-                >
+                      fontSize:25
+                    }}>
+                <Typography class="text-uppercase">
                   {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
                 </Typography>
                 <Typography variant="body2" color="black" component="p">
@@ -168,12 +163,14 @@ const Events = () => {
                     ? event.seatsAvailable
                     : "No capacity Mentioned"}
                 </Typography>
-                <Typography variant="body2" color="black" component="p">
+                <blockquote className="blockquote mb-0">
+                <p variant="body2" color="black" component="p">
                   {event.description
                     ? event.description.substring(0, 139) + "..."
                     : "No Description"}
                     <p class="text-secondary">More Info..</p>
-                </Typography>
+                </p>
+                </blockquote>
             </CardContent>
           </Link>
           {loggedInUser &&
@@ -206,7 +203,7 @@ const Events = () => {
                 >
                   Delete Event
                 </Button>
-                <Button
+                <Button sx={{marginLeft:"auto",marginRight:"auto"}}
                   variant="secondary"
                   onClick={() => {
                     joinDiscussion(event._id, loggedInUser);
@@ -215,7 +212,7 @@ const Events = () => {
                   Enter Discussion
                 </Button>
                 <Button
-                  variant="light"
+                  variant="primary"
                   onClick={() => {
                     chatWithHost(event._id, loggedInUser);
                   }}
@@ -225,37 +222,6 @@ const Events = () => {
               </div>
             )}
 
-          {/* {loggedInUser &&
-            eventDate > currentDate &&
-            event.rsvps &&
-            event.rsvps.includes(loggedInUser) && (
-              <div>
-                <Button 
-                variant="contained"
-                  onClick={() => {
-                    chatWithHost(event._id, loggedInUser);
-                  }}
-                >
-                  Chat with Host
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    joinDiscussion(event._id, loggedInUser);
-                  }}
-                >
-                  Enter Discussion
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    updateRSVP(event._id, loggedInUser);
-                  }}
-                >
-                  Remove RSVP
-                </Button>
-              </div>
-            )} */}
 
              {loggedInUser &&
               event.rsvps && eventDate > currentDate &&
@@ -336,7 +302,7 @@ const Events = () => {
         <br />
         <br />
         <br />
-        <Grid container spacing={5}>
+        <Grid container className="confetti-Background" spacing={12}>
           {card}
         </Grid>
       </div>
