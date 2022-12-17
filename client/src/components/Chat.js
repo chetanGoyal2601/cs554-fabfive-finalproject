@@ -153,7 +153,7 @@ const Chat = () => {
                 {eventChats.map(chat => (
                     <div className={classes.chatTile} onClick={() => changeChat(chat._id)} key={chat._id}>
                         <Avatar className={classes.userAvatar} src={person_placeholder}/>
-                        <p>Anudeep</p>
+                        <p>{chat.userId===userId ? chat.hostName : chat.userName}</p>
                     </div >
                 ))}
             </div>
@@ -161,7 +161,7 @@ const Chat = () => {
                 <div className={classes.chatHeader}>
                     <Avatar src={person_placeholder} />
                     <div className={classes.headerInfo}>
-                        <h3>Anudeep</h3>
+                        <h3>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h3>
                     </div>
                 </div>
                 <div className={classes.msgContainer}>
@@ -170,7 +170,7 @@ const Chat = () => {
                 </div>
                 <form className={classes.inputContainer}>
                     <input className={classes.input} value={inputMsg} onChange={e => setInputMsg(e.target.value)} />
-                    <button hidden disabled={!inputMsg} type="submit" onClick={() => sendMessage()} />
+                    <button hidden disabled={!inputMsg.trim()} type="submit" onClick={() => sendMessage()} />
                 </form>
             </div>
         </div>
@@ -295,7 +295,7 @@ const useStyles = makeStyles({
         'background-color': 'whitesmoke'
     },
     msgTimestamp: {
-        'color': 'gray',
+        'color': '#6d6d6d',
         'padding': '10px',
         'font-size': '9px',
         'position': 'absolute',

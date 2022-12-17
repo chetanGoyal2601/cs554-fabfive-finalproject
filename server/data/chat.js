@@ -50,6 +50,8 @@ const createChat = async (eventId, hostId, userId) => {
         eventId,
         hostId,
         userId,
+        hostName,
+        userName,
         lastMsgTime: new Date().getTime(),
         messages: [{
             msgId: uuid.v4(),
