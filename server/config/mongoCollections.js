@@ -19,5 +19,7 @@ const getCollectionFn = (collection) => {
 module.exports = {
   ObjectId,
   MongoError,
+  events: getCollectionFn("events"),
+  users: getCollectionFn("users"),
   getChats: getCollectionFn('chats')
 };

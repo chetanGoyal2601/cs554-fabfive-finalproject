@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from "react";
-import '../css/User.css';
+// import '../css/User.css';
 
 export default function Form() {
     const [error, setError] = useState(false);

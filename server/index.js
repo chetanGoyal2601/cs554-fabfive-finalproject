@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
+const static = express.static("images");
 
 // rohits db setup code
 require("dotenv").config();
@@ -23,6 +24,7 @@ const io = new Server(server);
 const initializeSocket = require('./chat');
 const configRoutes = require('./routes');
 
+app.use(static);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
