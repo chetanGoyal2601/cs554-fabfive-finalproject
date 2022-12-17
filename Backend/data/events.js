@@ -142,6 +142,9 @@ async function setRsvp(eventId, userId) {
   const event = await this.get(eventId);
   let seatsAvailable = event.seatsAvailable;
 
+  if (event.eventDate < new Date())
+    throw { message: "You're late, Event RSVP expired!", code: 404 };
+
   if (event.rsvps.includes(userId)) {
     event.rsvps.splice(event.rsvps.indexOf(userId), 1);
     seatsAvailable++;
@@ -162,6 +165,7 @@ async function setRsvp(eventId, userId) {
     rsvps: event.rsvps,
     host: event.host,
     ratings: event.ratings,
+    eventDate: event.eventDate,
   };
 
   const updatedInfo = await eventCollection.updateOne(
@@ -203,9 +207,9 @@ async function setRating(eventId, rating, userId) {
   // userId = validations.checkId(userId, "User ID");
   rating = validations.checkFloat(rating, "Rating");
 
-  if (rating < 1 || rating > 5)
+  if (rating < 0 || rating > 5)
     throw {
-      message: "Rating can be only between 1 to 5",
+      message: "Rating can be only between 0 to 5",
       code: 403,
     };
 
@@ -243,6 +247,7 @@ async function setRating(eventId, rating, userId) {
     rsvps: event.rsvps,
     host: event.host,
     ratings: event.ratings,
+    eventDate: event.eventDate,
   };
 
   const updatedInfo = await eventCollection.updateOne(
@@ -251,7 +256,11 @@ async function setRating(eventId, rating, userId) {
   );
 
   if (updatedInfo.modifiedCount === 0) {
-    throw { message: "Could not update event successfully", code: 500 };
+    throw {
+      message:
+        "Could not update event successfully. New value might be same as old value",
+      code: 500,
+    };
   }
   let answer = { event: await this.get(eventId), updated: true };
   return answer;

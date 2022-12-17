@@ -39,7 +39,7 @@ const Event = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(-1);
 
   let { id } = useParams();
@@ -64,7 +64,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -87,7 +87,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -102,6 +102,11 @@ const Event = () => {
       );
       if (data) {
         if (data.userId) setLoggedInUser(data.userId);
+        for (let rating of data.event.ratings) {
+          if (loggedInUser === rating.userId) {
+            setValue(rating.rating);
+          }
+        }
         setIsError(false);
         setLoading(false);
       } else {
@@ -109,7 +114,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -129,7 +134,7 @@ const Event = () => {
         }
       } catch (e) {
         setIsError(true);
-        setErrorMessage(e.response.data.errors);
+        setErrorMessage(e.response.data.error);
       }
     }
     fetchData();
@@ -137,7 +142,12 @@ const Event = () => {
 
   if (isDeleted) return <Alert severity="success">{errorMessage}</Alert>;
 
-  if (isError) return <Alert severity="error">Error! Event not found!</Alert>;
+  if (isError)
+    return (
+      <Alert severity="error">
+        {errorMessage ? errorMessage : "Error! Could not load page."}
+      </Alert>
+    );
 
   if (eventData && eventData.address) {
     address = eventData.address;
@@ -156,6 +166,20 @@ const Event = () => {
   } else {
     let currentDate = new Date();
     let eventDate = new Date(eventData.eventDate);
+    let userRating = null;
+    let sum = 0;
+
+    for (let rating of eventData.ratings) {
+      if (loggedInUser === rating.userId) {
+        userRating = rating.rating;
+        break;
+      }
+    }
+
+    for (let rating of eventData.ratings) {
+      sum += rating.rating;
+    }
+
     return (
       <div className="purple_background">
       <div className="row">
@@ -184,65 +208,94 @@ const Event = () => {
                 <br />
                 <dt className="title">Address:</dt>
 
-                {eventData && eventData.address ? (
-                  <dd>{address}</dd>
-                ) : (
-                  <dd>N/A</dd>
-                )}
-                <br />
-                {eventDate > currentDate && (
-                  <dt className="title">
-                    Spots available :{" "}
-                    {eventData.seatsAvailable
-                      ? eventData.seatsAvailable
-                      : "No capacity Mentioned"}
-                  </dt>
-                )}
-                <br />
-                <dt className="title">Description:</dt>
-                <dd>{eventData.description}</dd>
-              </dl>
-              {loggedInUser &&
-                eventData.host &&
-                eventData.host !== loggedInUser &&
-                eventData.rsvps &&
-                eventData.rsvps.includes(loggedInUser) &&
-                eventData.eventDate &&
-                eventDate < currentDate && (
-                  <div>
-                    <Typography component="legend">Rate the host</Typography>
-                    <Rating
-                      name="hover-feedback"
-                      value={value}
-                      precision={0.5}
-                      getLabelText={getLabelText}
-                      onChange={(event, newValue) => {
+              {eventData && eventData.address ? (
+                <dd>{address}</dd>
+              ) : (
+                <dd>N/A</dd>
+              )}
+              <br />
+              {eventDate > currentDate && (
+                <dt className="title">
+                  Spots available :{" "}
+                  {eventData.seatsAvailable
+                    ? eventData.seatsAvailable
+                    : "No capacity Mentioned"}
+                </dt>
+              )}
+              <br />
+              <dt className="title">Description:</dt>
+              <dd>{eventData.description}</dd>
+            </dl>
+            {loggedInUser &&
+              eventData.host &&
+              eventData.host !== loggedInUser &&
+              eventData.rsvps &&
+              eventData.rsvps.includes(loggedInUser) &&
+              eventData.eventDate &&
+              eventDate < currentDate && (
+                <div>
+                  <Typography component="legend">Rate the host</Typography>
+                  <Rating
+                    name="hover-feedback"
+                    value={value ? value : userRating}
+                    precision={0.5}
+                    getLabelText={getLabelText}
+                    onChange={(event, newValue) => {
+                      if (newValue) {
                         setValue(newValue);
                         setRating(eventData._id, newValue);
-                      }}
-                      onChangeActive={(event, newHover) => {
-                        setHover(newHover);
-                      }}
-                      emptyIcon={
-                        <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
                       }
-                    />
-                    {value !== null && (
-                      <Box sx={{ ml: 2 }}>
-                        {labels[hover !== -1 ? hover : value]}
-                      </Box>
-                    )}
-                  </div>
-                )}
-              {loggedInUser &&
-                eventData.eventDate &&
-                eventDate > currentDate &&
-                eventData.rsvps &&
-                eventData.host &&
-                eventData.seatsAvailable &&
-                !eventData.rsvps.includes(loggedInUser) &&
-                eventData.host !== loggedInUser &&
-                eventData.seatsAvailable > 0 && (
+                    }}
+                    onChangeActive={(event, newHover) => {
+                      setHover(newHover);
+                    }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+                  {value !== null && (
+                    <Box sx={{ ml: 2 }}>
+                      {labels[hover !== -1 ? hover : value]}
+                    </Box>
+                  )}
+                </div>
+              )}
+            {loggedInUser &&
+              eventData.eventDate &&
+              eventDate > currentDate &&
+              eventData.rsvps &&
+              eventData.host &&
+              eventData.seatsAvailable &&
+              !eventData.rsvps.includes(loggedInUser) &&
+              eventData.host !== loggedInUser &&
+              eventData.seatsAvailable > 0 && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    updateRSVP(eventData._id);
+                  }}
+                >
+                  RSVP
+                </Button>
+              )}
+            {loggedInUser &&
+              eventDate < currentDate &&
+              eventData.host &&
+              loggedInUser === eventData.host && (
+                <div>
+                  <Typography component="legend">Host Rating</Typography>
+                  <Rating
+                    name="read-only"
+                    value={sum / eventData.ratings.length}
+                    readOnly
+                  />
+                </div>
+              )}
+            {loggedInUser &&
+              eventDate > currentDate &&
+              eventData.host &&
+              loggedInUser === eventData.host && (
+                <div>
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -284,44 +337,43 @@ const Event = () => {
                   </div>
                 )}
 
-              {loggedInUser &&
-                eventData.rsvps &&
-                eventData.rsvps.includes(loggedInUser) && (
-                  <div>
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        chatWithHost(eventData._id, loggedInUser);
-                      }}
-                    >
-                      Chat with Host
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        joinDiscussion(eventData._id, loggedInUser);
-                      }}
-                    >
-                      Enter Discussion
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        updateRSVP(eventData._id, loggedInUser);
-                      }}
-                    >
-                      Remove RSVP
-                    </Button>
-                  </div>
-                )}
-              <br />
-              <Link to="/events/page/0">Back to all events</Link>
-            </Typography>
-          </CardContent>
-        </Card>
-        </div>
-      </div>
-      </div>
+            {loggedInUser &&
+              eventDate &&
+              eventDate > currentDate &&
+              eventData.rsvps &&
+              eventData.rsvps.includes(loggedInUser) && (
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      chatWithHost(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Chat with Host
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      joinDiscussion(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Enter Discussion
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      updateRSVP(eventData._id, loggedInUser);
+                    }}
+                  >
+                    Remove RSVP
+                  </Button>
+                </div>
+              )}
+            <br />
+            <Link to="/events/page/0">Back to all events</Link>
+          </Typography>
+        </CardContent>
+      </Card>
     );
   }
 };

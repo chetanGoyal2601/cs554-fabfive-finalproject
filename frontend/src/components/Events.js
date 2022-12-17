@@ -44,7 +44,7 @@ const Events = () => {
       }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -75,7 +75,7 @@ const Events = () => {
       // }
     } catch (e) {
       setIsError(true);
-      setErrorMessage(e.response.data.errors);
+      setErrorMessage(e.response.data.error);
     }
   }
 
@@ -108,7 +108,7 @@ const Events = () => {
         setLoading(false);
       } catch (e) {
         setIsError(true);
-        setErrorMessage(e.response.data.errors);
+        setErrorMessage(e.response.data.error);
       }
     }
     fetchData();
@@ -124,6 +124,7 @@ const Events = () => {
 
   const buildCard = (event) => {
     let currentDate = new Date();
+    let eventDate = new Date(event.eventDate);
     let address;
     if (event && event.address) {
       address = event.address;
@@ -176,7 +177,7 @@ const Events = () => {
             </CardContent>
           </Link>
           {loggedInUser &&
-            event.eventDate > currentDate &&
+            eventDate > currentDate &&
             event.rsvps &&
             event.host &&
             event.seatsAvailable &&
@@ -193,7 +194,7 @@ const Events = () => {
               </Button>
             )}
           {loggedInUser &&
-            event.eventDate > currentDate &&
+            eventDate > currentDate &&
             event.host &&
             loggedInUser === event.host && (
               <div>
@@ -225,7 +226,7 @@ const Events = () => {
             )}
 
           {loggedInUser &&
-            event.eventDate > currentDate &&
+            eventDate > currentDate &&
             event.rsvps &&
             event.rsvps.includes(loggedInUser) && (
               <div>
