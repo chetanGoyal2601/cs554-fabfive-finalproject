@@ -11,6 +11,13 @@ const upload = multer({ dest: "images/" });
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     //validations
+    // if (!userId) throw { message: "User not logged in", code: 403 };
+  } catch (e) {
+    return res.status(400).json({ error: e.message ? e.message : e });
+  }
+
+  try {
+    //validations
     req.body.title = validations.checkString(req.body.title, "Title");
     req.body.description = validations.checkString(
       req.body.description,
@@ -55,6 +62,18 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
+router.get("/user", async (req, res) => {
+  try {
+    let userId = { userId: "false" };
+    // userData.calcAvgRating(23);
+    return res.json(userId);
+  } catch (e) {
+    return res.status(e.code || 404).json({
+      error: e.message ? e.message : e,
+    });
+  }
+});
+
 router.get("/page/:page", async (req, res) => {
   try {
     req.params.page = validations.checkNumber(req.params.page, "Page Number");
@@ -89,6 +108,12 @@ router.get("/:id", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   try {
+    //validations
+    // if (!userId) throw { message: "User not logged in", code: 403 };
+  } catch (e) {
+    return res.status(400).json({ error: e.message ? e.message : e });
+  }
+  try {
     req.params.id = validations.checkId(req.params.id, "Event ID");
     // req.body.data.userId = validations.checkId(req.body.data.userId, "User ID");
   } catch (e) {
@@ -118,6 +143,12 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
+    //validations
+    // if (!userId) throw { message: "User not logged in", code: 403 };
+  } catch (e) {
+    return res.status(400).json({ error: e.message ? e.message : e });
+  }
+  try {
     req.params.id = validations.checkId(req.params.id, "Event ID");
     // req.body.userId = validations.checkId(req.body.userId, "User ID");
   } catch (e) {
@@ -146,6 +177,12 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/rating/:id", async (req, res) => {
+  try {
+    //validations
+    // if (!userId) throw { message: "User not logged in", code: 403 };
+  } catch (e) {
+    return res.status(400).json({ error: e.message ? e.message : e });
+  }
   try {
     req.params.id = validations.checkId(req.params.id, "Event ID");
     // req.body.data.userId = validations.checkId(req.body.data.userId, "User ID"); // Need to verify body.data or body
