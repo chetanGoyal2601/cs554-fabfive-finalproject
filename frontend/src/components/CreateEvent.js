@@ -68,6 +68,7 @@ const CreateEvent = () => {
 
   if (response && response._id) {
     return <Alert severity="success">Event created Successfully.!</Alert>;
+    // return <Navigate to={`/event/${response._id}`} />;
   }
 
   if (isError)
