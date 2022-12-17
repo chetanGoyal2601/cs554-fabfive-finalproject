@@ -40,6 +40,7 @@ function App() {
     
     <Router>
       <div className="App">
+      <div className="App-body">
       <Navbar  variant="dark" className="Nav-bar-background">
         <Container>
           <Navbar.Brand href="https://www.stevens.edu/" target="_blank">
@@ -63,7 +64,7 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-        <div className="App-body">
+      
           <Routes>
             <Route path="/" element={<Home />} />
             <Route exact path="/createevent" element={<CreateEvent />} />

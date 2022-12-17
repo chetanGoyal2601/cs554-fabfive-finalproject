@@ -43,7 +43,7 @@ const CreateEvent = () => {
   };
 
   return (
-   <section>
+   
     <div className="App Home-Page-Background">
     <Container className="form-background">
     <div className="register">
@@ -179,7 +179,7 @@ const CreateEvent = () => {
    </div>
     </Container>
     </div>
-    </section>
+   
   );
 };
 

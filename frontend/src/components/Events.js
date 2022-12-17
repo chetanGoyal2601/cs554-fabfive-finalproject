@@ -133,46 +133,46 @@ const Events = () => {
       address = "No Address provided";
     }
     return (
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={nanoid()}>
-        {/* <div key={pokemon.name}> */}
-        <Card sx={{ maxWidth: 350, border: 3, borderColor: "red" }}>
-          <Link className="pokelink" to={`/event/${event._id}`}>
+      
+      <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()}>
+        <Card sx={{ maxWidth: 350, border: 3, borderRadius: 3 ,marginLeft:"auto",marginRight:"auto",height: "auto"}}>
+          <Link className="link" sx={{fontWeight:600}} to={`/event/${event._id}`}>
             <CardMedia
               component="img"
               image={path + event.image}
               alt={event._id}
             />
-            <CardContent>
-              <Typography
-                sx={{
-                  borderBottom: "1px solid #178577",
-                  fontWeight: "bold",
-                  color: "#ee0000",
-                }}
-                gutterBottom
-                variant="h6"
-                component="h2"
-              >
-                {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {event.time ? event.time : "No Time Mentioned"}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {address}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Spots available :{" "}
-                {event.seatsAvailable
-                  ? event.seatsAvailable
-                  : "No capacity Mentioned"}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {event.description
-                  ? event.description.substring(0, 139) + "..."
-                  : "No Description"}
-                <span>More Info</span>
-              </Typography>
+            <CardContent >
+              <Typography class="text-uppercase"
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily:"caligraphy",
+                      color: "black",
+                    }}
+                  gutterBottom
+                  variant="h6"
+                  component="h4"
+                >
+                  {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
+                </Typography>
+                <Typography variant="body2" color="black" component="p">
+                  {event.time ? event.time : "No Time Mentioned"}
+                </Typography>
+                <Typography variant="body2" color="black" component="p">
+                  {address}
+                </Typography>
+                <Typography variant="body2" color="black" component="p">
+                  Spots available :{" "}
+                  {event.seatsAvailable
+                    ? event.seatsAvailable
+                    : "No capacity Mentioned"}
+                </Typography>
+                <Typography variant="body2" color="black" component="p">
+                  {event.description
+                    ? event.description.substring(0, 139) + "..."
+                    : "No Description"}
+                    <p class="text-secondary">More Info..</p>
+                </Typography>
             </CardContent>
           </Link>
           {loggedInUser &&
@@ -184,7 +184,7 @@ const Events = () => {
             event.host !== loggedInUser &&
             event.seatsAvailable > 0 && (
               <Button
-                variant="contained"
+                variant="dark"
                 onClick={() => {
                   updateRSVP(event._id);
                 }}
@@ -198,7 +198,7 @@ const Events = () => {
             loggedInUser === event.host && (
               <div>
                 <Button
-                  variant="contained"
+                  variant="danger"
                   onClick={() => {
                     deleteEvent(event._id);
                   }}
@@ -206,7 +206,7 @@ const Events = () => {
                   Delete Event
                 </Button>
                 <Button
-                  variant="contained"
+                  variant="secondary"
                   onClick={() => {
                     joinDiscussion(event._id, loggedInUser);
                   }}
@@ -214,7 +214,7 @@ const Events = () => {
                   Enter Discussion
                 </Button>
                 <Button
-                  variant="contained"
+                  variant="light"
                   onClick={() => {
                     chatWithHost(event._id, loggedInUser);
                   }}
@@ -246,7 +246,7 @@ const Events = () => {
                   Enter Discussion
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   onClick={() => {
                     chatWithHost(event._id, loggedInUser);
                   }}
@@ -260,7 +260,7 @@ const Events = () => {
               event.rsvps &&
               event.rsvps.includes(loggedInUser) && (
                 <div>
-                  <Button
+                  <Button style={{margin:5}}
                     variant="primary"
                     onClick={() => {
                       chatWithHost(event._id, loggedInUser);
@@ -276,8 +276,8 @@ const Events = () => {
                   >
                     Enter Discussion
                   </Button>
-                  <Button
-                    variant="contained"
+                  <Button 
+                    variant="danger"
                     onClick={() => {
                       updateRSVP(event._id, loggedInUser);
                     }}
@@ -289,7 +289,10 @@ const Events = () => {
             <br />
             <br />
           </Card>
+         
         </Grid>
+        
+        
     );
   };
 

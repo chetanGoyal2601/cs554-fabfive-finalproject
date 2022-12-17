@@ -157,164 +157,171 @@ const Event = () => {
     let currentDate = new Date();
     let eventDate = new Date(eventData.eventDate);
     return (
-      <Card variant="outlined">
-        <CardHeader title={eventData.name} component="div" />
-        <CardMedia
-          component="img"
-          image={
-            eventData.image // && show.thumbnail[0].path
-              ? path + eventData.image
-              : noImage
-          }
-        />
+      <div className="purple_background">
+      <div className="row">
+        <div className="col p-4">
+        <Card className="text-center" variant="secondary" bg="secondary" style={{ width: '65rem',height:'45rem',alignItems:"center", marginLeft:"auto",marginRight:"auto",borderRadius:"15px"}} 
+         >
+          <CardHeader title={eventData.time} component="div" />
+          <CardMedia
+            component="img" height="300"
+            image={
+              eventData.image // && show.thumbnail[0].path
+                ? path + eventData.image
+                : noImage
+            }
+          />
+          
+          <CardContent component="div">
+            <Typography variant="body2" color="black" component="div">
+              <dl>
+                <dt className="title">Time :</dt>
+                {eventData && eventData.time ? (
+                  <dd>{eventData.time}</dd>
+                ) : (
+                  <dd>N/A</dd>
+                )}
+                <br />
+                <dt className="title">Address:</dt>
 
-        <CardContent component="div">
-          <Typography variant="body2" color="textSecondary" component="div">
-            <dl>
-              <dt className="title">Time :</dt>
-              {eventData && eventData.time ? (
-                <dd>{eventData.time}</dd>
-              ) : (
-                <dd>N/A</dd>
-              )}
-              <br />
-              <dt className="title">Address:</dt>
+                {eventData && eventData.address ? (
+                  <dd>{address}</dd>
+                ) : (
+                  <dd>N/A</dd>
+                )}
+                <br />
+                {eventDate > currentDate && (
+                  <dt className="title">
+                    Spots available :{" "}
+                    {eventData.seatsAvailable
+                      ? eventData.seatsAvailable
+                      : "No capacity Mentioned"}
+                  </dt>
+                )}
+                <br />
+                <dt className="title">Description:</dt>
+                <dd>{eventData.description}</dd>
+              </dl>
+              {loggedInUser &&
+                eventData.host &&
+                eventData.host !== loggedInUser &&
+                eventData.rsvps &&
+                eventData.rsvps.includes(loggedInUser) &&
+                eventData.eventDate &&
+                eventDate < currentDate && (
+                  <div>
+                    <Typography component="legend">Rate the host</Typography>
+                    <Rating
+                      name="hover-feedback"
+                      value={value}
+                      precision={0.5}
+                      getLabelText={getLabelText}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
+                        setRating(eventData._id, newValue);
+                      }}
+                      onChangeActive={(event, newHover) => {
+                        setHover(newHover);
+                      }}
+                      emptyIcon={
+                        <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                      }
+                    />
+                    {value !== null && (
+                      <Box sx={{ ml: 2 }}>
+                        {labels[hover !== -1 ? hover : value]}
+                      </Box>
+                    )}
+                  </div>
+                )}
+              {loggedInUser &&
+                eventData.eventDate &&
+                eventDate > currentDate &&
+                eventData.rsvps &&
+                eventData.host &&
+                eventData.seatsAvailable &&
+                !eventData.rsvps.includes(loggedInUser) &&
+                eventData.host !== loggedInUser &&
+                eventData.seatsAvailable > 0 && (
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      updateRSVP(eventData._id);
+                    }}
+                  >
+                    RSVP
+                  </Button>
+                )}
+              {loggedInUser &&
+                eventDate > currentDate &&
+                eventData.host &&
+                loggedInUser === eventData.host && (
+                  <div>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        deleteEvent(eventData._id);
+                      }}
+                    >
+                      Delete Event
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        joinDiscussion(eventData._id, loggedInUser);
+                      }}
+                    >
+                      Enter Discussion
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        chatWithHost(eventData._id, loggedInUser);
+                      }}
+                    >
+                      Chat
+                    </Button>
+                  </div>
+                )}
 
-              {eventData && eventData.address ? (
-                <dd>{address}</dd>
-              ) : (
-                <dd>N/A</dd>
-              )}
+              {loggedInUser &&
+                eventData.rsvps &&
+                eventData.rsvps.includes(loggedInUser) && (
+                  <div>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        chatWithHost(eventData._id, loggedInUser);
+                      }}
+                    >
+                      Chat with Host
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        joinDiscussion(eventData._id, loggedInUser);
+                      }}
+                    >
+                      Enter Discussion
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        updateRSVP(eventData._id, loggedInUser);
+                      }}
+                    >
+                      Remove RSVP
+                    </Button>
+                  </div>
+                )}
               <br />
-              {eventDate > currentDate && (
-                <dt className="title">
-                  Spots available :{" "}
-                  {eventData.seatsAvailable
-                    ? eventData.seatsAvailable
-                    : "No capacity Mentioned"}
-                </dt>
-              )}
-              <br />
-              <dt className="title">Description:</dt>
-              <dd>{eventData.description}</dd>
-            </dl>
-            {loggedInUser &&
-              eventData.host &&
-              eventData.host !== loggedInUser &&
-              eventData.rsvps &&
-              eventData.rsvps.includes(loggedInUser) &&
-              eventData.eventDate &&
-              eventDate < currentDate && (
-                <div>
-                  <Typography component="legend">Rate the host</Typography>
-                  <Rating
-                    name="hover-feedback"
-                    value={value}
-                    precision={0.5}
-                    getLabelText={getLabelText}
-                    onChange={(event, newValue) => {
-                      setValue(newValue);
-                      setRating(eventData._id, newValue);
-                    }}
-                    onChangeActive={(event, newHover) => {
-                      setHover(newHover);
-                    }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                    }
-                  />
-                  {value !== null && (
-                    <Box sx={{ ml: 2 }}>
-                      {labels[hover !== -1 ? hover : value]}
-                    </Box>
-                  )}
-                </div>
-              )}
-            {loggedInUser &&
-              eventData.eventDate &&
-              eventDate > currentDate &&
-              eventData.rsvps &&
-              eventData.host &&
-              eventData.seatsAvailable &&
-              !eventData.rsvps.includes(loggedInUser) &&
-              eventData.host !== loggedInUser &&
-              eventData.seatsAvailable > 0 && (
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    updateRSVP(eventData._id);
-                  }}
-                >
-                  RSVP
-                </Button>
-              )}
-            {loggedInUser &&
-              eventDate > currentDate &&
-              eventData.host &&
-              loggedInUser === eventData.host && (
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      deleteEvent(eventData._id);
-                    }}
-                  >
-                    Delete Event
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      joinDiscussion(eventData._id, loggedInUser);
-                    }}
-                  >
-                    Enter Discussion
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      chatWithHost(eventData._id, loggedInUser);
-                    }}
-                  >
-                    Chat
-                  </Button>
-                </div>
-              )}
-
-            {loggedInUser &&
-              eventData.rsvps &&
-              eventData.rsvps.includes(loggedInUser) && (
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      chatWithHost(eventData._id, loggedInUser);
-                    }}
-                  >
-                    Chat with Host
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      joinDiscussion(eventData._id, loggedInUser);
-                    }}
-                  >
-                    Enter Discussion
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      updateRSVP(eventData._id, loggedInUser);
-                    }}
-                  >
-                    Remove RSVP
-                  </Button>
-                </div>
-              )}
-            <br />
-            <Link to="/events/page/0">Back to all events</Link>
-          </Typography>
-        </CardContent>
-      </Card>
+              <Link to="/events/page/0">Back to all events</Link>
+            </Typography>
+          </CardContent>
+        </Card>
+        </div>
+      </div>
+      </div>
     );
   }
 };
