@@ -214,9 +214,7 @@ const Event = () => {
               {eventDate > currentDate && (
                 <dt className="title">
                   Spots available :{" "}
-                  {eventData.seatsAvailable
-                    ? eventData.seatsAvailable
-                    : "No capacity Mentioned"}
+                  {eventData.seatsAvailable ? eventData.seatsAvailable : "None"}
                 </dt>
               )}
               <br />

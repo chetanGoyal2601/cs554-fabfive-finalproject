@@ -164,9 +164,7 @@ const Events = () => {
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 Spots available :{" "}
-                {event.seatsAvailable
-                  ? event.seatsAvailable
-                  : "No capacity Mentioned"}
+                {event.seatsAvailable ? event.seatsAvailable : "None"}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 {event.description
