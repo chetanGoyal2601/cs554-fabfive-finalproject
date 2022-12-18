@@ -14,7 +14,8 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import Nav from 'react-bootstrap/Nav';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 let path = "http://localhost:3001/";
 const labels = {
   0.5: "Useless",
@@ -183,9 +184,9 @@ const Event = () => {
 
     return (
     <div className="purple_background">
-      <div className="row">
-        <div className="col p-4">
-          <Card  variant="light" bg="light" style={{ width: '50rem',height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
+      <Row xs={1} md={2} className="justify-content-md-center">
+        <Col>
+          <Card  variant="light" bg="white" style={{ height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
           overflow: "hidden",borderColor:"#1e0a3c",borderWidth:6}}>
             <CardHeader title={eventData.time} component="div" />
               <CardMedia style={{width:'30rem',height:'28rem',borderBottomRightRadius:"20px",borderBottomLeftRadius:"20px"}}
@@ -365,8 +366,8 @@ const Event = () => {
               </Card.Body>
             </CardContent>
           </Card>
-        </div>
-    </div>
+        </Col>
+    </Row>
     </div>
     );
   }
