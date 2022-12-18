@@ -5,10 +5,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from "react";
 // import '../css/User.css';
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import { Container } from "@mui/system";
 
 export default function Form() {
     const [error, setError] = useState(false);
@@ -42,39 +38,24 @@ export default function Form() {
 
     return (
         <section>
-          <div className="Stevens-Background">
-            <Container fluid>
-                <div className="register2">
-                    <Row className="row">
-                        <Col className="col">
-                            <div className='d-grid'>
-                            <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} style={{height:"10rem",width:"10rem",marginLeft:"auto",marginRight:"auto"}}/>
+            <div className="register">
+                <div className="col-1">
                     <h1>New Password</h1>
-                    <span className='mb-3'>Enter your New Password</span>
-                    <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                        <label className="text-decor" for="password">Password</label>
-                        <input className="text-decor mb-3" id="password" type="password" {...register("newPassword")} placeholder='new password' required />
-
-                        <div className='d-grid'>
-                                    <Button  className="mb-3" variant="primary" size="md">
-                                    SUBMIT
-                                    </Button>
-                                </div>
+                    <span>Enter your New Password</span>
+                    <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
+                        <label for="password">Password</label>
+                        <input id="password" type="password" {...register("newPassword",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='new password' required />
+                        {errors.newPassword && <p id='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
+                        <button className='btn'>Sumbit</button>
                     </form>
                     {error ? (<span id="exists">Invalid password reset details passed</span>) : (validate ? (<span id="valid">Password has been reset successfully </span>) : (found ? (<span id="exists">Password reset link is invalid!! </span>) : ("")))}
                     <br></br>
                     <br></br>
-                    <div className='d-grid'>
-                          <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
-                           Procced to Login!
-                                </Button>
-                      </div>
-                           
+                    <Link to="/signin">Proceed to Log In</Link>
                 </div>
-               </Col>
-               </Row>
-               </div>
-               </Container>
+                <div className="col-2">
+                    <img src={bgImg} alt="" />
+                </div>
             </div>
         </section>
     )
