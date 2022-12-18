@@ -186,8 +186,8 @@ const Event = () => {
     <div className="purple_background">
       <Row xs={1} md={2} className="justify-content-md-center">
         <Col>
-          <Card  variant="light" bg="white" style={{ height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
-          overflow: "hidden",borderColor:"#1e0a3c",borderWidth:6}}>
+          <Card variant="light" bg="white" style={{height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto",
+            overflow: "hidden"}}>
             <CardHeader title={eventData.time} component="div" />
               <CardMedia style={{width:'30rem',height:'28rem',borderBottomRightRadius:"20px",borderBottomLeftRadius:"20px"}}
                 component="img" 
@@ -202,7 +202,7 @@ const Event = () => {
             <CardContent component="div">
               {/* <Typography variant="body2" color="black" component="div"> */}
               {eventData && eventData.title ? (
-                       <Card.Header as="h2">{eventData.title}</Card.Header>
+                       <Card.Header style={{fontSize:'25px',fontWeight:'bolder'}}>{eventData.title}</Card.Header>
                       ) : (
                         <Card.Header>N/A</Card.Header>
                       )}

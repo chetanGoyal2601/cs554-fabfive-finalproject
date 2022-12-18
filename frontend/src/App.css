@@ -69,12 +69,13 @@
   word-wrap: break-word;
 }
 .purple_background{
-  background-color:#1e0a3c;
+  /* background-color:#1e0a3c; */
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat:no-repeat;
   background-size: cover;
   position: relative;
   background-image: url('../src/img/logo_transparent.png');
+  background-size: 85rem 80rem;
 }
 .link{
   text-decoration: none;
