@@ -175,9 +175,7 @@ const Events = () => {
               </Typography>
               <Typography variant="body2" color="black" component="p">
                 Spots available :{" "}
-                {event.seatsAvailable
-                  ? event.seatsAvailable
-                  : "No capacity Mentioned"}
+                {event.seatsAvailable ? event.seatsAvailable : "None"}
               </Typography>
               {/* <blockquote className="blockquote mb-0">
                 <p variant="body2" color="black" component="p">

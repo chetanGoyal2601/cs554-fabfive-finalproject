@@ -246,7 +246,7 @@ const Event = () => {
                       Spots available :{" "}
                       {eventData.seatsAvailable
                         ? eventData.seatsAvailable
-                        : "No capacity Mentioned"}
+                        : "None"}
                     </Card.Title>
                   )}
                   <Card.Title>Description: </Card.Title>
