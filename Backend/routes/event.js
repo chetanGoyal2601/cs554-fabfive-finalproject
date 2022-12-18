@@ -5,6 +5,7 @@ const validations = require("../data/validation");
 const multer = require("multer");
 const eventData = require("../data/events");
 const userData = require("../data/users");
+const xss = require("xss");
 
 const upload = multer({ dest: "images/" });
 
@@ -19,22 +20,36 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     //validations
+    // if (!userId) throw { message: "User not logged in", code: 403 };
+  } catch (e) {
+    return res.status(400).json({ error: e.message ? e.message : e });
+  }
+
+  try {
+    //validations
+    req.body.title = xss(req.body.title);
     req.body.title = validations.checkString(req.body.title, "Title");
+    req.body.description = xss(req.body.description);
     req.body.description = validations.checkString(
       req.body.description,
       "Description"
     );
+    req.body.address = xss(req.body.address);
     req.body.address = validations.checkString(req.body.address, "Address");
+    req.body.address2 = xss(req.body.address2);
     req.body.address2 = validations.checkAddress2(
       req.body.address2,
       "Address 2"
     );
+    req.body.time = xss(req.body.time);
     req.body.time = validations.checkString(req.body.time, "Date & Time");
     if (req.file) {
+      req.file = xss(req.file);
       imageName = validations.checkString(req.file.filename, "Image Name");
     } else {
       imageName = null;
     }
+    req.body.capacity = xss(req.body.capacity);
     req.body.capacity = validations.checkNumber(req.body.capacity, "Capacity");
   } catch (e) {
     return res.status(400).json({ error: e.message ? e.message : e });
