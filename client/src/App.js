@@ -8,7 +8,6 @@ import User_profile from './components/profile';
 import Logout from './components/Logout';
 import Forgot_Password from './components/Forgot_Password';
 import New_Password from './components/New_Password';
-<<<<<<< Updated upstream
 import CreateEvent from "./components/CreateEvent";
 import Events from "./components/Events";
 import Event from "./components/Event";
@@ -17,9 +16,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
-=======
 import Validate from './components/Validate';
->>>>>>> Stashed changes
 
 const App = () => {
   return (
@@ -58,15 +55,11 @@ const App = () => {
           </Container>
         </Navbar>
           <Routes>
-<<<<<<< Updated upstream
             <Route path="/" element={<Home />} />
             <Route exact path="/createevent" element={<CreateEvent />} />
             <Route exact path="/events/page/:page" element={<Events />} />
             <Route exact path="/event/:id" element={<Event />} />
-=======
-            <Route path="/" element={<Navigate to='/validate' />} />
             <Route exact path="/validate" element={<Validate />} />
->>>>>>> Stashed changes
             <Route exact path="/signup" element={<Form />} />
             <Route exact path="/signin" element={<Login />} />
             <Route exact path="/forgot_password" element={<Forgot_Password />} />
