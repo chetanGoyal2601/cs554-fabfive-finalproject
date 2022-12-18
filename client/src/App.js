@@ -16,6 +16,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 const App = () => {
   return (
@@ -44,12 +45,12 @@ const App = () => {
                 />{' '}
               Make Event Happen</Navbar.Brand>
             <Nav>
-                {/* <div className="mb-2">
-                  <Button variant="outline-light" size="md">Login</Button>{' '}
-                  <Button variant="primary" size="md" >SignUp</Button>
-                </div> */}
-                <Nav.Link as={Link}  to="/createevent">Create Event</Nav.Link>
-                <Nav.Link as={Link}  to="/events/page/0">Events</Nav.Link>
+                <div className="p-2">
+                  <Button variant="outline-light" as={Link} to="/signin" size="sm">Login</Button>{' '}
+                  <Button variant="primary" as={Link} to="/signup" size="sm" >SignUp</Button>
+                </div>
+                {/* <Nav.Link as={Link}  to="/createevent">Create Event</Nav.Link>
+                <Nav.Link as={Link}  to="/events/page/0">Events</Nav.Link> */}
             </Nav>
           </Container>
         </Navbar>

@@ -6,6 +6,11 @@ import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import '../css/User.css';
+import { Container } from "@mui/system";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 
 export default function Form() {
     const [response, setResponse] = useState(false);
@@ -59,37 +64,43 @@ export default function Form() {
 
 
     return (
-        <section>
-            <div className="register">
-                <div className="col-1">
-                    <h1>SIGN IN</h1>
-                    <span>Log In and Enjoy the Services</span>
-                    <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                        <label for="email">Email</label>
-                        <input id="email" type="email" {...register("email")} placeholder='username@stevens.edu' />
-                        <label for="password">Password</label>
-                        <input id="password" type="password" {...register("password")} placeholder='password' />
-                        {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
-                        <button className='btn'>Sign In</button>
-                    </form>
-                    {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span id="valid">Verification mail resent ! </span>) : ("")))}
-                    <br></br>
-                    <br></br>
-                    {mail ? (
-                        <button onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
-                    <br>
-                    </br>
-                    <br></br>
-                    <Link to="/forgot_password">Forgot Password</Link>
-                    <br></br>
-                    <br></br>
-                    <Link to="/signup">Not a Member, Sign Up</Link>
+              <div className=" Stevens-Background">
+                <Container fluid>
+                    <div className="register2">
+                        <Row className="row">
+                            <Col className="col">
+                                <div className='d-grid'>
+                                    <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} style={{height:"10rem",width:"10rem",marginLeft:"auto",marginRight:"auto"}}/>
+                                    <h1>LOGIN</h1>
+                                    </div>
+                                    <form  className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
+                                        <label className='mb-3 text-decor' for="email">Email:</label>
+                                        <input id="email" className='mb-3' type="email" {...register("email")} placeholder='username@stevens.edu' />
+                                        <label className='mb-3 text-decor' for="password">Password:</label>
+                                        <input className='mb-3' id="password" type="password" {...register("password")} placeholder='password' />
+                                        {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
+                                        <Button variant="primary" className='mb-3' size="md">
+                                           SIGN IN
+                                        </Button>
+                                    </form>
+                                    {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span id="valid">Verification mail resent ! </span>) : ("")))}
+                                    <br></br>
+                                    
+                                    {mail ? (
+                                    <button onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
+                                    <div className="d-grid gap-2">
+                                        <Button variant="secondary" to="/forgot_password" as={Link} size="md">
+                                            Forgot Password
+                                        </Button>
+                                        <Button variant="dark" as={Link} to="/signup" size="md">
+                                            Not a Member, Sign Up
+                                        </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </Container>
                 </div>
-                <div className="col-2">
-                    <img src={bgImg} alt="" />
-                </div>
-            </div>
-        </section>
     )
 }
 
