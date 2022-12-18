@@ -195,8 +195,8 @@ const Events = () => {
             eventDate > currentDate &&
             event.host &&
             loggedInUser === event.host && (
-              <div className="p-2">
-                <Button
+              <div>
+                <Button size="sm"
                   variant="danger"
                   onClick={() => {
                     deleteEvent(event._id);
@@ -204,7 +204,7 @@ const Events = () => {
                 >
                   Delete Event
                 </Button>{' '}
-                <Button
+                <Button size="sm"
                   variant="secondary"
                   onClick={() => {
                     joinDiscussion(event._id, loggedInUser);
@@ -212,7 +212,7 @@ const Events = () => {
                 >
                   Enter Discussion
                 </Button>{' '}
-                <Button
+                <Button size="sm"
                   variant="primary"
                   onClick={() => {
                     chatWithHost(event._id, loggedInUser);
@@ -227,8 +227,8 @@ const Events = () => {
              {loggedInUser &&
               event.rsvps && eventDate > currentDate &&
               event.rsvps.includes(loggedInUser) && (
-                <div>
-                  <Button
+                <div >
+                  <Button size="sm"
                     variant="primary"
                     onClick={() => {
                       chatWithHost(event._id, loggedInUser);
@@ -236,7 +236,7 @@ const Events = () => {
                   >
                     Chat with Host
                   </Button>{' '}
-                  <Button  
+                  <Button  size="sm"
                     variant="secondary"
                     onClick={() => {
                       joinDiscussion(event._id, loggedInUser);
@@ -244,7 +244,7 @@ const Events = () => {
                   >
                     Enter Discussion
                   </Button>{' '}
-                  <Button 
+                  <Button size="sm"
                     variant="danger"
                     onClick={() => {
                       updateRSVP(event._id, loggedInUser);
