@@ -98,8 +98,8 @@ export default function Form() {
                         <span>Don't worry, We are Here..!!</span>
                         <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                             <label for="email">Email</label>
-                            <input id="email" type="email" {...register("email")} placeholder='username@stevens.edu' required />
-
+                            <input id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z]+@stevens\.edu/i})} placeholder='username@stevens.edu' required />
+                            {errors.email && <p id='exists'>Please enter Stevens mail id</p>}
                             <button className='btn'>Sumbit</button>
                         </form>
                         {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span id="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
@@ -122,7 +122,8 @@ export default function Form() {
                         <span>Please Enter the OTP received via email</span>
                         <form id='form' className='flex flex-col' onSubmit={handleSubmit1(onSubmit2)}>
                             <label for="number">OTP</label>
-                            <input id="number" type="number"  {...register1("otp")} placeholder='Enter OTP' required />
+                            <input id="number" type="number"  {...register1("otp",{ required: true, pattern: /^\d{4}$/})} placeholder='Enter OTP' required />
+                            {errors.otp && <p id='exists'>OTP should be 4 numeric digits</p>}
                             <label for="password">Password</label>
                             <input id="password" type="password" {...register1("newPassword")} placeholder='new password' required />
                             <button className='btn'>Sumbit</button>

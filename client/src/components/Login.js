@@ -66,10 +66,11 @@ export default function Form() {
                     <span>Log In and Enjoy the Services</span>
                     <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label for="email">Email</label>
-                        <input id="email" type="email" {...register("email")} placeholder='username@stevens.edu' />
+                        <input id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z]+@stevens\.edu/i})} placeholder='username@stevens.edu' />
+                        {errors.email && <p id='exists'>Please enter Stevens mail id</p>}
                         <label for="password">Password</label>
-                        <input id="password" type="password" {...register("password")} placeholder='password' />
-                        {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
+                        <input id="password" type="password" {...register("password",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='password' />
+                        {errors.password && <p id='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                         <button className='btn'>Sign In</button>
                     </form>
                     {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span id="valid">Verification mail resent ! </span>) : ("")))}

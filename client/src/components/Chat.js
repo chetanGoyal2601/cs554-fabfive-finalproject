@@ -17,6 +17,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Circle } from "better-react-spinkit";
 import person_placeholder from '../img/person_placeholder.jpeg';
 // import '../css/Chat.css';
+<<<<<<< Updated upstream
+=======
+//import 'bootstrap/dist/css/bootstrap.min.css';
+>>>>>>> Stashed changes
 
 
 

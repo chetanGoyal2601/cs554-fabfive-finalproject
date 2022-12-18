@@ -56,13 +56,17 @@ export default function Form() {
 
                     <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label for="fullname">Full Name</label>
-                        <input id="fullname" type="text" {...register("name")} placeholder='Your Name' required />
+                        <input id="fullname" type="text" {...register("name",{ required: true,minLength: 4, maxLength: 50 })} placeholder='Your Name' required />
+                        {errors.name && <p id="exists">Name should be min 4 characters and max 50 characters</p>}
                         <label for="email">Email</label>
-                        <input id="email" type="email" {...register("email")} placeholder='username@stevens.edu' required />
+                        <input id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z]+@stevens\.edu/i})} placeholder='username@stevens.edu' required />
+                        {errors.email && <p id='exists'>Please enter Stevens mail id</p>}
                         <label for="password">Password</label>
-                        <input id="password" type="password" {...register("password")} placeholder='password' required />
+                        <input id="password" type="password" {...register("password",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='password' required />
+                        {errors.password && <p id='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                         <label for="dob">Date Of Birth</label>
-                        <input id="dob" type="date" {...register("dateOfBirth")} required />
+                        <input id="dob" type="date" {...register("dateOfBirth")} />
+                        {/* {errors.date && <p id='exists'>Please enter Date from the past</p>} */}
                         <label for="gender">Gender</label>
                         <select id="gender"{...register("gender")} required>
                             <option value="Male">Male</option>

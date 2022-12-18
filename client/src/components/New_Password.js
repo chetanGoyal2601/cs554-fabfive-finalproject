@@ -44,8 +44,8 @@ export default function Form() {
                     <span>Enter your New Password</span>
                     <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label for="password">Password</label>
-                        <input id="password" type="password" {...register("newPassword")} placeholder='new password' required />
-
+                        <input id="password" type="password" {...register("newPassword",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='new password' required />
+                        {errors.newPassword && <p id='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                         <button className='btn'>Sumbit</button>
                     </form>
                     {error ? (<span id="exists">Invalid password reset details passed</span>) : (validate ? (<span id="valid">Password has been reset successfully </span>) : (found ? (<span id="exists">Password reset link is invalid!! </span>) : ("")))}
