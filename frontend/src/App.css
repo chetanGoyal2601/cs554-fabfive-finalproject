@@ -75,7 +75,6 @@
   background-size: cover;
   position: relative;
   background-image: url('../src/img/logo_transparent.png');
-  background-size: 85rem 80rem;
 }
 .link{
   text-decoration: none;
