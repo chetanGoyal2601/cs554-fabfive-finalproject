@@ -44,19 +44,17 @@ async function setRsvp(eventId, userId) {
     email: user.email,
     password: user.password,
     dateOfBirth: user.dateOfBirth,
+    events: user.events,
     gender: user.gender,
     rating: user.rating,
     is_host: user.is_host,
     rsvp_d: user.rsvp_d,
-    currently_hosted: user.currently_hosted,
-    past_hosted: user.past_hosted,
     reviews: user.reviews,
     comments: user.comments,
     reviews_upvoted: user.reviews_upvoted,
     reviews_downvoted: user.reviews_downvoted,
     comments_upvoted: user.comments_upvoted,
     comments_downvoted: user.comments_downvoted,
-    all_chats: user.all_chats,
     verified: user.verified,
   };
 
@@ -79,14 +77,14 @@ async function setCurrentlyHosted(eventId, userId, action) {
   const userCollection = await users();
   const user = await this.get(userId);
 
-  if (action == "Delete" && user.is_host.includes(eventId)) {
-    user.is_host.splice(user.is_host.indexOf(eventId), 1);
-  } else if (action == "Delete" && !user.is_host.includes(eventId))
+  if (action == "Delete" && user.events.includes(eventId)) {
+    user.events.splice(user.events.indexOf(eventId), 1);
+  } else if (action == "Delete" && !user.events.includes(eventId))
     throw { message: "The event does not belong to the host", code: 404 };
 
-  if (action == "Add" && !user.is_host.includes(eventId)) {
-    user.is_host.push(eventId);
-  } else if (action == "Add" && user.is_host.includes(eventId)) {
+  if (action == "Add" && !user.events.includes(eventId)) {
+    user.events.push(eventId);
+  } else if (action == "Add" && user.events.includes(eventId)) {
     throw { message: "The host already has this event", code: 404 };
   }
 
@@ -99,15 +97,13 @@ async function setCurrentlyHosted(eventId, userId, action) {
     rating: user.rating,
     is_host: user.is_host,
     rsvp_d: user.rsvp_d,
-    currently_hosted: user.currently_hosted,
-    past_hosted: user.past_hosted,
     reviews: user.reviews,
     comments: user.comments,
+    events: user.events,
     reviews_upvoted: user.reviews_upvoted,
     reviews_downvoted: user.reviews_downvoted,
     comments_upvoted: user.comments_upvoted,
     comments_downvoted: user.comments_downvoted,
-    all_chats: user.all_chats,
     verified: user.verified,
   };
 
@@ -143,15 +139,13 @@ async function calcAvgRating(userId) {
     rating: averageRating,
     is_host: user.is_host,
     rsvp_d: user.rsvp_d,
-    currently_hosted: user.currently_hosted,
-    past_hosted: user.past_hosted,
+    events: user.events,
     reviews: user.reviews,
     comments: user.comments,
     reviews_upvoted: user.reviews_upvoted,
     reviews_downvoted: user.reviews_downvoted,
     comments_upvoted: user.comments_upvoted,
     comments_downvoted: user.comments_downvoted,
-    all_chats: user.all_chats,
     verified: user.verified,
   };
 
