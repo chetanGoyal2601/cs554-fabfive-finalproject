@@ -176,6 +176,7 @@ async function setRsvp(eventId, userId) {
   if (updatedInfo.modifiedCount === 0) {
     throw { message: "Could not update event successfully", code: 500 };
   }
+  let chatId = createChat(eventId, newEvent.host, userId);
   let answer = { event: await this.get(eventId), updated: true };
   return answer;
 }

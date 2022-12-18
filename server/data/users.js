@@ -79,14 +79,14 @@ async function setCurrentlyHosted(eventId, userId, action) {
   const userCollection = await users();
   const user = await this.get(userId);
 
-  if (action == "Delete" && user.currently_hosted.includes(eventId)) {
-    user.currently_hosted.splice(user.currently_hosted.indexOf(eventId), 1);
-  } else if (action == "Delete" && !user.currently_hosted.includes(eventId))
+  if (action == "Delete" && user.is_host.includes(eventId)) {
+    user.is_host.splice(user.is_host.indexOf(eventId), 1);
+  } else if (action == "Delete" && !user.is_host.includes(eventId))
     throw { message: "The event does not belong to the host", code: 404 };
 
-  if (action == "Add" && !user.currently_hosted.includes(eventId)) {
-    user.currently_hosted.push(eventId);
-  } else if (action == "Add" && user.currently_hosted.includes(eventId)) {
+  if (action == "Add" && !user.is_host.includes(eventId)) {
+    user.is_host.push(eventId);
+  } else if (action == "Add" && user.is_host.includes(eventId)) {
     throw { message: "The host already has this event", code: 404 };
   }
 
