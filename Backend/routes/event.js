@@ -9,6 +9,7 @@ const userData = require("../data/users");
 const upload = multer({ dest: "images/" });
 
 router.post("/", upload.single("image"), async (req, res) => {
+  let imageName;
   try {
     //validations
     // if (!userId) throw { message: "User not logged in", code: 403 };
@@ -30,15 +31,9 @@ router.post("/", upload.single("image"), async (req, res) => {
     );
     req.body.time = validations.checkString(req.body.time, "Date & Time");
     if (req.file) {
-      req.file.filename = validations.checkString(
-        req.file.filename,
-        "Image Name"
-      );
+      imageName = validations.checkString(req.file.filename, "Image Name");
     } else {
-      throw {
-        message: "You need to provide an Image for Event Poster",
-        code: 400,
-      };
+      imageName = null;
     }
     req.body.capacity = validations.checkNumber(req.body.capacity, "Capacity");
   } catch (e) {
@@ -46,7 +41,6 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 
   try {
-    const imageName = req.file.filename;
     const userId = "23";
     let event = await eventData.createEvent(
       req.body.title,

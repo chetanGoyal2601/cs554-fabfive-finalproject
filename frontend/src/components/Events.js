@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import noImage from "../img/Party.jpeg";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -139,7 +140,7 @@ const Events = () => {
           <Link className="pokelink" to={`/event/${event._id}`}>
             <CardMedia
               component="img"
-              image={path + event.image}
+              image={event.image ? path + event.image : noImage}
               alt={event._id}
             />
             <CardContent>

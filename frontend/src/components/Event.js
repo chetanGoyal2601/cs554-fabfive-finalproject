@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import noImage from "../img/download.jpeg";
+import noImage from "../img/Party.jpeg";
 // import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import Card from "@mui/material/Card";
@@ -140,7 +140,8 @@ const Event = () => {
     fetchData();
   }, [id]);
 
-  if (isDeleted) return <Alert severity="success">{errorMessage}</Alert>;
+  if (isDeleted)
+    return <Alert severity="success">Event was successfully deleted</Alert>;
 
   if (isError)
     return (

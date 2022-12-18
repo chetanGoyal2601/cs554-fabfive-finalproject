@@ -34,7 +34,7 @@ async function createEvent(
   address = validations.checkString(address, "Address");
   address2 = validations.checkAddress2(address2, "Address 2");
   time = validations.checkString(time, "Date & Time");
-  image = validations.checkString(image, "Image Name");
+  // image = validations.checkString(image, "Image Name");
   capacity = validations.checkNumber(capacity, "Capacity");
   // userId = validations.checkId(userId, "User ID");
   const eventCollection = await events();

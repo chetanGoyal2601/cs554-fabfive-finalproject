@@ -20,7 +20,7 @@ const CreateEvent = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ address2: "" });
   const [errors, setErrors] = useState({});
 
   const setField = (field, value) => {
