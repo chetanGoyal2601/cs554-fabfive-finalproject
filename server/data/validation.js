@@ -87,7 +87,7 @@ module.exports = {
     return strVal;
   },
   checkAddress2(strVal, varName) {
-    if (!strVal) strVal = "";
+    if (!strVal) strVal = null;
     else {
       if (typeof strVal !== "string")
         throw { message: `Error:${varName} must be a string`, code: 400 };

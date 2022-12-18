@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useNavigate } from "react";
 import axios from "axios";
+import noImage from "../img/Party.jpeg";
 import { useParams, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -13,6 +14,7 @@ import Container from "react-bootstrap/Container";
 import Alert from "@mui/material/Alert";
 import { CardHeader } from "@mui/material";
 let path = "/";
+
 // let userId = "123";
 
 const Events = () => {
@@ -82,18 +84,14 @@ const Events = () => {
 
   function joinDiscussion(eventId, loggedInUser) {}
 
-  function chatWithHost(eventId, loggedInUser) {
-    
-  }
+  function chatWithHost(eventId, loggedInUser) {}
 
   // function removeRsvp(eventId, loggedInUser) {}
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axios.get(
-          `/event/page/${page}`
-        );
+        const { data } = await axios.get(`/event/page/${page}`);
         if (data.previous === null) setPrevious(false);
         else setPrevious(true);
         if (data.next === null) setNext(false);
@@ -137,36 +135,51 @@ const Events = () => {
       address = "No Address provided";
     }
     return (
-     
       <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={nanoid()}>
-        <Card sx={{ maxWidth: 380, border: 3,borderColor:"white", borderRadius: 8,marginLeft:"auto",marginRight:"auto"}}>
-          <Link className="link" sx={{fontWeight:600}} to={`/event/${event._id}`}>
-            <CardMedia height={200}
+        <Card
+          sx={{
+            maxWidth: 380,
+            border: 3,
+            borderColor: "white",
+            borderRadius: 8,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Link
+            className="link"
+            sx={{ fontWeight: 600 }}
+            to={`/event/${event._id}`}
+          >
+            <CardMedia
+              height={200}
               component="img"
-              image={path + event.image}
+              image={event.image ? path + event.image : noImage}
               alt={event._id}
             />
-            <CardContent  sx={{
-                      fontWeight: "bold",
-                      color: "black",
-                      fontSize:25
-                    }}>
-                <Typography class="text-uppercase">
-                  {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
-                </Typography>
-                <Typography variant="body2" color="black" component="p">
-                  {event.time ? event.time : "No Time Mentioned"}
-                </Typography>
-                <Typography variant="body2" color="black" component="p">
-                  {address}
-                </Typography>
-                <Typography variant="body2" color="black" component="p">
-                  Spots available :{" "}
-                  {event.seatsAvailable
-                    ? event.seatsAvailable
-                    : "No capacity Mentioned"}
-                </Typography>
-                {/* <blockquote className="blockquote mb-0">
+            <CardContent
+              sx={{
+                fontWeight: "bold",
+                color: "black",
+                fontSize: 25,
+              }}
+            >
+              <Typography class="text-uppercase">
+                {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
+              </Typography>
+              <Typography variant="body2" color="black" component="p">
+                {event.time ? event.time : "No Time Mentioned"}
+              </Typography>
+              <Typography variant="body2" color="black" component="p">
+                {address}
+              </Typography>
+              <Typography variant="body2" color="black" component="p">
+                Spots available :{" "}
+                {event.seatsAvailable
+                  ? event.seatsAvailable
+                  : "No capacity Mentioned"}
+              </Typography>
+              {/* <blockquote className="blockquote mb-0">
                 <p variant="body2" color="black" component="p">
                   {event.description
                     ? event.description.substring(0, 139) + "..."
@@ -205,7 +218,7 @@ const Events = () => {
                   }}
                 >
                   Delete Event
-                </Button>{' '}
+                </Button>{" "}
                 <Button
                   variant="secondary"
                   onClick={() => {
@@ -213,55 +226,48 @@ const Events = () => {
                   }}
                 >
                   Enter Discussion
-                </Button>{' '}
+                </Button>{" "}
                 <Link to={`/chat/${event._id}/${loggedInUser}`}>
-                <Button
-                  variant="primary"
-                  
-                >
-                    Chat
-                    </Button>
-                    </Link>
+                  <Button variant="primary">Chat</Button>
+                </Link>
               </div>
             )}
 
-
-             {loggedInUser &&
-              event.rsvps && eventDate > currentDate &&
-              event.rsvps.includes(loggedInUser) && (
-                <div>
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      chatWithHost(event._id, loggedInUser);
-                    }}
-                  >
-                    Chat with Host
-                  </Button>{' '}
-                  <Button  
-                    variant="secondary"
-                    onClick={() => {
-                      joinDiscussion(event._id, loggedInUser);
-                    }}
-                  >
-                    Enter Discussion
-                  </Button>{' '}
-                  <Button 
-                    variant="danger"
-                    onClick={() => {
-                      updateRSVP(event._id, loggedInUser);
-                    }}
-                  >
-                    Remove RSVP
-                  </Button>
-                </div>
-              )} 
-            <br />
-            <br />
-          </Card>
-        </Grid>
-        
-        
+          {loggedInUser &&
+            event.rsvps &&
+            eventDate > currentDate &&
+            event.rsvps.includes(loggedInUser) && (
+              <div>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    chatWithHost(event._id, loggedInUser);
+                  }}
+                >
+                  Chat with Host
+                </Button>{" "}
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    joinDiscussion(event._id, loggedInUser);
+                  }}
+                >
+                  Enter Discussion
+                </Button>{" "}
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    updateRSVP(event._id, loggedInUser);
+                  }}
+                >
+                  Remove RSVP
+                </Button>
+              </div>
+            )}
+          <br />
+          <br />
+        </Card>
+      </Grid>
     );
   };
 
@@ -301,11 +307,17 @@ const Events = () => {
             Next
           </Link>
         )}
-        <br/>
-        <br/>
-        <br/>
-        <Grid container className="confetti-Background" spacing={12}  alignItems={"center"}  paddingLeft={10} paddingRight={10}>
-         
+        <br />
+        <br />
+        <br />
+        <Grid
+          container
+          className="confetti-Background"
+          spacing={12}
+          alignItems={"center"}
+          paddingLeft={10}
+          paddingRight={10}
+        >
           {card}
         </Grid>
       </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 import noImage from "../img/download.jpeg";
 // import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardMedia";
@@ -13,7 +13,7 @@ import Button from "react-bootstrap/Button";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import Nav from 'react-bootstrap/Nav';
+import Nav from "react-bootstrap/Nav";
 
 let path = "/";
 const labels = {
@@ -141,7 +141,8 @@ const Event = () => {
     fetchData();
   }, [id]);
 
-  if (isDeleted) return <Alert severity="success">{errorMessage}</Alert>;
+  if (isDeleted)
+    return <Alert severity="success">Event was successfully deleted</Alert>;
 
   if (isError)
     return (
@@ -182,14 +183,35 @@ const Event = () => {
     }
 
     return (
-    <div className="purple_background">
-      <div className="row">
-        <div className="col p-4">
-          <Card  variant="light" bg="light" style={{ width: '50rem',height:'auto',alignItems:"center", marginLeft:"auto",marginRight:"auto",paddingTop:"auto",paddingBottom:"auto", borderRadius: "20px",
-          overflow: "hidden",borderColor:"#1e0a3c",borderWidth:6}}>
-            <CardHeader title={eventData.time} component="div" />
-              <CardMedia style={{width:'30rem',height:'28rem',borderBottomRightRadius:"20px",borderBottomLeftRadius:"20px"}}
-                component="img" 
+      <div className="purple_background">
+        <div className="row">
+          <div className="col p-4">
+            <Card
+              variant="light"
+              bg="light"
+              style={{
+                width: "50rem",
+                height: "auto",
+                alignItems: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
+                paddingTop: "auto",
+                paddingBottom: "auto",
+                borderRadius: "20px",
+                overflow: "hidden",
+                borderColor: "#1e0a3c",
+                borderWidth: 6,
+              }}
+            >
+              <CardHeader title={eventData.time} component="div" />
+              <CardMedia
+                style={{
+                  width: "30rem",
+                  height: "28rem",
+                  borderBottomRightRadius: "20px",
+                  borderBottomLeftRadius: "20px",
+                }}
+                component="img"
                 alt="EventsImage"
                 image={
                   eventData.image // && show.thumbnail[0].path
@@ -197,177 +219,200 @@ const Event = () => {
                     : noImage
                 }
               />
-            
-            <CardContent component="div">
-              {/* <Typography variant="body2" color="black" component="div"> */}
-              {eventData && eventData.title ? (
-                       <Card.Header as="h2">{eventData.title}</Card.Header>
-                      ) : (
-                        <Card.Header>N/A</Card.Header>
-                      )}
-              <Card.Body>
-                <Card.Title> Time :</Card.Title>
-                      {eventData && eventData.time ? (
-                        <Card.Text>{eventData.time}</Card.Text>
-                      ) : (
-                        <Card.Text>N/A</Card.Text>
-                      )}
-                      <Card.Title>Address: </Card.Title>
 
-                    {eventData && eventData.address ? (
+              <CardContent component="div">
+                {/* <Typography variant="body2" color="black" component="div"> */}
+                {eventData && eventData.title ? (
+                  <Card.Header as="h2">{eventData.title}</Card.Header>
+                ) : (
+                  <Card.Header>N/A</Card.Header>
+                )}
+                <Card.Body>
+                  <Card.Title> Time :</Card.Title>
+                  {eventData && eventData.time ? (
+                    <Card.Text>{eventData.time}</Card.Text>
+                  ) : (
+                    <Card.Text>N/A</Card.Text>
+                  )}
+                  <Card.Title>Address: </Card.Title>
+
+                  {eventData && eventData.address ? (
                     <Card.Text>{address}</Card.Text>
-                    ) : (
-                      <Card.Text>N/A</Card.Text>
-                    )}
-                    {eventDate > currentDate && (
+                  ) : (
+                    <Card.Text>N/A</Card.Text>
+                  )}
+                  {eventDate > currentDate && (
                     <Card.Title>
-                        Spots available :{" "}
-                        {eventData.seatsAvailable
-                          ? eventData.seatsAvailable
-                          : "No capacity Mentioned"}
+                      Spots available :{" "}
+                      {eventData.seatsAvailable
+                        ? eventData.seatsAvailable
+                        : "No capacity Mentioned"}
                     </Card.Title>
+                  )}
+                  <Card.Title>Description: </Card.Title>
+                  <Card.Text className="word_wrap">
+                    {eventData.description}
+                  </Card.Text>
+
+                  {loggedInUser &&
+                    eventData.host &&
+                    eventData.host !== loggedInUser &&
+                    eventData.rsvps &&
+                    eventData.rsvps.includes(loggedInUser) &&
+                    eventData.eventDate &&
+                    eventDate < currentDate && (
+                      <div>
+                        <Typography component="legend">
+                          Rate the host
+                        </Typography>
+                        <Rating
+                          name="hover-feedback"
+                          value={value ? value : userRating}
+                          precision={0.5}
+                          getLabelText={getLabelText}
+                          onChange={(event, newValue) => {
+                            if (newValue) {
+                              setValue(newValue);
+                              setRating(eventData._id, newValue);
+                            }
+                          }}
+                          onChangeActive={(event, newHover) => {
+                            setHover(newHover);
+                          }}
+                          emptyIcon={
+                            <StarIcon
+                              style={{ opacity: 0.55 }}
+                              fontSize="inherit"
+                            />
+                          }
+                        />
+                        {value !== null && (
+                          <Box sx={{ ml: 2 }}>
+                            {labels[hover !== -1 ? hover : value]}
+                          </Box>
+                        )}
+                      </div>
                     )}
-                    <Card.Title>Description: </Card.Title>
-                    <Card.Text className="word_wrap">{eventData.description}</Card.Text>
-             
-            
-              {loggedInUser &&
-                eventData.host &&
-                eventData.host !== loggedInUser &&
-                eventData.rsvps &&
-                eventData.rsvps.includes(loggedInUser) &&
-                eventData.eventDate &&
-                eventDate < currentDate && (
-                  <div>
-                    <Typography component="legend">Rate the host</Typography>
-                    <Rating
-                      name="hover-feedback"
-                      value={value ? value : userRating}
-                      precision={0.5}
-                      getLabelText={getLabelText}
-                      onChange={(event, newValue) => {
-                        if (newValue) {
-                          setValue(newValue);
-                          setRating(eventData._id, newValue);
-                        }
-                      }}
-                      onChangeActive={(event, newHover) => {
-                        setHover(newHover);
-                      }}
-                      emptyIcon={
-                        <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                      }
-                    />
-                    {value !== null && (
-                      <Box sx={{ ml: 2 }}>
-                        {labels[hover !== -1 ? hover : value]}
-                      </Box>
-                    )}
-                  </div>
-                )}
-              {loggedInUser &&
-                eventData.eventDate &&
-                eventDate > currentDate &&
-                eventData.rsvps &&
-                eventData.host &&
-                eventData.seatsAvailable &&
-                !eventData.rsvps.includes(loggedInUser) &&
-                eventData.host !== loggedInUser &&
-                eventData.seatsAvailable > 0 && (
-                  <Button size="md"
-                    variant="dark"
-                    onClick={() => {
-                      updateRSVP(eventData._id);
-                    }}
-                  >
-                    RSVP
-                  </Button>
-                )}
-              {loggedInUser &&
-                eventDate < currentDate &&
-                eventData.host &&
-                loggedInUser === eventData.host && (
-                  <div>
-                    <Typography component="legend">Host Rating</Typography>
-                    <Rating
-                      name="read-only"
-                      value={sum / eventData.ratings.length}
-                      readOnly
-                    />
-                  </div>
-                )}
-                {loggedInUser &&
-                  eventDate > currentDate &&
-                  eventData.host &&
-                  loggedInUser === eventData.host && (
-                    <div className="mb-2">
-                      <Button size="md"
-                        variant="danger"
-                        onClick={() => {
-                          deleteEvent(eventData._id);
-                        }}
-                      >
-                        Delete Event
-                      </Button>{' '}
-                      <Button size="md"
-                        variant="primary"
-                        onClick={() => {
-                          joinDiscussion(eventData._id, loggedInUser);
-                        }}
-                      >
-                        Enter Discussion
-                      </Button>{' '}
-                      <Button size="md"
+                  {loggedInUser &&
+                    eventData.eventDate &&
+                    eventDate > currentDate &&
+                    eventData.rsvps &&
+                    eventData.host &&
+                    eventData.seatsAvailable &&
+                    !eventData.rsvps.includes(loggedInUser) &&
+                    eventData.host !== loggedInUser &&
+                    eventData.seatsAvailable > 0 && (
+                      <Button
+                        size="md"
                         variant="dark"
                         onClick={() => {
-                          chatWithHost(eventData._id, loggedInUser);
+                          updateRSVP(eventData._id);
                         }}
                       >
-                        Chat
+                        RSVP
                       </Button>
-                    </div>
-                  )}
+                    )}
+                  {loggedInUser &&
+                    eventDate < currentDate &&
+                    eventData.host &&
+                    loggedInUser === eventData.host && (
+                      <div>
+                        <Typography component="legend">Host Rating</Typography>
+                        <Rating
+                          name="read-only"
+                          value={sum / eventData.ratings.length}
+                          readOnly
+                        />
+                      </div>
+                    )}
+                  {loggedInUser &&
+                    eventDate > currentDate &&
+                    eventData.host &&
+                    loggedInUser === eventData.host && (
+                      <div className="mb-2">
+                        <Button
+                          size="md"
+                          variant="danger"
+                          onClick={() => {
+                            deleteEvent(eventData._id);
+                          }}
+                        >
+                          Delete Event
+                        </Button>{" "}
+                        <Button
+                          size="md"
+                          variant="primary"
+                          onClick={() => {
+                            joinDiscussion(eventData._id, loggedInUser);
+                          }}
+                        >
+                          Enter Discussion
+                        </Button>{" "}
+                        <Button
+                          size="md"
+                          variant="dark"
+                          onClick={() => {
+                            chatWithHost(eventData._id, loggedInUser);
+                          }}
+                        >
+                          Chat
+                        </Button>
+                      </div>
+                    )}
 
-              {loggedInUser &&
-                eventDate &&
-                eventDate > currentDate &&
-                eventData.rsvps &&
-                eventData.rsvps.includes(loggedInUser) && (
-                  <div className="mb-2">
-                  <Button size="md"
-                      variant="primary"
-                      onClick={() => {
-                        chatWithHost(eventData._id, loggedInUser);
-                      }}
-                    >
-                      Chat with Host
-                    </Button>{' '}
-                    <Button size="md"
-                      variant="secondary"
-                      onClick={() => {
-                        joinDiscussion(eventData._id, loggedInUser);
-                      }}
-                    >
-                      Enter Discussion
-                    </Button>{' '}
-                    <Button size="md"
-                      variant="danger"
-                      onClick={() => {
-                        updateRSVP(eventData._id, loggedInUser);
-                      }}
-                    >
-                      Remove RSVP
-                    </Button>
-                  </div>
-                )}
-              <br />
-              <Nav.Link as={Link}  to="/events/page/0" style={{fontSize:"18px",fontWeight:"bold",color:"#1e0a3c"}}>Back to all events</Nav.Link>
-              </Card.Body>
-            </CardContent>
-          </Card>
+                  {loggedInUser &&
+                    eventDate &&
+                    eventDate > currentDate &&
+                    eventData.rsvps &&
+                    eventData.rsvps.includes(loggedInUser) && (
+                      <div className="mb-2">
+                        <Button
+                          size="md"
+                          variant="primary"
+                          onClick={() => {
+                            chatWithHost(eventData._id, loggedInUser);
+                          }}
+                        >
+                          Chat with Host
+                        </Button>{" "}
+                        <Button
+                          size="md"
+                          variant="secondary"
+                          onClick={() => {
+                            joinDiscussion(eventData._id, loggedInUser);
+                          }}
+                        >
+                          Enter Discussion
+                        </Button>{" "}
+                        <Button
+                          size="md"
+                          variant="danger"
+                          onClick={() => {
+                            updateRSVP(eventData._id, loggedInUser);
+                          }}
+                        >
+                          Remove RSVP
+                        </Button>
+                      </div>
+                    )}
+                  <br />
+                  <Nav.Link
+                    as={Link}
+                    to="/events/page/0"
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      color: "#1e0a3c",
+                    }}
+                  >
+                    Back to all events
+                  </Nav.Link>
+                </Card.Body>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-    </div>
-    </div>
+      </div>
     );
   }
 };
