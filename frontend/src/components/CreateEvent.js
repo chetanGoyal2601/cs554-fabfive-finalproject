@@ -10,9 +10,12 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Alert from "@mui/material/Alert";
 
 const CreateEvent = () => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
   const [file, setFile] = useState();
   const [response, setResponse] = useState();
-  const [value, setValue] = React.useState(dayjs(new Date()));
+  const [value, setValue] = React.useState(dayjs(tomorrow));
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -62,6 +65,7 @@ const CreateEvent = () => {
       newErrors.capacity = "Please enter an Capacity";
     else {
       if (isNaN(capacity)) newErrors.capacity = "Please enter a valid Capacity";
+      if (capacity <= 0) newErrors.capacity = "Please enter a valid Capacity";
     }
     return newErrors;
   };
@@ -195,9 +199,9 @@ const CreateEvent = () => {
               value={value}
               onChange={handleChange}
               type="datetime-local"
-              minDate={new Date()}
+              minDate={tomorrow}
               maxDate={new Date().setFullYear(2023)}
-              minTime={dayjs("2018-01-01T08:00")}
+              // minTime={dayjs("2018-01-01T08:00")}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
