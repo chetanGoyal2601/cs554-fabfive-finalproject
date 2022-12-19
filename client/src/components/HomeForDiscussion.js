@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 import HeaderDiscussion from "./HeaderDiscussion";
@@ -10,6 +10,9 @@ const HomeForDiscussion = () => {
   // let { eventId } = useParams();
   const eventId = "2";
   const [posts, setPosts] = useState([]);
+  const userDetails = useOutletContext();
+  const userId = userDetails.userId;
+  const userName = userDetails.name;
 
   useEffect(() => {
     const getPosts = async () => {
@@ -33,7 +36,7 @@ const HomeForDiscussion = () => {
     const res = await axios.post(
       `http://localhost:3001/discussions/${eventId}`,
       {
-        data: { newPost: postText },
+        data: { newPost: postText, userId: userId },
       },
       { headers: {} }
     );
@@ -41,6 +44,7 @@ const HomeForDiscussion = () => {
     const data = await res.data;
     //console.log(data);
     const newPost = data;
+    (newPost.userId = userId), (newPost.userName = userName);
     // console.log(newPost);
     setPosts([newPost, ...posts]);
   };
@@ -65,14 +69,14 @@ const HomeForDiscussion = () => {
     await axios.patch(
       `http://localhost:3001/discussions/like`,
       {
-        data: { postId: postId },
+        data: { postId: postId, userId: userId },
       },
       { headers: {} }
     );
     setPosts(
       posts.map((post) =>
         post._id === postId
-          ? { ...post, totalLikes: editLikeOnPost(post.likes, post.userId) }
+          ? { ...post, totalLikes: editLikeOnPost(post.likes, userId) }
           : post
       )
     );
@@ -91,14 +95,14 @@ const HomeForDiscussion = () => {
     await axios.patch(
       `http://localhost:3001/discussions/disLike`,
       {
-        data: { postId: postId },
+        data: { postId: postId, userId: userId },
       },
       { headers: {} }
     );
     setPosts(
       posts.map((post) =>
         post._id === postId
-          ? { ...post, totalLikes: editUnLikeOnPost(post.likes, post.userId) }
+          ? { ...post, totalLikes: editUnLikeOnPost(post.likes, userId) }
           : post
       )
     );
@@ -119,7 +123,7 @@ const HomeForDiscussion = () => {
     const res = await axios.put(
       `http://localhost:3001/discussions/comment`,
       {
-        data: { postId: postId, newComment: comment },
+        data: { postId: postId, newComment: comment, userId: userId },
       },
       { headers: {} }
     );
@@ -131,11 +135,7 @@ const HomeForDiscussion = () => {
         post._id === postId
           ? {
               ...post,
-              comments: editCommentsOnPost(
-                post.comments,
-                post.currentUserName,
-                newComment
-              ),
+              comments: editCommentsOnPost(post.comments, userName, newComment),
             }
           : post
       )
@@ -168,6 +168,7 @@ const HomeForDiscussion = () => {
       <AddNewFormDiscussion onAdd={addPost} formType="post" />
       {posts.length > 0 ? (
         <PostsDiscussions
+          userId={userId}
           posts={posts}
           onDelete={deletePost}
           onEdit={editPost}

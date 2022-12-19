@@ -8,27 +8,25 @@ const { posts } = require("../data");
 
 // to fetch all posts
 router.route("/discussions/:id").get(async (req, res) => {
-  let userId = null;
-  let currentUserName = "x";
-  let isUserLoggedIn = false;
+  //let userId = null;
+  //let currentUserName = "x";
+  //let isUserLoggedIn = false;
   const output = [];
 
   try {
-    if (checkUserLoggedIn(req)) {
-      //console.log("Hello");
-      userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
-      isUserLoggedIn = true;
-      idValidation(userId);
-    }
+    // if (checkUserLoggedIn(req)) {
+    //   //console.log("Hello");
+    //   userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
+    //   isUserLoggedIn = true;
+    //   idValidation(userId);
+    // }
     let eventId = req.params.id;
     //idValidation(eventId);
     const postDataList = await postData.getAllPostsForEvent(eventId);
     for (const i in postDataList) {
       output.push({
         _id: postDataList[i]._id,
-        userId: userId,
         userName: postDataList[i].username,
-        currentUserName: currentUserName,
         text: postDataList[i].text,
         totalLikes: postDataList[i].totalLikes,
         postUserId: postDataList[i].userId,
@@ -39,30 +37,31 @@ router.route("/discussions/:id").get(async (req, res) => {
     //console.log(eventId);
     //console.log(output);
     res.status(200).json({
-      title: "Posts",
+      title: "Discussions",
       postList: output,
-      isUserLoggedIn: isUserLoggedIn,
+      // isUserLoggedIn: isUserLoggedIn,
     });
   } catch (e) {
     res.status(e.code || 500).json({
       title: "Discussion",
       error: e.message || "Internal server error occured while getting posts",
-      isUserLoggedIn: isUserLoggedIn,
+      // isUserLoggedIn: isUserLoggedIn,
     });
   }
 });
 
 // to create a new post
 router.route("/discussions/:id").post(async (req, res) => {
-  let userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
+  // let userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
   const postInfo = req.body.data.newPost.text;
   const eventId = req.params.id;
+  const userId = req.body.data.userId;
   //console.log(eventId);
   //console.log(req.body);
   try {
-    if (!checkUserLoggedIn(req)) {
-      return res.status(200).redirect("/login");
-    }
+    // if (!checkUserLoggedIn(req)) {
+    //   return res.status(200).redirect("/login");
+    // }
     idValidation(userId); // ObjectIdValidation and if the user exists in db or not
     textValidation(postInfo);
   } catch (e) {
@@ -73,9 +72,9 @@ router.route("/discussions/:id").post(async (req, res) => {
 
   try {
     const p = await postData.createPost(userId, eventId, postInfo);
-    p.userId = userId;
+    // p.userId = userId;
     //console.log(p);
-    p.userName = p.username;
+    // p.userName = p.username;
     p.comments = p.commentListForEachPost;
     p.postUserId = p.userId;
     res.status(200).json(p); //.redirect("/discussions");
@@ -92,9 +91,9 @@ router.route("/discussions/deletePost").delete(async (req, res) => {
   //console.log(req.body);
   const postId = req.body.postId;
   try {
-    if (!checkUserLoggedIn(req)) {
-      return res.status(200).redirect("/login");
-    }
+    // if (!checkUserLoggedIn(req)) {
+    //   return res.status(200).redirect("/login");
+    // }
     idValidation(postId);
     await postData.deletePost(postId);
     res.status(200).json({ Success: "True" }); //.redirect("/discussions");
@@ -108,9 +107,9 @@ router.route("/discussions/deletePost").delete(async (req, res) => {
 //to edit a post
 router.route("/discussions/editPost").patch(async (req, res) => {
   try {
-    if (!checkUserLoggedIn(req)) {
-      return res.status(200).redirect("/login");
-    }
+    // if (!checkUserLoggedIn(req)) {
+    //   return res.status(200).redirect("/login");
+    // }
     //console.log(req.body);
     const newPostText = req.body.data.editedPost;
     const postId = req.body.data.postId;
@@ -127,14 +126,15 @@ router.route("/discussions/editPost").patch(async (req, res) => {
 
 // to like a post
 router.route("/discussions/like").patch(async (req, res) => {
-  let userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
+  // let userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
   //console.log(req.body);
   let postId = req.body.data.postId;
+  let userId = req.body.data.userId;
   try {
     idValidation(postId);
-    if (!checkUserLoggedIn(req)) {
-      return res.status(200).redirect("/login");
-    }
+    // if (!checkUserLoggedIn(req)) {
+    //   return res.status(200).redirect("/login");
+    // }
     idValidation(userId);
     //console.log("Hello");
     await postData.increaseLike(userId, postId);
@@ -149,14 +149,14 @@ router.route("/discussions/like").patch(async (req, res) => {
 
 // to unlike a post
 router.route("/discussions/disLike").patch(async (req, res) => {
-  let userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
+  let userId = req.body.data.userId; //req.session.user;
   //console.log(req.body);
   let postId = req.body.data.postId;
   try {
     idValidation(postId);
-    if (!checkUserLoggedIn(req)) {
-      return res.status(200).redirect("/login");
-    }
+    // if (!checkUserLoggedIn(req)) {
+    //   return res.status(200).redirect("/login");
+    // }
     idValidation(userId);
     await postData.decreaseLike(userId, postId);
     res.status(200).json({ Success: "True" }); //.redirect("/discussions");
@@ -171,15 +171,15 @@ router.route("/discussions/disLike").patch(async (req, res) => {
 //to create a new comment
 router.route("/discussions/comment").put(async (req, res) => {
   //console.log(req.body);
-  let userId = "639ce8ccb015176a157f9bb0"; //req.session.user;
+  let userId = req.body.data.userId; //req.session.user;
   let postId = req.body.data.postId;
   const commentInfo = req.body.data.newComment.text;
 
   try {
     idValidation(postId);
-    if (!checkUserLoggedIn(req)) {
-      return res.status(200).redirect("/login");
-    }
+    // if (!checkUserLoggedIn(req)) {
+    //   return res.status(200).redirect("/login");
+    // }
     idValidation(userId);
     textValidation(commentInfo);
 
@@ -218,12 +218,12 @@ function idValidation(id) {
   if (!ObjectId.isValid(id)) throw { code: 400, message: "invalid object ID" };
 }
 
-function checkUserLoggedIn(req) {
-  //   if (req.session.user) {
-  //     return true;
-  //   }
-  return true;
-  //return false;
-}
+// function checkUserLoggedIn(req) {
+//   //   if (req.session.user) {
+//   //     return true;
+//   //   }
+//   return true;
+//   //return false;
+// }
 
 module.exports = router;
