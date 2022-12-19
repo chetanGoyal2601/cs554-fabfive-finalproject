@@ -65,7 +65,7 @@ export default function Form() {
 
     return (
               <div className=" Stevens-Background">
-                <Container fluid>
+                <Container>
                     <div className="register2">
                         <Row className="row">
                             <Col className="col">
@@ -79,17 +79,15 @@ export default function Form() {
                                         <label className='mb-3 text-decor' for="password">Password:</label>
                                         <input className='mb-3' id="password" type="password" {...register("password")} placeholder='password' />
                                         {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
-                                        <Button variant="primary" className='mb-3' size="md">
-                                           SIGN IN
-                                        </Button>
+                                        <button className='project-btn project-btn-primary'>SIGN IN</button>
                                     </form>
-                                    {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span id="valid">Verification mail resent ! </span>) : ("")))}
+                                    {error ? (<span className="mb-3" id="exists">Invalid Credentials Entered</span>) : (validate ? (<span className="mb-3" id="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span className="mb-3" id="valid">Verification mail resent ! </span>) : ("")))}
                                     <br></br>
                                     
                                     {mail ? (
-                                    <button onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
+                                    <button  className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
                                     <div className="d-grid gap-2">
-                                        <Button variant="secondary" to="/forgot_password" as={Link} size="md">
+                                        <Button variant="danger" to="/forgot_password" as={Link} size="md">
                                             Forgot Password
                                         </Button>
                                         <Button variant="dark" as={Link} to="/signup" size="md">
@@ -100,7 +98,7 @@ export default function Form() {
                         </Row>
                     </div>
                 </Container>
-                </div>
+            </div>
     )
 }
 

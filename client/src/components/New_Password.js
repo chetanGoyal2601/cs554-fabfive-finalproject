@@ -43,7 +43,7 @@ export default function Form() {
     return (
         <section>
           <div className="Stevens-Background">
-            <Container fluid>
+            <Container>
                 <div className="register2">
                     <Row className="row">
                         <Col className="col">
@@ -55,19 +55,16 @@ export default function Form() {
                         <label className="text-decor" for="password">Password</label>
                         <input className="text-decor mb-3" id="password" type="password" {...register("newPassword")} placeholder='new password' required />
 
-                        <div className='d-grid'>
-                                    <Button  className="mb-3" variant="primary" size="md">
-                                    SUBMIT
-                                    </Button>
-                                </div>
+                        <button className='project-btn project-btn-primary'>SIGN IN</button>
+
                     </form>
-                    {error ? (<span id="exists">Invalid password reset details passed</span>) : (validate ? (<span id="valid">Password has been reset successfully </span>) : (found ? (<span id="exists">Password reset link is invalid!! </span>) : ("")))}
+                    {error ? (<span className="mb-3" id="exists">Invalid password reset details passed</span>) : (validate ? (<span className="mb-3" id="valid">Password has been reset successfully </span>) : (found ? (<span id="exists">Password reset link is invalid!! </span>) : ("")))}
                     <br></br>
                     <br></br>
                     <div className='d-grid'>
                           <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
                            Procced to Login!
-                                </Button>
+                        </Button>
                       </div>
                            
                 </div>

@@ -96,7 +96,7 @@ export default function Form() {
         <section>
             {!display ? (
                  <div className="Stevens-Background">
-                    <Container fluid>
+                    <Container>
                     <div className="register2">
                     <Row className="row">
                         <Col className="col">
@@ -107,11 +107,13 @@ export default function Form() {
                             <form  className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                                 <label className="mb-3 text-decor" for="email">Email:</label>
                                 <input  className="mb-3" id="email" type="email" {...register("email")} placeholder='username@stevens.edu' required />    
-                                <div className='d-grid'>
+                                {/* <div className='d-grid'>
                                     <Button  className="mb-3" variant="primary" size="md">
                                     SUBMIT
                                     </Button>
-                                </div>
+                                </div> */}
+                         <button className='project-btn project-btn-primary'>SUBMIT</button>
+
                             </form>
                             {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span id="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
                             <div className='d-grid'>
@@ -121,7 +123,7 @@ export default function Form() {
                             </div>
                            
                             {resend ? (
-                                <button onClick={handleSubmit(onSubmit1)}>Request OTP Instead</button>) : ("")}
+                                <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit1)}>Request OTP Instead</button>) : ("")}
 
                             </div>
                             </Col>

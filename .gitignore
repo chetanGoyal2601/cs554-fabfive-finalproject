@@ -26,3 +26,7 @@ yarn-error.log*
 /server/node_modules
 client/package-lock.json
 server/package-lock.json
+server/env/local.env
+server/config/settings.json
+server/env/local.env
+server/config/settings.json

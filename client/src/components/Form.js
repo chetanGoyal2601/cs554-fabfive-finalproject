@@ -53,7 +53,7 @@ export default function Form() {
 
     return (
         <div className=" Stevens-Background">
-                <Container fluid>
+                <Container>
                     <div className="register2">
                         <Row className="row">
                             <Col className="col">
@@ -81,11 +81,8 @@ export default function Form() {
                         {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
                         <br></br>
                    
-                        <div className='d-grid'>
-                                    <Button  className="mb-3" variant="primary" size="md">
-                                    SIGN UP
-                                    </Button>
-                        </div>
+                 <button className='project-btn project-btn-primary'>SIGN UP</button>
+
                     </form>
                     <div className='d-grid'>
                                 <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
@@ -93,11 +90,10 @@ export default function Form() {
                                 </Button>
                             </div>
                    
-                    {validate && !alreadyExist ? (<span id="valid">Verification email sent.</span>) : (resend ? (<span id="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span id="exists">User already exists. Please Log In</span>) : ("")))}
-                    <br></br>
+                    {validate && !alreadyExist ? (<span className="mb-3" id="valid">Verification email sent.</span>) : (resend ? (<span className="mb-3" id="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span className="mb-3" id="exists">User already exists. Please Log In</span>) : ("")))}
                     <br></br>
                     {mail ? (
-                        <button onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
+                        <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
 
                 </div>
               </Col>
