@@ -106,7 +106,8 @@ export default function Form() {
                             <span className='mb-3'>Don't worry, We are Here..!!</span>
                             <form  className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                                 <label className="mb-3 text-decor" for="email">Email:</label>
-                                <input  className="mb-3" id="email" type="email" {...register("email")} placeholder='username@stevens.edu' required />    
+                                <input  className="mb-3" id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z0-9]+@stevens\.edu/i})} placeholder='username@stevens.edu' required />    
+                                {errors.email && <p className='exists'>Please enter Stevens mail id</p>}
                                 {/* <div className='d-grid'>
                                     <Button  className="mb-3" variant="primary" size="md">
                                     SUBMIT
@@ -115,7 +116,7 @@ export default function Form() {
                          <button className='project-btn project-btn-primary'>SUBMIT</button>
 
                             </form>
-                            {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span id="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
+                            {error ? (<span className="exists">Invalid Credentials Entered</span>) : (validate ? (<span className="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span className="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
                             <div className='d-grid'>
                                 <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
                                 Back to Login!
@@ -144,15 +145,14 @@ export default function Form() {
                         <form className='flex flex-col' onSubmit={handleSubmit1(onSubmit2)}>
                             <label className="mb-2" for="number">OTP</label>
                             <input className="mb-2" id="number" type="number"  {...register1("otp")} placeholder='Enter OTP' required />
-                            <label className="mb-2" for="password">Password</label>
-                            <input className="mb-2" id="password" type="password" {...register1("newPassword")} placeholder='new password' required />
+                            <label className="mb-2" for="password">New Password</label>
+                            <input className="mb-2" id="password" type="password" {...register1("newPassword",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='new password' required />
+                            {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                             <div className='d-grid'>
-                                    <Button  className="mb-3" variant="primary" size="md">
-                                    SUBMIT
-                                    </Button>
+                            <button className='project-btn project-btn-primary'>SUBMIT</button>
                             </div>
                         </form>
-                        {success ? (<span id="valid">Password has been reset successfully</span>) : (c_n_v ? (<span id="exists">OTP Expired Please Request Again</span>) : (in_valid ? (<span id="exists">Code Not Valid. Please Check </span>) : (r_n_f ? (<span id="exists">Password Reset Request Not Found</span>) : (""))))}
+                        {success ? (<span className="valid">Password has been reset successfully</span>) : (c_n_v ? (<span className="exists">OTP Expired Please Request Again</span>) : (in_valid ? (<span className="exists">Code Not Valid. Please Check </span>) : (r_n_f ? (<span className="exists">Password Reset Request Not Found</span>) : (""))))}
                         {success ? (
                              <div className='d-grid'>
                              <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">

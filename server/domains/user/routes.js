@@ -40,7 +40,7 @@ router.post("/signup", async (req, res) => {
     } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       throw Error("Invalid email entered");
     } 
-    else if(new Date(dateOfBirth)<=today){
+    else if(new Date(dateOfBirth)>=today){
       throw Error("Date of Birth should be in the past");
     }
     else if (!new Date(dateOfBirth).getTime()) {

@@ -65,13 +65,13 @@ export default function Form() {
                     <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label className="text-decor" for="fullname">Full Name</label>
                         <input className="mb-3" id="fullname" type="text" {...register("name",{ required: true,minLength: 4, maxLength: 50 })} placeholder='Your Name' required />
-                        {errors.name && <p id="exists">Name should be min 4 characters and max 50 characters</p>}
+                        {errors.name && <p className="exists">Name should be min 4 characters and max 50 characters</p>}
                         <label className="text-decor" for="email">Email</label>
                         <input className="mb-3" id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z0-9]+@stevens\.edu/i})} placeholder='username@stevens.edu' required />
-                        {errors.email && <p id='exists'>Please enter Stevens mail id</p>}
+                        {errors.email && <p className='exists'>Please enter Stevens mail id</p>}
                         <label className="text-decor" for="password">Password</label>
                         <input className="mb-3" id="password" type="password" {...register("password",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='password' required />
-                        {errors.password && <p id='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
+                        {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                         <label className="text-decor" for="dob">Date Of Birth</label>
                         <input className="mb-3" id="dob" type="date" {...register("dateOfBirth")} />
                         {/* {errors.date && <p id='exists'>Please enter Date from the past</p>} */}
@@ -86,7 +86,6 @@ export default function Form() {
                         <br></br>
                    
                  <button className='project-btn project-btn-primary'>SIGN UP</button>
-
                     </form>
                     <div className='d-grid'>
                                 <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
@@ -94,7 +93,7 @@ export default function Form() {
                                 </Button>
                             </div>
                    
-                    {validate && !alreadyExist ? (<span className="mb-3" id="valid">Verification email sent.</span>) : (resend ? (<span className="mb-3" id="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span className="mb-3" id="exists">User already exists. Please Log In</span>) : ("")))}
+                    {validate && !alreadyExist ? (<span  className="valid">Verification email sent.</span>) : (resend ? (<span  className="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span  className="exists">User already exists. Please Log In</span>) : ("")))}
                     <br></br>
                     {mail ? (
                         <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}

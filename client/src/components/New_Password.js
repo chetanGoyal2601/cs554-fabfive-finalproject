@@ -58,7 +58,7 @@ export default function Form() {
                         <button className='project-btn project-btn-primary'>SIGN IN</button>
 
                     </form>
-                    {error ? (<span className="mb-3" id="exists">Invalid password reset details passed</span>) : (validate ? (<span className="mb-3" id="valid">Password has been reset successfully </span>) : (found ? (<span id="exists">Password reset link is invalid!! </span>) : ("")))}
+                    {error ? (<span className="exists">Invalid password reset details passed</span>) : (validate ? (<span className="valid">Password has been reset successfully </span>) : (found ? (<span className="exists">Password reset link is invalid!! </span>) : ("")))}
                     <br></br>
                     <br></br>
                     <div className='d-grid'>
