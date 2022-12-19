@@ -35,8 +35,9 @@ export default function Form({validateAuth}) {
                 email: `${data.username.trim()}@stevens.edu`
             };
             validateAuth(vAuth);
-            //setTimeout(6000);
-            //navigate('/signup');
+            setTimeout(() => {
+               navigate('/signup');
+                }, 10000);
         }
         else {
              setValidate1(true)
@@ -72,6 +73,8 @@ export default function Form({validateAuth}) {
                     {validate ? (<span className="valid">{message}</span>) : (validate1 ? (<span className="exists">{message}</span>): (""))}
                     <br></br>
                     <br></br>
+                    <br></br>
+                    {validate ? (<span >You'll be redirected to Sign Up Page shortly. Please dont close the window or click anything</span>):("")}
                 </div>
                 </Col>
                         </Row>
