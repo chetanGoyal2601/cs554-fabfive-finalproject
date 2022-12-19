@@ -1,6 +1,6 @@
 {
   "mongoConfig": {
-    "serverUrl": "mongodb://0.0.0.0:27017",
+    "serverUrl": "mongodb+srv://web2project:5Kh4usBMnmzZPFvj@cluster0.eqpuwlr.mongodb.net/?retryWrites=true&w=majority",
     "database": "cs_554_web_project"
   }
 }
