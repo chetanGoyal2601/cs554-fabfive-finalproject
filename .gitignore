@@ -25,3 +25,5 @@ yarn-error.log*
 /client/node_modules
 /server/node_modules
 client/package-lock.json
+client/.npmrc
+client/package-lock.json

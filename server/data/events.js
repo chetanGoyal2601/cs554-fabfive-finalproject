@@ -55,6 +55,12 @@ async function createEvent(
   eventDate.setHours(eventDate.getHours() - 5);
   time = eventDate.toString().slice(0, 21);
 
+  if (eventDate < new Date())
+    throw {
+      message: "Error : Date cannot be older than today's date",
+      code: 500,
+    };
+
   let newEvent = {
     title,
     description,
@@ -73,7 +79,7 @@ async function createEvent(
   const insertInfo = await eventCollection.insertOne(newEvent);
 
   if (!insertInfo.acknowledged || !insertInfo.insertedId)
-    throw { message: "Could not add event successfully", code: 500 };
+    throw { message: "Error : Could not add event successfully", code: 500 };
 
   const newId = insertInfo.insertedId.toString();
 
@@ -82,12 +88,17 @@ async function createEvent(
 }
 
 async function get(id) {
-  if (!id) throw { message: "You must provide an id to search for", code: 400 };
+  if (!id)
+    throw {
+      message: "Error : You must provide an id to search for",
+      code: 400,
+    };
   id = validations.checkId(id);
 
   const eventCollection = await events();
   const event = await eventCollection.findOne({ _id: ObjectId(id) });
-  if (event === null) throw { message: "No event with that id", code: 404 };
+  if (event === null)
+    throw { message: "Error : No event with that id", code: 404 };
 
   event._id = event._id.toString();
   // event.hostName = await user.getUsername(event.host);
@@ -122,7 +133,7 @@ async function getAll(page) {
 
   const numOfPages = Math.ceil(eventCount.length / 20);
 
-  if (eventList.length == 0) throw { message: "No events", code: 404 };
+  if (eventList.length == 0) throw { message: "Error : No events", code: 404 };
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();
@@ -144,7 +155,7 @@ async function setRsvp(eventId, userId) {
   let seatsAvailable = event.seatsAvailable;
 
   if (event.eventDate < new Date())
-    throw { message: "You're late, Event RSVP expired!", code: 404 };
+    throw { message: "Error : You're late, Event RSVP expired!", code: 404 };
 
   if (event.rsvps.includes(userId)) {
     event.rsvps.splice(event.rsvps.indexOf(userId), 1);
@@ -175,7 +186,7 @@ async function setRsvp(eventId, userId) {
   );
 
   if (updatedInfo.modifiedCount === 0) {
-    throw { message: "Could not update event successfully", code: 500 };
+    throw { message: "Error : Could not update event successfully", code: 500 };
   }
   let chatId = createChat(eventId, newEvent.host, userId);
   let answer = { event: await this.get(eventId), updated: true };
@@ -190,13 +201,16 @@ async function remove(eventId, userId) {
   const event = await this.get(eventId);
 
   if (event.host != userId)
-    throw { message: "You are not authorised to delete this event", code: 403 };
+    throw {
+      message: "Error : You are not authorised to delete this event",
+      code: 403,
+    };
   const deletionInfo = await eventCollection.deleteOne({
     _id: ObjectId(eventId),
   });
 
   if (deletionInfo.deletedCount === 0) {
-    throw `Could not delete event with id of ${eventId}`;
+    throw `Error : Could not delete event with id of ${eventId}`;
   }
 
   let answer = { eventId, deleted: true };
@@ -211,7 +225,7 @@ async function setRating(eventId, rating, userId) {
 
   if (rating < 0 || rating > 5)
     throw {
-      message: "Rating can be only between 0 to 5",
+      message: "Error : Rating can be only between 0 to 5",
       code: 403,
     };
 
@@ -260,7 +274,7 @@ async function setRating(eventId, rating, userId) {
   if (updatedInfo.modifiedCount === 0) {
     throw {
       message:
-        "Could not update event successfully. New value might be same as old value",
+        "Error : Could not update event successfully. New value might be same as old value",
       code: 500,
     };
   }
