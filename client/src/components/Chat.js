@@ -159,12 +159,12 @@ const Chat = () => {
                 ))}
             </div>
             <div className={classes.chatContainer}>
-                <div className={classes.chatHeader}>
+                {chatMsgs ? <div className={classes.chatHeader}>
                     <Avatar src={person_placeholder} />
                     <div className={classes.headerInfo}>
                         <h3>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h3>
                     </div>
-                </div>
+                </div> : undefined}
                 <div className={classes.msgContainer}>
                     {showMsgs()}
                     <div className={classes.endOfMsg} ref={endOfMsgsRef}/>
