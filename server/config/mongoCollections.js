@@ -1,8 +1,4 @@
-const {
-  ObjectId,
-  MongoError,
-  connectToDb
-} = require('./mongoConnection');
+const { ObjectId, MongoError, connectToDb } = require("./mongoConnection");
 
 const getCollectionFn = (collection) => {
   let _col = undefined;
@@ -15,11 +11,12 @@ const getCollectionFn = (collection) => {
   };
 };
 
-
 module.exports = {
   ObjectId,
   MongoError,
   events: getCollectionFn("events"),
   users: getCollectionFn("users"),
-  getChats: getCollectionFn('chats')
+  getChats: getCollectionFn("chats"),
+  posts: getCollectionFn("posts"),
+  comments: getCollectionFn("comments"),
 };
