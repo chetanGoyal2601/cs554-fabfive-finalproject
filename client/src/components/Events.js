@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useNavigate } from "react";
 import axios from "axios";
 import noImage from "../img/Party.jpeg";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useOutletContext } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -18,13 +18,15 @@ let path = "/";
 // let userId = "123";
 
 const Events = () => {
+  const auth = useOutletContext();
+  const loggedInUser = auth.userId;
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [previous, setPrevious] = useState(true); // for checking if previous page is there or not
   const [next, setNext] = useState(true); // for checking if next page exists or not
   const [eventData, setEventData] = useState(undefined);
   const [loading, setLoading] = useState(true);
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  // const [loggedInUser, setLoggedInUser] = useState(null);
 
   let { page } = useParams();
   let card = null;
@@ -97,7 +99,7 @@ const Events = () => {
         if (data.next === null) setNext(false);
         else setNext(true);
 
-        if (data.userId) setLoggedInUser(data.userId);
+        // if (data.userId) setLoggedInUser(data.userId);
 
         if (data.results.length > 0) {
           setEventData(data.results);

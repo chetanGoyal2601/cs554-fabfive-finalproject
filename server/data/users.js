@@ -28,7 +28,7 @@ async function getUsername(id) {
 
 async function setRsvp(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
 
   const userCollection = await users();
   const user = await this.get(userId);
@@ -72,7 +72,7 @@ async function setRsvp(eventId, userId) {
 
 async function setCurrentlyHosted(eventId, userId, action) {
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
 
   const userCollection = await users();
   const user = await this.get(userId);
@@ -120,15 +120,15 @@ async function setCurrentlyHosted(eventId, userId, action) {
 }
 
 async function calcAvgRating(userId) {
-  //   userId = validations.checkId(userId, "User ID");
-  // const user = await this.get(userId);
+  userId = validations.checkId(userId, "User ID");
+  const user = await this.get(userId);
 
-  let pastHostedRatingAvg = await calcRating([
-    ObjectId("6393c8b6631fb11ad69b246f"),
-    ObjectId("6393bfecc11b8fef13463e15"),
-    ObjectId("6393bfb7193c03e07eae8a5a"),
-  ]);
-  //   let averageRating = calcRating(user.past_hosted);
+  // let pastHostedRatingAvg = await calcRating([
+  //   ObjectId("6393c8b6631fb11ad69b246f"),
+  //   ObjectId("6393bfecc11b8fef13463e15"),
+  //   ObjectId("6393bfb7193c03e07eae8a5a"),
+  // ]);
+  let averageRating = calcRating(user.events);
 
   const newUser = {
     name: user.name,

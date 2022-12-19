@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import noImage from "../img/download.jpeg";
 // import Button from "@mui/material/Button";
@@ -34,11 +34,13 @@ function getLabelText(value) {
 }
 
 const Event = () => {
+  const auth = useOutletContext();
+  const loggedInUser = auth.userId;
   const [eventData, setEventData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  // const [loggedInUser, setLoggedInUser] = useState(null);
   const [isDeleted, setIsDeleted] = useState(false);
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(-1);
@@ -56,7 +58,7 @@ const Event = () => {
         }
       );
       if (data) {
-        if (data.userId) setLoggedInUser(data.userId);
+        // if (data.userId) setLoggedInUser(data.userId);
         setIsError(false);
         setEventData(data.event);
         setLoading(false);
@@ -79,7 +81,7 @@ const Event = () => {
         }
       );
       if (data) {
-        if (data.userId) setLoggedInUser(data.userId);
+        // if (data.userId) setLoggedInUser(data.userId);
         setIsError(false);
         setIsDeleted(true);
         setLoading(false);
@@ -102,7 +104,7 @@ const Event = () => {
         }
       );
       if (data) {
-        if (data.userId) setLoggedInUser(data.userId);
+        // if (data.userId) setLoggedInUser(data.userId);
         for (let rating of data.event.ratings) {
           if (loggedInUser === rating.userId) {
             setValue(rating.rating);
@@ -128,7 +130,7 @@ const Event = () => {
       try {
         const { data } = await axios.get(`/event/${id}`);
         if (data) {
-          if (data.userId) setLoggedInUser(data.userId);
+          // if (data.userId) setLoggedInUser(data.userId);
           setIsError(false);
           setEventData(data);
           setLoading(false);
