@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Navigate, useOutletContext } from "react-router-dom";
+import React, { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -64,6 +64,10 @@ const CreateEvent = () => {
 
     if (!address || address.trim() === "")
       newErrors.address = "Please enter an Address";
+    else {
+      if (!isNaN(address))
+        newErrors.address = "Address cannot contain only numbers";
+    }
 
     if (!capacity || capacity.trim() === "")
       newErrors.capacity = "Please enter an Capacity";

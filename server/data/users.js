@@ -5,12 +5,17 @@ const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 
 async function get(id) {
-  if (!id) throw { message: "You must provide an id to search for", code: 400 };
+  if (!id)
+    throw {
+      message: "Error : You must provide an id to search for",
+      code: 400,
+    };
   id = validations.checkId(id);
 
   const eventCollection = await users();
   const user = await eventCollection.findOne({ _id: ObjectId(id) });
-  if (user === null) throw { message: "No user with that id", code: 404 };
+  if (user === null)
+    throw { message: "Error : No user with that id", code: 404 };
 
   user._id = user._id.toString();
 
@@ -18,7 +23,11 @@ async function get(id) {
 }
 
 async function getUsername(id) {
-  if (!id) throw { message: "You must provide an id to search for", code: 400 };
+  if (!id)
+    throw {
+      message: "Error : You must provide an id to search for",
+      code: 400,
+    };
   id = validations.checkId(id);
 
   const user = this.get(id);
@@ -64,7 +73,7 @@ async function setRsvp(eventId, userId) {
   );
 
   if (updatedInfo.modifiedCount === 0) {
-    throw { message: "Could not update user successfully", code: 500 };
+    throw { message: "Error : Could not update user successfully", code: 500 };
   }
   let answer = { user: await this.get(userId), updated: true };
   return answer;
@@ -80,12 +89,15 @@ async function setCurrentlyHosted(eventId, userId, action) {
   if (action == "Delete" && user.events.includes(eventId)) {
     user.events.splice(user.events.indexOf(eventId), 1);
   } else if (action == "Delete" && !user.events.includes(eventId))
-    throw { message: "The event does not belong to the host", code: 404 };
+    throw {
+      message: "Error : The event does not belong to the host",
+      code: 404,
+    };
 
   if (action == "Add" && !user.events.includes(eventId)) {
     user.events.push(eventId);
   } else if (action == "Add" && user.events.includes(eventId)) {
-    throw { message: "The host already has this event", code: 404 };
+    throw { message: "Error : The host already has this event", code: 404 };
   }
 
   const newUser = {
@@ -113,7 +125,7 @@ async function setCurrentlyHosted(eventId, userId, action) {
   );
 
   if (updatedInfo.modifiedCount === 0) {
-    throw { message: "Could not update user successfully", code: 500 };
+    throw { message: "Error : Could not update user successfully", code: 500 };
   }
   let answer = { user: await this.get(userId), updated: true };
   return answer;
@@ -155,7 +167,11 @@ async function calcAvgRating(userId) {
   );
 
   if (updatedInfo.modifiedCount === 0) {
-    throw { message: "Could not update user successfully", code: 500 };
+    if (averageRating != user.rating)
+      throw {
+        message: "Error : Could not update user successfully",
+        code: 500,
+      };
   }
   let answer = { user: await this.get(userId), updated: true };
   return answer;
