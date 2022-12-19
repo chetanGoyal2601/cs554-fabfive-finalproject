@@ -273,3 +273,14 @@ span{
   --bs-btn-disabled-bg: #6c757d;
   --bs-btn-disabled-border-color: #6c757d;
 }
+
+
+.exists{
+  color: red;
+  font-weight: bold;
+}
+
+.valid{
+  color: green;
+  font-weight: bold;
+}

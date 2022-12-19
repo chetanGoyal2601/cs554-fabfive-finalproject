@@ -18,7 +18,7 @@ import Header from "./components/Header";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const PrivateRoute = ({auth, redirectPath = '/', logout, children}) => {
+const PrivateRoute = ({auth, redirectPath = '/', logout}) => {
   if (!auth || !auth.userId) {
     return <Navigate to={redirectPath} replace/>;
   }
@@ -30,7 +30,7 @@ const PrivateRoute = ({auth, redirectPath = '/', logout, children}) => {
   );
 };
 
-const PublicRoute = ({auth, redirectPath = '/events/page/0', children}) => {
+const PublicRoute = ({auth, redirectPath = '/events/page/0'}) => {
   if (auth && auth.userId && auth.userId.length !== 0) {
     return <Navigate to={redirectPath} replace/>;
   }
@@ -42,20 +42,32 @@ const PublicRoute = ({auth, redirectPath = '/events/page/0', children}) => {
   );
 }
 
+const ValidateRoute = ({auth, redirectPath = '/validate'}) => {
+  console.log('signup auth', auth);
+  if (!auth || !auth.email || !auth.name) {
+    return <Navigate to={redirectPath} replace/>;
+  }
+  return (
+    <div>
+      <Outlet context={auth}/>
+    </div>
+  );
+};
+
 const App = () => {
-  const cookieName = 'user';
-  const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
+  const authCookie = 'user';
+  const [cookies, setCookie, removeCookie] = useCookies([authCookie]);
   
   const setAuthData = (authData) => {
     console.log('all cookies', cookies)
     console.log('authData', authData);
-    setCookie(cookieName, authData, { path: '/' });
+    setCookie(authCookie, authData, { path: '/' });
   };
   
   const removeAuthData = () => {
     console.log('all cookies', cookies);
-    console.log(cookieName);
-    removeCookie(cookieName);
+    console.log(authCookie);
+    removeCookie(authCookie);
     console.log('cookies after delete', cookies)
   };
 
@@ -67,9 +79,11 @@ const App = () => {
           <Routes>
             <Route element={<PublicRoute auth={cookies.user} />}>
               <Route path="/" element={<Home />} />
-              <Route exact path="/signup" element={<Form />} />
-              <Route exact path="/signin" element={<Login login={setAuthData} />} />
-              <Route exact path="/validate" element={<Validate />} />
+              <Route exact path="/signin" element={<Login login={setAuthData} removeAuth={removeAuthData} />} />
+              <Route element={<ValidateRoute auth={cookies.user} />}>
+                <Route exact path="/signup" element={<Form />} />
+              </Route>
+              <Route exact path="/validate" element={<Validate validateAuth={setAuthData}/>} />
               <Route exact path="/forgot_password" element={<Forgot_Password />} />
               <Route path="/new_password/:id/:hash" element={<New_Password />} />
             </Route>

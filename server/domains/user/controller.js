@@ -13,7 +13,7 @@ const createNewUser = async (data) => {
     if (!name || !password||!email || !dateOfBirth|| !gender) {
       throw Error('Input should be supplied for all fileds');
   }
-  if(new Date(dateOfBirth)<=today){
+  if(new Date(dateOfBirth)>=today){
     throw Error("Date of Birth should be in the past");
   }
   

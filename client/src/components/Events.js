@@ -230,7 +230,7 @@ const Events = () => {
                 <Button
                   variant="primary"
                   as={Link}
-                  to={`/chat/${event._id}/${loggedInUser}`}
+                  to={`/chat/${event._id}`}
                 >
                   Chat
                 </Button>
@@ -242,7 +242,7 @@ const Events = () => {
             eventDate > currentDate &&
             event.rsvps.includes(loggedInUser) && (
               <div>
-                <Link to={`/chat/${event._id}/${loggedInUser}`}>
+                <Link to={`/chat/${event._id}`}>
                   <Button variant="primary">Chat with host</Button>
                 </Link>
                 <Button
