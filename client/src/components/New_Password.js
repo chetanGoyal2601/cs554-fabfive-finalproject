@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from "react";
 // import '../css/User.css';
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import { Container } from "@mui/system";
 
 export default function Form() {
     const [error, setError] = useState(false);
@@ -64,11 +68,11 @@ export default function Form() {
                       </div>
                            
                 </div>
-                <div className="col-2">
-                    <img src={bgImg} alt="" />
-                </div>
+               </Col>
+               </Row>
+               </div>
+               </Container>
             </div>
         </section>
     )
 }
-

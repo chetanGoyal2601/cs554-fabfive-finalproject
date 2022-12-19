@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from "react";
 // import '../css/User.css';
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import { Container } from "@mui/system";
 
 export default function Form() {
     const [success, setSuccess] = useState(false);
@@ -89,7 +93,6 @@ export default function Form() {
     }
 
     return (
-
         <section>
             {!display ? (
                  <div className="Stevens-Background">
@@ -122,33 +125,46 @@ export default function Form() {
                             {resend ? (
                                 <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit1)}>Request OTP Instead</button>) : ("")}
 
+                            </div>
+                            </Col>
+                            </Row>
                     </div>
-                    <div className="col-2">
-                        <img src={bgImg} alt="" />
-                    </div>
+                    </Container>
                 </div>) : (
-                <div className="register">
-                    <div className="col-1">
+                 <div className="Stevens-Background">
+                 <Container fluid>
+                 <div className="register2">
+                 <Row className="row">
+                     <Col className="col">
+                         <div className='d-grid'>
+                         <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} style={{height:"10rem",width:"10rem",marginLeft:"auto",marginRight:"auto"}}/>
+                        
                         <h1>Enter OTP</h1>
                         <span>Please Enter the OTP received via email</span>
-                        <form id='form' className='flex flex-col' onSubmit={handleSubmit1(onSubmit2)}>
-                            <label for="number">OTP</label>
-                            <input id="number" type="number"  {...register1("otp",{ required: true, pattern: /^\d{4}$/})} placeholder='Enter OTP' required />
-                            {errors.otp && <p id='exists'>OTP should be 4 numeric digits</p>}
-                            <label for="password">Password</label>
-                            <input id="password" type="password" {...register1("newPassword")} placeholder='new password' required />
-                            <button className='btn'>Sumbit</button>
+                        <form className='flex flex-col' onSubmit={handleSubmit1(onSubmit2)}>
+                            <label className="mb-2" for="number">OTP</label>
+                            <input className="mb-2" id="number" type="number"  {...register1("otp")} placeholder='Enter OTP' required />
+                            <label className="mb-2" for="password">Password</label>
+                            <input className="mb-2" id="password" type="password" {...register1("newPassword")} placeholder='new password' required />
+                            <div className='d-grid'>
+                                    <Button  className="mb-3" variant="primary" size="md">
+                                    SUBMIT
+                                    </Button>
+                            </div>
                         </form>
                         {success ? (<span id="valid">Password has been reset successfully</span>) : (c_n_v ? (<span id="exists">OTP Expired Please Request Again</span>) : (in_valid ? (<span id="exists">Code Not Valid. Please Check </span>) : (r_n_f ? (<span id="exists">Password Reset Request Not Found</span>) : (""))))}
-                        <br></br>
-                        <br></br>
                         {success ? (
-                            <Link to="/signin">Procced To Log In</Link>) : ("")}
-
+                             <div className='d-grid'>
+                             <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
+                             Procced To Log In!
+                             </Button>
+                            </div>)
+                            : ("")}
                     </div>
-                    <div className="col-2">
-                        <img src={bgImg} alt="" />
-                    </div>
+                   </Col>
+                   </Row>
+                </div>
+                </Container>
                 </div>
 
             )
@@ -156,7 +172,3 @@ export default function Form() {
         </section>
     )
 }
-
-
-
-

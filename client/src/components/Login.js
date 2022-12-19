@@ -6,6 +6,11 @@ import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import '../css/User.css';
+import { Container } from "@mui/system";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 
 export default function Form() {
     const [response, setResponse] = useState(false);
@@ -96,5 +101,3 @@ export default function Form() {
             </div>
     )
 }
-
-
