@@ -3,7 +3,7 @@ const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 const user = require("./users");
-const {createChat} = require('./chat');
+const { createChat } = require("./chat");
 
 const Months = {
   Jan: 0,
@@ -188,7 +188,7 @@ async function setRsvp(eventId, userId) {
   if (updatedInfo.modifiedCount === 0) {
     throw { message: "Error : Could not update event successfully", code: 500 };
   }
-  let chatId = createChat(eventId, newEvent.host, userId);
+  let chatId = await createChat(eventId, newEvent.host, userId);
   let answer = { event: await this.get(eventId), updated: true };
   return answer;
 }

@@ -51,7 +51,7 @@ const Event = () => {
   async function updateRSVP(eventId) {
     try {
       const { data } = await axios.patch(
-        `http://localhost:300/event/${eventId}`,
+        `/event/${eventId}`,
         { data: { page: null, userId: loggedInUser } },
         {
           headers: { Accept: "application/json" },
