@@ -22,6 +22,7 @@ import Event from "./components/Event";
 import Home from "./components/Home";
 import Validate from "./components/Validate";
 import Header from "./components/Header";
+import HomeForDiscussion from "./components/HomeForDiscussion";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const PrivateRoute = ({ auth, redirectPath = "/", logout }) => {
@@ -84,30 +85,13 @@ const App = () => {
           <Routes>
             <Route element={<PublicRoute auth={cookies.user} />}>
               <Route path="/" element={<Home />} />
-              <Route
-                exact
-                path="/signin"
-                element={
-                  <Login login={setAuthData} removeAuth={removeAuthData} />
-                }
-              />
+              <Route exact path="/signin" element={<Login login={setAuthData} removeAuth={removeAuthData} />}/>
               <Route element={<ValidateRoute auth={cookies.user} />}>
                 <Route exact path="/signup" element={<Form />} />
               </Route>
-              <Route
-                exact
-                path="/validate"
-                element={<Validate validateAuth={setAuthData} />}
-              />
-              <Route
-                exact
-                path="/forgot_password"
-                element={<Forgot_Password />}
-              />
-              <Route
-                path="/new_password/:id/:hash"
-                element={<New_Password />}
-              />
+              <Route exact path="/validate" element={<Validate validateAuth={setAuthData} />} />
+              <Route exact path="/forgot_password" element={<Forgot_Password />} />
+              <Route path="/new_password/:id/:hash" element={<New_Password />}/>
             </Route>
             <Route
               element={
@@ -119,10 +103,7 @@ const App = () => {
               <Route exact path="/event/:id" element={<Event />} />
               <Route exact path="/profile" element={<User_profile />} />
               <Route path="/chat/:eventId" element={<Chat />} />
-              <Route
-                path="/discussions/:eventId"
-                element={<HomeForDiscussion />}
-              />
+              <Route path="/discussions/:eventId" element={<HomeForDiscussion />} />
             </Route>
           </Routes>
         </div>

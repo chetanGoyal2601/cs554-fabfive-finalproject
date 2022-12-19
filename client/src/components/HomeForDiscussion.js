@@ -44,7 +44,8 @@ const HomeForDiscussion = () => {
     const data = await res.data;
     //console.log(data);
     const newPost = data;
-    (newPost.userId = userId), (newPost.userName = userName);
+    newPost.userId = userId;
+    newPost.userName = userName;
     // console.log(newPost);
     setPosts([newPost, ...posts]);
   };
