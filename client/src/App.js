@@ -22,6 +22,8 @@ import Event from "./components/Event";
 import Home from "./components/Home";
 import Validate from "./components/Validate";
 import Header from "./components/Header";
+import HomeForDiscussion from "./components/HomeForDiscussion";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const PrivateRoute = ({ auth, redirectPath = "/", logout }) => {
