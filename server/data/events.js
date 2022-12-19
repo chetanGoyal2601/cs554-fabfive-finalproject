@@ -133,7 +133,7 @@ async function getAll(page) {
 
   const numOfPages = Math.ceil(eventCount.length / 20);
 
-  if (eventList.length == 0) throw { message: "Error : No events", code: 404 };
+  // if (eventList.length == 0) throw { message: "Error : No events", code: 404 };
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();

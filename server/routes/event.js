@@ -66,12 +66,13 @@ router.post("/", upload.single("image"), async (req, res) => {
       imageName
     );
     let user = await userData.setCurrentlyHosted(
-      req.params.id,
-      req.body.data.userId,
+      event._id.toString(),
+      req.body.userId,
       "Add"
     );
     return res.json(event);
   } catch (e) {
+    console.log(e);
     return res.status(400).json({ error: e.message ? e.message : e });
   }
 });
@@ -187,6 +188,7 @@ router.delete("/:id", async (req, res) => {
     // events.userId = "123";
     return res.json(events);
   } catch (e) {
+    console.log(e);
     return res.status(e.code || 404).json({
       error: e.message ? e.message : e,
     });

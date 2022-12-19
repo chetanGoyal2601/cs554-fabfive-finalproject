@@ -24,7 +24,7 @@ const Events = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [previous, setPrevious] = useState(true); // for checking if previous page is there or not
   const [next, setNext] = useState(true); // for checking if next page exists or not
-  const [eventData, setEventData] = useState(undefined);
+  const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -62,7 +62,7 @@ const Events = () => {
           headers: { Accept: "application/json" },
         }
       );
-      if (data.results.length > 0) {
+      if (data.results.length >= 0) {
         setEventData(data.results);
         setIsError(false);
       } else {
