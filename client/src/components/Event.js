@@ -351,11 +351,10 @@ const Event = () => {
                         <Button
                           size="md"
                           variant="dark"
-                          onClick={() => {
-                            chatWithHost(eventData._id, loggedInUser);
-                          }}
+                          as={Link}
+                          to={`/chat/${eventData._id}/${loggedInUser}`}
                         >
-                          Chat
+                          Chat with host
                         </Button>
                       </div>
                     )}
@@ -368,13 +367,12 @@ const Event = () => {
                       <div className="mb-2">
                         <Button
                           size="md"
+                          as={Link}
+                          to={`/chat/${eventData._id}/${loggedInUser}`}
                           variant="primary"
-                          onClick={() => {
-                            chatWithHost(eventData._id, loggedInUser);
-                          }}
                         >
-                          Chat with Host
-                        </Button>{" "}
+                          Chat with host
+                        </Button>
                         <Button
                           size="md"
                           variant="secondary"

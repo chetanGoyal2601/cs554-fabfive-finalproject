@@ -225,9 +225,13 @@ const Events = () => {
                 >
                   Enter Discussion
                 </Button>{" "}
-                <Link to={`/chat/${event._id}/${loggedInUser}`}>
-                  <Button variant="primary">Chat</Button>
-                </Link>
+                <Button
+                  variant="primary"
+                  as={Link}
+                  to={`/chat/${event._id}/${loggedInUser}`}
+                >
+                  Chat
+                </Button>
               </div>
             )}
 
@@ -236,14 +240,9 @@ const Events = () => {
             eventDate > currentDate &&
             event.rsvps.includes(loggedInUser) && (
               <div>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    chatWithHost(event._id, loggedInUser);
-                  }}
-                >
-                  Chat with Host
-                </Button>{" "}
+                <Link to={`/chat/${event._id}/${loggedInUser}`}>
+                  <Button variant="primary">Chat with host</Button>
+                </Link>
                 <Button
                   variant="secondary"
                   onClick={() => {
