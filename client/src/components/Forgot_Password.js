@@ -92,24 +92,35 @@ export default function Form() {
 
         <section>
             {!display ? (
-                <div className="register">
-                    <div className="col-1">
-                        <h1>Forgot Password</h1>
-                        <span>Don't worry, We are Here..!!</span>
-                        <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                            <label for="email">Email</label>
-                            <input id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z]+@stevens\.edu/i})} placeholder='username@stevens.edu' required />
-                            {errors.email && <p id='exists'>Please enter Stevens mail id</p>}
-                            <button className='btn'>Sumbit</button>
-                        </form>
-                        {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span id="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
-                        <br></br>
-                        <br></br>
-                        <Link to="/signin">Log In</Link>
-                        <br></br>
-                        <br></br>
-                        {resend ? (
-                            <button onClick={handleSubmit(onSubmit1)}>Request OTP Instead</button>) : ("")}
+                 <div className="Stevens-Background">
+                    <Container>
+                    <div className="register2">
+                    <Row className="row">
+                        <Col className="col">
+                            <div className='d-grid'>
+                            <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} style={{height:"10rem",width:"10rem",marginLeft:"auto",marginRight:"auto"}}/>
+                            <h1>Forgot Password</h1>
+                            <span className='mb-3'>Don't worry, We are Here..!!</span>
+                            <form  className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
+                                <label className="mb-3 text-decor" for="email">Email:</label>
+                                <input  className="mb-3" id="email" type="email" {...register("email")} placeholder='username@stevens.edu' required />    
+                                {/* <div className='d-grid'>
+                                    <Button  className="mb-3" variant="primary" size="md">
+                                    SUBMIT
+                                    </Button>
+                                </div> */}
+                         <button className='project-btn project-btn-primary'>SUBMIT</button>
+
+                            </form>
+                            {error ? (<span id="exists">Invalid Credentials Entered</span>) : (validate ? (<span id="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span id="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
+                            <div className='d-grid'>
+                                <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
+                                Back to Login!
+                                </Button>
+                            </div>
+                           
+                            {resend ? (
+                                <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit1)}>Request OTP Instead</button>) : ("")}
 
                     </div>
                     <div className="col-2">

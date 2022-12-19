@@ -48,11 +48,15 @@ export default function Form() {
 
 
     return (
-        <section>
-            <div className="register">
-                <div className="col-1">
-                    <h1>SIGN UP</h1>
-                    <span>Register and Enjoy the Services</span>
+        <div className=" Stevens-Background">
+                <Container>
+                    <div className="register2">
+                        <Row className="row">
+                            <Col className="col">
+                                <div className='d-grid'>
+                                    <img alt="MakeEventHappen" src={require('../img/logo_transparent.png')} style={{height:"10rem",width:"10rem",marginLeft:"auto",marginRight:"auto"}}/>
+                            <h1>SIGN UP</h1>
+                            <span className='mb-3'>Register and Enjoy the Services</span>
 
                     <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label for="fullname">Full Name</label>
@@ -75,16 +79,21 @@ export default function Form() {
                             <option value="Pefer not to say">Prefer not to say</option>
                         </select>
                         {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
-                        <button className='btn'>Sign Up</button>
+                        <br></br>
+                   
+                 <button className='project-btn project-btn-primary'>SIGN UP</button>
+
                     </form>
-                    <Link to="/signin">Already a Member, Sign In</Link>
-                    <br></br>
-                    <br></br>
-                    {validate && !alreadyExist ? (<span id="valid">Verification email sent.</span>) : (resend ? (<span id="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span id="exists">User already exists. Please Log In</span>) : ("")))}
-                    <br></br>
+                    <div className='d-grid'>
+                                <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
+                                Already a Member, Sign In!
+                                </Button>
+                            </div>
+                   
+                    {validate && !alreadyExist ? (<span className="mb-3" id="valid">Verification email sent.</span>) : (resend ? (<span className="mb-3" id="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span className="mb-3" id="exists">User already exists. Please Log In</span>) : ("")))}
                     <br></br>
                     {mail ? (
-                        <button onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
+                        <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}
 
                 </div>
                 <div className="col-2">
