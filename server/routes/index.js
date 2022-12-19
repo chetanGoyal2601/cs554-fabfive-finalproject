@@ -16,6 +16,7 @@ const constructor = (app) => {
     );
     next();
   });
+
   app.use("/", discussionRoutes);
   app.use("/user", userRoutes);
   app.use("/email_verification", EmailVerificationRoutes);
