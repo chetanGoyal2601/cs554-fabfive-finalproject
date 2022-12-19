@@ -12,13 +12,14 @@ const PostDiscussion = ({
   addCommentToPost,
   likePost,
   unlikePost,
+  userId,
 }) => {
   const [showPost, setShowPost] = useState(true);
   //const [comments, setComments] = useState(post.comments);
   const [commentsAreShowing, setcommentsAreShowing] = useState(false);
 
   const toLike = () => {
-    if (post.likes.filter((likeId) => likeId === post.userId).length !== 0) {
+    if (post.likes.filter((likeId) => likeId === userId).length !== 0) {
       return false;
     }
     return true;
@@ -47,7 +48,7 @@ const PostDiscussion = ({
       <div>
         <h3>
           {post.userName}
-          {post.userId === post.postUserId && (
+          {userId === post.postUserId && (
             <FaTimes
               style={{ color: "red", cursor: "pointer" }}
               onClick={() => onDelete(post._id)}
@@ -71,12 +72,12 @@ const PostDiscussion = ({
       {toLike() ? (
         <ButttonDiscussion
           buttonName="Like"
-          onClick={() => likePost(post._id, post.userId)}
+          onClick={() => likePost(post._id, userId)}
         />
       ) : (
         <ButttonDiscussion
           buttonName="Unlike"
-          onClick={() => unlikePost(post._id, post.userId)}
+          onClick={() => unlikePost(post._id, userId)}
         />
       )}
       {/* Button to view comments */}
@@ -86,7 +87,7 @@ const PostDiscussion = ({
       />
 
       {/* Button to edit post */}
-      {showPost && post.userId === post.postUserId && (
+      {showPost && userId === post.postUserId && (
         <ButttonDiscussion buttonName="Edit Post" onClick={changeShowPost} />
       )}
 
