@@ -1,35 +1,26 @@
-const chatRoutes = require('./chat');
+const discussionRoutes = require("./discussions");
+const express = require("express");
+const path = require("path");
 
-const userRoutes = require("../domains/user");
-const EmailVerificationRoutes = require("../domains/email_verification");
-const EmailVerificationOTPRoutes = require("../domains/email_verification_otp");
-const ForgotPasswordRoutes = require("../domains/forgot_password");
-const ForgotPasswordOTPRoutes = require("../domains/forgot_password_otp");
+const constructorMethod = (app) => {
+  //   app.get("/", async (req, res) => {
+  //     res.render("pages/intro", {
+  //       isUserLoggedIn: req.session.user != null ? true : false,
+  //       title: "Welcome to Educapedia",
+  //     });
+  //   });
 
-const eventRoutes = require("./event");
+  app.use("/", discussionRoutes);
 
-const constructor = (app) => {
-    app.use((req, res, next) => {
-        console.log(`[${new Date().toUTCString()}]: ${req.method}  ${req.originalUrl}`);
-        next();
-    });
+  //for accessing unknown routes
+  app.use("*", (request, response) => {
+    response.status(404).sendFile(path.resolve("static/page-not-found.html"));
+  });
 
-    app.use("/user", userRoutes);
-    app.use("/email_verification", EmailVerificationRoutes);
-    app.use("/email_verification_otp", EmailVerificationOTPRoutes);
-    app.use("/forgot_password", ForgotPasswordRoutes);
-    app.use("/forgot_password_otp", ForgotPasswordOTPRoutes);
-
-    app.use("/event", eventRoutes);
-
-    app.use('/chat', chatRoutes);
-
-    app.use('*', (req, res) => {
-        res.status(404).json({
-            message: "Resource not found !!"
-        });
-    });
+  //for invalid URL
+  app.use(function (error, request, response, next) {
+    response.status(404).sendFile(path.resolve("static/page-not-found.html"));
+  });
 };
 
-
-module.exports = constructor;
+module.exports = constructorMethod;

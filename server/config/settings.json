@@ -1,6 +1,7 @@
 {
-  "mongoConfig": {
-    "serverUrl": "mongodb://localhost:27017",
-    "database": "cs_554_web_project"
+    "mongoConfig": {
+      "serverUrl":  "mongodb://0.0.0.0:27017/",
+      "database": "MakeEventHappen"
+    }
   }
-}
+  
