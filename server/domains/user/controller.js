@@ -13,7 +13,7 @@ const createNewUser = async (data) => {
     if (!name || !password||!email || !dateOfBirth|| !gender) {
       throw Error('Input should be supplied for all fileds');
   }
-  if(new Date(dateOfBirth)>=today){
+  if(new Date(dateOfBirth)<=today){
     throw Error("Date of Birth should be in the past");
   }
   
@@ -168,6 +168,7 @@ if(singupVlidation(email)===false){
 }
 
     const fetchedUsers = await User.find({ email });
+    console.log('fetched users', fetchedUsers);
     if (!fetchedUsers.length) {
       throw Error("Invalid credentials entered!");
     } else {
@@ -180,7 +181,12 @@ if(singupVlidation(email)===false){
         if (!passwordMatch) {
           throw Error("Invalid credentials entered!");
         } else {
-          return fetchedUsers;
+          const authUser = {
+            'userId': fetchedUsers[0]._id.toString(),
+            'name': fetchedUsers[0].name,
+            'email': fetchedUsers[0].email
+          };
+          return authUser;
         }
       }
     }

@@ -63,15 +63,19 @@ export default function Form() {
                             <span className='mb-3'>Register and Enjoy the Services</span>
 
                     <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                        <label className="text-decor" for="fullname">Full Name:</label>
-                        <input className="mb-3"  id="fullname" type="text" {...register("name")} placeholder='Your Name' required />
-                        <label className="text-decor"  for="email">Email:</label>
-                        <input className="mb-3" id="email" type="email" {...register("email")} placeholder='username@stevens.edu' required />
-                        <label className="text-decor" for="password">Password:</label>
-                        <input className="mb-3" id="password" type="password" {...register("password")} placeholder='password' required />
-                        <label className="text-decor" for="dob">Date Of Birth:</label>
-                        <input className="mb-3"  id="dob" type="date" {...register("dateOfBirth")} required />
-                        <label className="text-decor"  for="gender">Gender:</label>
+                        <label className="text-decor" for="fullname">Full Name</label>
+                        <input className="mb-3" id="fullname" type="text" {...register("name",{ required: true,minLength: 4, maxLength: 50 })} placeholder='Your Name' required />
+                        {errors.name && <p id="exists">Name should be min 4 characters and max 50 characters</p>}
+                        <label className="text-decor" for="email">Email</label>
+                        <input className="mb-3" id="email" type="email" {...register("email",{ required: true, pattern: /[a-zA-Z0-9]+@stevens\.edu/i})} placeholder='username@stevens.edu' required />
+                        {errors.email && <p id='exists'>Please enter Stevens mail id</p>}
+                        <label className="text-decor" for="password">Password</label>
+                        <input className="mb-3" id="password" type="password" {...register("password",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='password' required />
+                        {errors.password && <p id='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
+                        <label className="text-decor" for="dob">Date Of Birth</label>
+                        <input className="mb-3" id="dob" type="date" {...register("dateOfBirth")} />
+                        {/* {errors.date && <p id='exists'>Please enter Date from the past</p>} */}
+                        <label className="text-decor" for="gender">Gender</label>
                         <select className="mb-3" id="gender"{...register("gender")} required>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -12,6 +12,7 @@ import Alert from "@mui/material/Alert";
 import { Container } from "@mui/system";
 
 const CreateEvent = () => {
+  const auth = useOutletContext();
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -25,6 +26,7 @@ const CreateEvent = () => {
   const [form, setForm] = useState({ address2: "" });
   const [errors, setErrors] = useState({});
 
+  console.log('user check', auth);
   const setField = (field, value) => {
     setForm({ ...form, [field]: value });
 

@@ -4,7 +4,7 @@ import React, {
     useRef
 } from 'react';
 import io from 'socket.io-client';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useOutletContext, useParams} from 'react-router-dom';
 
 import {
     makeStyles,
@@ -23,9 +23,10 @@ import person_placeholder from '../img/person_placeholder.jpeg';
 
 const Chat = () => {
     const {
-        eventId,
-        userId
+        eventId
     } = useParams();
+    const auth = useOutletContext();
+    const userId = auth.userId;
     console.log(eventId, userId);
     const classes = useStyles();
     // const [page404, setPage404] = useState(false);

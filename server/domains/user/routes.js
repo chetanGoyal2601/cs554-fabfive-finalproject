@@ -17,7 +17,7 @@ router.post("/signup", async (req, res) => {
     password = password.trim();
     dateOfBirth = dateOfBirth.trim();
     gender = gender.trim();
-
+    console.log(name, email);
     const singupVlidation = (email)=>{
       // Define list of valid domains as an array
       let domain_list = ['stevens.edu'];
@@ -40,7 +40,7 @@ router.post("/signup", async (req, res) => {
     } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       throw Error("Invalid email entered");
     } 
-    else if(new Date(dateOfBirth)>=today){
+    else if(new Date(dateOfBirth)<=today){
       throw Error("Date of Birth should be in the past");
     }
     else if (!new Date(dateOfBirth).getTime()) {
@@ -48,7 +48,7 @@ router.post("/signup", async (req, res) => {
     } else if (password.length < 8) {
       throw Error("Password should be atleast 8 characters!");
     } else {
-
+      console.log('before create');
       const newUser = await createNewUser({
         name,
         email,
@@ -82,11 +82,11 @@ router.post("/signin", async (req, res) => {
     if (email == "" || password == "")
       throw Error("Empty credentials supplied");
 
-    const authenticatedUser = await authenticateUser(email, password);
+    const authUser = await authenticateUser(email, password);
     res.json({
       status: "SUCCESS",
       message: "Signin successful",
-      data: authenticatedUser,
+      user: authUser,
     });
   } catch (error) {
     res.json({
