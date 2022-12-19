@@ -80,7 +80,7 @@ const App = () => {
             <Route element={<PublicRoute auth={cookies.user} />}>
               <Route path="/" element={<Home />} />
               <Route exact path="/signin" element={<Login login={setAuthData} removeAuth={removeAuthData} />} />
-              <Route element={<ValidateRoute validateAuth={cookies.user} />}>
+              <Route element={<ValidateRoute auth={cookies.user} />}>
                 <Route exact path="/signup" element={<Form />} />
               </Route>
               <Route exact path="/validate" element={<Validate validateAuth={setAuthData}/>} />

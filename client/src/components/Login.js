@@ -61,7 +61,7 @@ export default function Form({login, removeAuth}) {
         }
     }
 
-    // removeAuth();
+    removeAuth();
 
     return (
               <div className=" Stevens-Background">
