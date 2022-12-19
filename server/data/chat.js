@@ -4,6 +4,9 @@ const {
     ObjectId,
     MongoError
 } = require("../config/mongoCollections");
+const {
+    get: getUser
+} = require('./users');
 
 
 
@@ -46,12 +49,15 @@ const updateChat = async (chatId, userId, msgText, timestamp) => {
 };
 
 const createChat = async (eventId, hostId, userId) => {
+    console.log(hostId, userId, 'in createChat');
+    const host = await getUser(hostId);
+    const user = await getUser(userId);
     const newChat = {
         eventId,
         hostId,
         userId,
-        hostName,
-        userName,
+        hostName: host.name,
+        userName: user.name,
         lastMsgTime: new Date().getTime(),
         messages: [{
             msgId: uuid.v4(),

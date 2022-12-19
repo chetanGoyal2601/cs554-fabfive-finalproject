@@ -67,7 +67,7 @@ const App = () => {
   const removeAuthData = () => {
     console.log('all cookies', cookies);
     console.log(authCookie);
-    removeCookie(authCookie);
+    removeCookie(authCookie, { path: '/' });
     console.log('cookies after delete', cookies)
   };
 

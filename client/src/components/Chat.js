@@ -104,7 +104,7 @@ const Chat = () => {
     };
 
     const scrollToBottom = () => {
-        endOfMsgsRef.current.scrollIntoView({
+        endOfMsgsRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
@@ -195,7 +195,7 @@ const useStyles = makeStyles({
         'justify-content': 'start',
         'align-items': 'center',
         'padding': '15px',
-        'height': '80px',
+        'height': '60px',
         'border-bottom': '1px solid whitesmoke'
     },
     chatTile: {
@@ -242,7 +242,7 @@ const useStyles = makeStyles({
         'top': 0,
         'display': 'flex',
         'padding': '11px',
-        'height': '80px',
+        'height': '60px',
         'align-items': 'center',
         'border-bottom': '1px solid whitesmoke'
     },
