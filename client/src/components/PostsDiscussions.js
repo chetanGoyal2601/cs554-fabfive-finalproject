@@ -12,6 +12,7 @@ const PostsDiscussions = (props) => {
           addCommentToPost={props.addCommentToPost}
           likePost={props.likePost}
           unlikePost={props.unlikePost}
+          userId={props.userId}
         />
       ))}
     </>

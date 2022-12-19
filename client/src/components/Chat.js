@@ -104,7 +104,7 @@ const Chat = () => {
     };
 
     const scrollToBottom = () => {
-        endOfMsgsRef.current.scrollIntoView({
+        endOfMsgsRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
@@ -159,12 +159,12 @@ const Chat = () => {
                 ))}
             </div>
             <div className={classes.chatContainer}>
-                <div className={classes.chatHeader}>
+                {chatMsgs ? <div className={classes.chatHeader}>
                     <Avatar src={person_placeholder} />
                     <div className={classes.headerInfo}>
                         <h3>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h3>
                     </div>
-                </div>
+                </div> : undefined}
                 <div className={classes.msgContainer}>
                     {showMsgs()}
                     <div className={classes.endOfMsg} ref={endOfMsgsRef}/>
@@ -195,7 +195,7 @@ const useStyles = makeStyles({
         'justify-content': 'start',
         'align-items': 'center',
         'padding': '15px',
-        'height': '80px',
+        'height': '60px',
         'border-bottom': '1px solid whitesmoke'
     },
     chatTile: {
@@ -242,7 +242,7 @@ const useStyles = makeStyles({
         'top': 0,
         'display': 'flex',
         'padding': '11px',
-        'height': '80px',
+        'height': '60px',
         'align-items': 'center',
         'border-bottom': '1px solid whitesmoke'
     },

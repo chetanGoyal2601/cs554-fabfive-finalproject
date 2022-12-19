@@ -3,6 +3,7 @@ const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 const user = require("./users");
+const {createChat} = require('./chat');
 
 const Months = {
   Jan: 0,

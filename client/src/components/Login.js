@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import bgImg from '../img/img1.png';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -21,6 +21,12 @@ export default function Form({login, removeAuth}) {
     const [error, setError] = useState(false);
     const [validate, setValidate] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
+
+    useEffect(() => {
+        // removes validation auth
+        removeAuth();
+    }, []);
+
     const onSubmit = async data => {
         const res = await axios.post('/user/signin', data)
         if (res.data.status === "SUCCESS") {
@@ -61,7 +67,6 @@ export default function Form({login, removeAuth}) {
         }
     }
 
-    removeAuth();
 
     return (
               <div className=" Stevens-Background">
