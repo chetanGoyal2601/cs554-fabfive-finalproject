@@ -123,8 +123,6 @@ const Event = () => {
 
   function joinDiscussion(eventId, loggedInUser) {}
 
-  function chatWithHost(eventId, loggedInUser) {}
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -344,9 +342,8 @@ const Event = () => {
                         <Button
                           size="md"
                           variant="primary"
-                          onClick={() => {
-                            joinDiscussion(eventData._id, loggedInUser);
-                          }}
+                          as={Link}
+                          to={`/discussions/${eventData._id}`}
                         >
                           Enter Discussion
                         </Button>{" "}
@@ -378,9 +375,8 @@ const Event = () => {
                         <Button
                           size="md"
                           variant="secondary"
-                          onClick={() => {
-                            joinDiscussion(eventData._id, loggedInUser);
-                          }}
+                          as={Link}
+                          to={`/discussions/${eventData._id}`}
                         >
                           Enter Discussion
                         </Button>{" "}

@@ -221,17 +221,12 @@ const Events = () => {
                 </Button>{" "}
                 <Button
                   variant="secondary"
-                  onClick={() => {
-                    joinDiscussion(event._id, loggedInUser);
-                  }}
+                  as={Link}
+                  to={`/discussions/${event._id}`}
                 >
                   Enter Discussion
                 </Button>{" "}
-                <Button
-                  variant="primary"
-                  as={Link}
-                  to={`/chat/${event._id}`}
-                >
+                <Button variant="primary" as={Link} to={`/chat/${event._id}`}>
                   Chat
                 </Button>
               </div>
@@ -247,9 +242,8 @@ const Events = () => {
                 </Link>
                 <Button
                   variant="secondary"
-                  onClick={() => {
-                    joinDiscussion(event._id, loggedInUser);
-                  }}
+                  as={Link}
+                  to={`/discussions/${event._id}`}
                 >
                   Enter Discussion
                 </Button>{" "}

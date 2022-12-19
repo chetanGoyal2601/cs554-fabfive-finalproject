@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Navigate } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -109,8 +109,8 @@ const CreateEvent = () => {
   };
 
   if (response && response._id) {
-    return <Alert severity="success">Event created Successfully.!</Alert>;
-    // return <Navigate to={`/event/${response._id}`} />;
+    // return <Alert severity="success">Event created Successfully.!</Alert>;
+    return <Navigate to={`/event/${response._id}`} />;
   }
 
   if (isError)

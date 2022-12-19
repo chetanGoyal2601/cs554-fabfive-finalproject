@@ -24,7 +24,7 @@ const HomeForDiscussion = () => {
 
   //fetch posts for discussion page
   const fetchPosts = async () => {
-    const res = await fetch(`http://localhost:3001/discussions/${eventId}`);
+    const res = await fetch(`/discussions/${eventId}`);
     const data = await res.json();
     return data.postList;
     //console.log(data.postList);
@@ -34,7 +34,7 @@ const HomeForDiscussion = () => {
   const addPost = async (postText) => {
     //console.log(postText);
     const res = await axios.post(
-      `http://localhost:3001/discussions/${eventId}`,
+      `/discussions/${eventId}`,
       {
         data: { newPost: postText, userId: userId },
       },
@@ -53,7 +53,7 @@ const HomeForDiscussion = () => {
   // edit a post on discussion page
   const editPost = async (editedPostText, postId) => {
     await axios.patch(
-      `http://localhost:3001/discussions/editPost`,
+      `/discussions/editPost`,
       {
         data: { postId: postId, editedPost: editedPostText },
       },
@@ -68,7 +68,7 @@ const HomeForDiscussion = () => {
 
   const likePost = async (postId) => {
     await axios.patch(
-      `http://localhost:3001/discussions/like`,
+      `/discussions/like`,
       {
         data: { postId: postId, userId: userId },
       },
@@ -94,7 +94,7 @@ const HomeForDiscussion = () => {
 
   const unlikePost = async (postId) => {
     await axios.patch(
-      `http://localhost:3001/discussions/disLike`,
+      `/discussions/disLike`,
       {
         data: { postId: postId, userId: userId },
       },
@@ -122,7 +122,7 @@ const HomeForDiscussion = () => {
   // add a new comment to a post on discussion page
   const addCommentToPost = async (comment, postId) => {
     const res = await axios.put(
-      `http://localhost:3001/discussions/comment`,
+      `/discussions/comment`,
       {
         data: { postId: postId, newComment: comment, userId: userId },
       },
@@ -154,7 +154,7 @@ const HomeForDiscussion = () => {
   //delete post on discussion page
   const deletePost = async (id) => {
     await axios.delete(
-      "http://localhost:3001/discussions/deletePost",
+      "/discussions/deletePost",
       {
         data: { postId: id },
       },
