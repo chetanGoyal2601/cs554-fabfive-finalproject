@@ -234,7 +234,7 @@ const Event = () => {
               <CardContent component="div">
                 {/* <Typography variant="body2" color="black" component="div"> */}
                 {eventData && eventData.title ? (
-                  <Card.Header as="h2">{eventData.title}</Card.Header>
+                  <Card.Header><p className="text-uppercase" style={{fontSize:"30px",fontWeight:"bolder",fontStyle:"italic",color:"black"}}>{eventData.title}</p></Card.Header>
                 ) : (
                   <Card.Header>N/A</Card.Header>
                 )}
@@ -388,7 +388,7 @@ const Event = () => {
                           variant="primary"
                         >
                           Chat with host
-                        </Button>
+                        </Button>{' '}
                         <Button
                           size="md"
                           variant="secondary"
