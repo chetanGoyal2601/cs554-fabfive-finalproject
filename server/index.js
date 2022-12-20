@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const static = express.static("/");
+const static = express.static("images");
 
 // rohits db setup code
 require("dotenv").config();
