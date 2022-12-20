@@ -44,6 +44,7 @@ export default function Form({login, removeAuth}) {
             let dataa = {}
             dataa.email = data.email;
             const rem1 = await axios.post('http://localhost:8000/user/userbyemail', dataa)
+            console.log(rem1);
             setId(rem1.data[0]._id)
             setEmail(rem1.data[0].email)
         }
@@ -58,7 +59,9 @@ export default function Form({login, removeAuth}) {
     const onSubmit4 = async data1 => {
         data1.userId = id;
         data1.email = email;
+        console.log('before')
         const res = await axios.post('http://localhost:8000/email_verification/resend', data1)
+        console.log('after')
         if (res.data.status === "PENDING") {
             setError(false);
             setValidate(false);
