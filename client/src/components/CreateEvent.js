@@ -127,7 +127,7 @@ const CreateEvent = () => {
   // } else {
   return (
     <div className="App Home-Page-Background">
-      <Container fluid>
+      <Container>
         <div className="register">
           <div className="row">
             <div className="col-7">
@@ -137,7 +137,7 @@ const CreateEvent = () => {
                 </Button>
               </div>
               <Form onSubmit={submit} id="form" className="flex flex-col">
-                <label for="my-input"></label>
+                <label htmlFor="my-input"></label>
                 <input
                   id="my-input"
                   filename={file}
@@ -180,7 +180,8 @@ const CreateEvent = () => {
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                   <Form.Label>Address : </Form.Label>
                   <br />
-                  <Form.Control className="mb-3"
+                  <Form.Control
+                    className="mb-3"
                     onChange={(e) => setField("address", e.target.value)}
                     type="text"
                     placeholder="1234 Main St"
@@ -192,7 +193,8 @@ const CreateEvent = () => {
                 <Form.Group className="mb-3" controlId="formGridAddress2">
                   <Form.Label>Address 2 : </Form.Label>
                   <br />
-                  <Form.Control className="mb-3"
+                  <Form.Control
+                    className="mb-3"
                     onChange={(e) => setField("address2", e.target.value)}
                     type="text"
                     placeholder="Apartment, studio, or floor"
@@ -204,7 +206,8 @@ const CreateEvent = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Capacity : </Form.Label>
-                  <Form.Control className="mb-3"
+                  <Form.Control
+                    className="mb-3"
                     onChange={(e) => setField("capacity", e.target.value)}
                     type="number"
                     placeholder="Capacity"
@@ -212,7 +215,7 @@ const CreateEvent = () => {
                   />
                   <div className="red">{errors.capacity}</div>
                 </Form.Group>
-                <Form.Label >Select Date & Time:</Form.Label>
+                <Form.Label>Select Date & Time:</Form.Label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     // label="Event Date & Time"
