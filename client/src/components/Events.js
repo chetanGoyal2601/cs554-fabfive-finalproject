@@ -197,7 +197,7 @@ const Events = () => {
             !event.rsvps.includes(loggedInUser) &&
             event.host !== loggedInUser &&
             event.seatsAvailable > 0 && (
-              <Button
+              <Button size="sm"
                 variant="dark"
                 onClick={() => {
                   updateRSVP(event._id);
@@ -211,7 +211,7 @@ const Events = () => {
             event.host &&
             loggedInUser === event.host && (
               <div className="p-2">
-                <Button
+                <Button size="sm"
                   variant="danger"
                   onClick={() => {
                     deleteEvent(event._id);
@@ -219,14 +219,14 @@ const Events = () => {
                 >
                   Delete Event
                 </Button>{" "}
-                <Button
+                <Button size="sm"
                   variant="secondary"
                   as={Link}
                   to={`/discussions/${event._id}`}
                 >
                   Enter Discussion
                 </Button>{" "}
-                <Button variant="primary" as={Link} to={`/chat/${event._id}`}>
+                <Button size="sm" variant="primary" as={Link} to={`/chat/${event._id}`}>
                   Chat
                 </Button>
               </div>
@@ -237,17 +237,15 @@ const Events = () => {
             eventDate > currentDate &&
             event.rsvps.includes(loggedInUser) && (
               <div>
-                <Link to={`/chat/${event._id}`}>
-                  <Button variant="primary">Chat with host</Button>
-                </Link>
-                <Button
+                  <Button size="sm" as={Link} to={`/chat/${event._id}`} variant="primary">Chat with host</Button>{' '}
+                <Button size="sm"
                   variant="secondary"
                   as={Link}
                   to={`/discussions/${event._id}`}
                 >
                   Enter Discussion
                 </Button>{" "}
-                <Button
+                <Button size="sm"
                   variant="danger"
                   onClick={() => {
                     updateRSVP(event._id, loggedInUser);
@@ -291,14 +289,14 @@ const Events = () => {
       <div>
         <br />
         {previous && (
-          <Link className="showlink" to={`/events/page/${prevId}`}>
+          <Button variant="secondary" as={Link} to={`/events/page/${prevId}`}>
             Previous
-          </Link>
+          </Button>
         )}
         {next && (
-          <Link className="showlink" to={`/events/page/${nextId}`}>
+          <Button  variant="secondary" as={Link} to={`/events/page/${nextId}`}>
             Next
-          </Link>
+          </Button>
         )}
         <br />
         <br />

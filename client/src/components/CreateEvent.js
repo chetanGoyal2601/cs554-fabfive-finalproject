@@ -166,7 +166,6 @@ const CreateEvent = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Description : </Form.Label>
-                  <br />
                   <Form.Control
                     onChange={(e) => setField("description", e.target.value)}
                     type="text"
@@ -180,7 +179,7 @@ const CreateEvent = () => {
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                   <Form.Label>Address : </Form.Label>
                   <br />
-                  <Form.Control
+                  <Form.Control className="mb-3"
                     onChange={(e) => setField("address", e.target.value)}
                     type="text"
                     placeholder="1234 Main St"
@@ -192,7 +191,7 @@ const CreateEvent = () => {
                 <Form.Group className="mb-3" controlId="formGridAddress2">
                   <Form.Label>Address 2 : </Form.Label>
                   <br />
-                  <Form.Control
+                  <Form.Control className="mb-3"
                     onChange={(e) => setField("address2", e.target.value)}
                     type="text"
                     placeholder="Apartment, studio, or floor"
@@ -204,8 +203,7 @@ const CreateEvent = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Capacity : </Form.Label>
-                  <br />
-                  <Form.Control
+                  <Form.Control className="mb-3"
                     onChange={(e) => setField("capacity", e.target.value)}
                     type="number"
                     placeholder="Capacity"
@@ -213,11 +211,10 @@ const CreateEvent = () => {
                   />
                   <div className="red">{errors.capacity}</div>
                 </Form.Group>
-                <br />
-                <br />
+                <Form.Label >Select Date & Time:</Form.Label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
-                    label="Event Date & Time"
+                    // label="Event Date & Time"
                     value={value}
                     onChange={handleChange}
                     type="datetime-local"

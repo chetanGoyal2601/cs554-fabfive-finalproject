@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import axios from "axios";
-
+//React Bootstrap
+import Container  from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+//Components
 import HeaderDiscussion from "./HeaderDiscussion";
 import PostsDiscussions from "./PostsDiscussions";
 import AddNewFormDiscussion from "./AddNewFormDiscussion";
@@ -171,22 +177,28 @@ const HomeForDiscussion = () => {
   };
 
   return (
-    <div>
-      <HeaderDiscussion />
-      <AddNewFormDiscussion onAdd={addPost} formType="post" />
-      {posts.length > 0 ? (
-        <PostsDiscussions
-          userId={userId}
-          posts={posts}
-          onDelete={deletePost}
-          onEdit={editPost}
-          addCommentToPost={addCommentToPost}
-          likePost={likePost}
-          unlikePost={unlikePost}
-        />
-      ) : (
-        "No Posts To Show"
-      )}
+    <div className="Discussion-Background">
+    <Container>
+        <Row>
+            <Col>
+              <HeaderDiscussion />
+              <AddNewFormDiscussion onAdd={addPost} formType="post" />
+              {posts.length > 0 ? (
+                <PostsDiscussions
+                  userId={userId}
+                  posts={posts}
+                  onDelete={deletePost}
+                  onEdit={editPost}
+                  addCommentToPost={addCommentToPost}
+                  likePost={likePost}
+                  unlikePost={unlikePost}
+                />
+                ) : (
+                  <p className="text-uppercase" style={{fontWeight:"bold",fontStyle:"italic",fontSize:"20px",color:"crimson"}}>No Posts to Show!!</p>
+                )}
+            </Col>
+          </Row>
+      </Container>
     </div>
   );
 };

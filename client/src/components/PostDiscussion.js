@@ -4,6 +4,7 @@ import EditPostFormDiscussion from "./EditPostFormDiscussion";
 import { FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import ButttonDiscussion from "./ButttonDiscussion";
+import Card from "react-bootstrap/Card";
 
 const PostDiscussion = ({
   post,
@@ -45,18 +46,19 @@ const PostDiscussion = ({
   };
   return (
     <div>
-      <div>
-        <h3>
-          {post.userName}
-          {userId === post.postUserId && (
-            <FaTimes
-              style={{ color: "red", cursor: "pointer" }}
-              onClick={() => onDelete(post._id)}
-            />
-          )}
-        </h3>
-        {showPost && <p>{post.text}</p>}
-      </div>
+      <Card style={{width:"40rem",marginLeft:"auto",marginRight:"auto"}} className="mb-3">
+        <p className="text-uppercase" style={{fontWeight:"bold",fontSize:"20px"}}>
+            {post.userName}
+            {userId === post.postUserId && (
+                  <FaTimes
+                    style={{ color: "red", cursor: "pointer", marginLeft:"10"}}
+                    onClick={() => onDelete(post._id)}
+                  />
+            )}
+          </p>
+          {showPost && <p style={{fontWeight:"500",fontStyle:"italic",fontSize:"18px"}}>{post.text}</p>}
+        
+     
 
       {/* Form to edit post */}
       {!showPost && (
@@ -69,45 +71,53 @@ const PostDiscussion = ({
       )}
 
       {/* div to show total likes */}
-      <div>Total Likes: {post.totalLikes}</div>
+      <div><p className="text-uppercase" style={{fontWeight:"bold",fontSize:"18px"}}>Total Likes: {post.totalLikes}</p></div>
 
       {/* Button for liking and disliking */}
-      {toLike() ? (
-        <ButttonDiscussion
-          buttonName="Like"
-          onClick={() => likePost(post._id, userId)}
-        />
-      ) : (
-        <ButttonDiscussion
-          buttonName="Unlike"
-          onClick={() => unlikePost(post._id, userId)}
-        />
-      )}
-      {/* Button to view comments */}
-      <ButttonDiscussion
-        buttonName="View Comments"
-        onClick={toggleCommentsAreShowing}
-      />
+      <div className="mb-3">
+          {toLike() ? (
+            <ButttonDiscussion
+              buttonName="Like"
+              variant="dark"
+              onClick={() => likePost(post._id, userId)}
+            />
+          ) : (
+            <ButttonDiscussion
+              buttonName="Unlike"
+              variant="secondary"
+              onClick={() => unlikePost(post._id, userId)}
+            />
+          )} {' '}
+          {/* Button to view comments */}
+          <ButttonDiscussion
+            buttonName="View Comments"
+            variant="primary"
+            onClick={toggleCommentsAreShowing}
+          />{' '}
 
-      {/* Button to edit post */}
-      {showPost && userId === post.postUserId && (
-        <ButttonDiscussion buttonName="Edit Post" onClick={changeShowPost} />
-      )}
-
+          {/* Button to edit post */}
+          {showPost && userId === post.postUserId && (
+            <ButttonDiscussion 
+            variant="danger"
+            buttonName="Edit Post" onClick={changeShowPost} />
+          )}
+        </div>
       {/* Form to add a comment */}
-      <AddNewFormDiscussion
-        onAdd={addComment}
-        formType="comment"
-      ></AddNewFormDiscussion>
+            <AddNewFormDiscussion
+              onAdd={addComment}
+              formType="comment"
+            ></AddNewFormDiscussion>
+            
 
-      {/* Component to view all comments */}
-      {commentsAreShowing && (
-        <>
-          <div>
-            <CommentsDiscussion comments={post.comments}></CommentsDiscussion>
-          </div>
-        </>
-      )}
+            {/* Component to view all comments */}
+            {commentsAreShowing && (
+              <>
+                <div>
+                  <CommentsDiscussion comments={post.comments}></CommentsDiscussion>
+                </div>
+              </>
+            )}
+      </Card>
     </div>
   );
 };

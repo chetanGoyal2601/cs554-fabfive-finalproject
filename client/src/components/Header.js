@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 
 
 const Header = ({logout}) => {
@@ -35,14 +36,18 @@ const Header = ({logout}) => {
                     <Nav>
                         <Nav.Link as={Link}  to="/createevent">Create Event</Nav.Link>
                         <Nav.Link as={Link}  to="/events/page/0">All Events</Nav.Link>
-                        <Nav.Link as={Link}  to="/profile">My Events</Nav.Link>
+                        <Nav.Link as={Link}  to="/profile">My Profile</Nav.Link>
                         <Nav.Link as={Link} onClick={logout} to="/">Logout</Nav.Link>
                     </Nav>
                     ) : (
-                    <Nav>
-                        <Nav.Link as={Link}  to="/signin">Log In</Nav.Link>
-                        <Nav.Link as={Link}  to="/validate">Sign Up</Nav.Link>
-                    </Nav>
+                    // <Nav>
+                    //     <Nav.Link  as={Link} to="/signin">Log In</Nav.Link>
+                    //     <Nav.Link as={Link}  to="/validate">Sign Up</Nav.Link>
+                    // </Nav>
+                    <div className="mb-2">
+                    <Button  as={Link} to="/signin" variant="outline-light" size="sm">Login</Button>{' '}
+                    <Button as={Link}  to="/validate" variant="primary" size="sm" >SignUp</Button>
+                  </div>
                     )}
             </Container>
           </Navbar>

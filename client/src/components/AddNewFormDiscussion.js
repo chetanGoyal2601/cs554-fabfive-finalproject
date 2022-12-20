@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import InputGroup from 'react-bootstrap/InputGroup';
 
 const AddNewFormDiscussion = ({ onAdd, formType }) => {
   const [text, setText] = useState("");
@@ -15,22 +18,24 @@ const AddNewFormDiscussion = ({ onAdd, formType }) => {
   };
 
   return (
-    <form name="AddForm" onSubmit={onSubmit}>
-      <div>
-        <label></label>
-        <input
-          type="text"
-          placeholder={
-            formType === "post"
-              ? "Ask/share anything about this event...."
-              : "Make a new comment...."
-          }
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        ></input>
-      </div>
-      <input type="submit" value={`Add ${formType}`}></input>
-    </form>
+  
+    <Form className="mb-3" name="AddForm" onSubmit={onSubmit}>
+      <label for="my-input"></label>
+        <InputGroup  className="mb-3">
+          <Form.Control id="my-input"
+            type="text"
+            placeholder={
+              formType === "post"
+                ? "Ask/share anything about this event...."
+                : "Make a new comment...."
+            }
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          ></Form.Control>
+          <Button variant="primary" type="submit" >{`Add ${formType}`}</Button>
+        </InputGroup>
+    </Form>
+
   );
 };
 

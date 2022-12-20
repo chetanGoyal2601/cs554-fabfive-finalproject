@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
 
 const ButttonDiscussion = (props) => {
   return (
-    <button
-      className={props.className}
+    <Button variant={props.variant} size="sm"
+      className={props.className} 
       type={props.typeOfButton}
       onClick={props.onClick}
     >
       {props.buttonName}
-    </button>
+    </Button>
   );
 };
 

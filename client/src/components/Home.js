@@ -16,10 +16,6 @@ const Home = () => {
             className="img-size"
           />
         </div>
-        {/* <div className='col flex-col'>
-          <img alt="MakeEventHappen" src={require('../img/Stevens-Logo.png')} className="img-size"/>
-          <p className='quote'>" Bright Lights <br/> & Party Nights !!!! "</p>
-        </div> */}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ const CommentsDiscussion = (props) => {
           />
         ))
       ) : (
-        <div>No Comments yet...</div>
+        <p style={{fontSize:"18px",fontWeight:"600"}}><span>No Comments Yet!</span></p>
       )}
     </>
   );

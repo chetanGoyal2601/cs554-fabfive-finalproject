@@ -1,8 +1,8 @@
 const CommentDiscussion = ({ commentText, commentUserName }) => {
   return (
     <div>
-      <h4>{commentUserName}</h4>
-      <p>{commentText}</p>
+      <p  style={{fontWeight:"bold",fontSize:"16px"}}>{commentUserName}</p>
+      <p style={{fontSize:"15px",fontWeight:"500"}}><span>{commentText}</span></p>
     </div>
   );
 };

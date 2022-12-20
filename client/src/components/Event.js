@@ -250,7 +250,7 @@ const Event = () => {
                     </Card.Title>
                   )}
                   <Card.Title>Description: </Card.Title>
-                  <Card.Text className="word_wrap">
+                  <Card.Text className="text-wrap">
                     {eventData.description}
                   </Card.Text>
 
