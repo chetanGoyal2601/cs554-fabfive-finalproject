@@ -10,9 +10,11 @@ import { Container } from "@mui/system";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { Circle } from "better-react-spinkit";
 
 
 export default function Form({login, removeAuth}) {
+    const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState(false);
     const navigate = useNavigate();
     const [id, setId] = useState("");
@@ -29,7 +31,9 @@ export default function Form({login, removeAuth}) {
     }, []);
 
     const onSubmit = async data => {
+        setLoading(true)
         const res = await axios.post('/user/signin', data)
+        setLoading(false)
         if (res.data.status === "SUCCESS") {
             setError(false);
             setValidate(false);
@@ -44,7 +48,7 @@ export default function Form({login, removeAuth}) {
             setResponse(false);
             let dataa = {}
             dataa.email = data.email;
-            const rem1 = await axios.post('http://localhost:8000/user/userbyemail', dataa)
+            const rem1 = await axios.post('/user/userbyemail', dataa)
             console.log(rem1);
             setId(rem1.data[0]._id)
             setEmail(rem1.data[0].email)
@@ -67,9 +71,9 @@ export default function Form({login, removeAuth}) {
     const onSubmit4 = async data1 => {
         data1.userId = id;
         data1.email = email;
-        console.log('before')
-        const res = await axios.post('http://localhost:8000/email_verification/resend', data1)
-        console.log('after')
+        setLoading(true)
+        const res = await axios.post('/email_verification/resend', data1)
+        setLoading(false)
         if (res.data.status === "PENDING") {
             setError(false);
             setValidate(false);
@@ -85,7 +89,20 @@ export default function Form({login, removeAuth}) {
             setFailedResend(true);
         }
     }
-
+    if (loading) {
+        return (
+          <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+              <div>
+                  <img src={require('../img/logo_transparent.png')}
+                      alt="Loading.."
+                      style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                      height={300}
+                  />
+                  <Circle color="black" size={120} />
+              </div>
+          </center>
+      );
+        }
 
     return (
               <div className=" Stevens-Background">

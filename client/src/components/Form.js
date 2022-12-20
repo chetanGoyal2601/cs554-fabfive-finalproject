@@ -11,10 +11,12 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Container } from "@mui/system";
 import  {  useEffect } from 'react';
+import { Circle } from "better-react-spinkit";
 
 
 export default function Form() {
     const auth = useOutletContext();
+    const [loading, setLoading] = useState(false);
     const [resend, setResend] = useState(false);
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
@@ -31,7 +33,9 @@ export default function Form() {
         setValue("email", auth.email)
       });
     const onSubmit = async data => {
-        const res = await axios.post('http://localhost:8000/user/signup', data)
+        setLoading(true)
+        const res = await axios.post('/user/signup', data)
+        setLoading(false)
         if (res.data.status === "PENDING") {
             setValidate(true);
             setFailed(false);
@@ -63,7 +67,9 @@ export default function Form() {
     const onSubmit4 = async data1 => {
         data1.userId = id;
         data1.email = email;
-        const res = await axios.post('http://localhost:8000/email_verification/resend', data1)
+        setLoading(true)
+        const res = await axios.post('/email_verification/resend', data1)
+        setLoading(false)
         if (res.data.status === "PENDING") {
             setResend(true);
             setValidate(false);
@@ -81,7 +87,22 @@ export default function Form() {
             setFailedResend(true);
         }
     }
+    
 
+    if (loading) {
+        return (
+          <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+              <div>
+                  <img src={require('../img/logo_transparent.png')}
+                      alt="Loading.."
+                      style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                      height={300}
+                  />
+                  <Circle color="black" size={120} />
+              </div>
+          </center>
+      );
+        }
 
     return (
         <div className=" Stevens-Background">

@@ -59,7 +59,10 @@ export default function Form() {
   let card2= null;
   let card3 = null;
   let card4 = null;
-  async function onSubmit4 () {
+
+
+  useEffect(() => {
+    async function fetchData(){
     let data2={}
     data2.email=auth.email
     console.log(data2)
@@ -70,6 +73,13 @@ export default function Form() {
       setRsvp_past(res?.data?.reserve_past);
       setRsvp_future(res?.data?.reserve_future);
     }
+    fetchData();
+}, []);
+
+
+
+
+
     const buildCard = (show) => {
       return (
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2}  >
@@ -95,26 +105,53 @@ export default function Form() {
       );
     };
 
+    if (host_past) {
+      if (host_past.length === 0)
+      {
+      card1 ="no past hosted events"
+      }
     card1 =
     host_past &&
     host_past.map((show) => {
         return buildCard(show);
     });
+  }
+
+  if (host_future) {
+    if (host_future.length === 0)
+    {
+      card2 ="no future hosted events"
+      }
     card2 =
     host_future &&
     host_future.map((show) => {
         return buildCard(show);
     });
+  }
+
+  if (rsvp_past) {
+    if (rsvp_past.length === 0)
+    {
+      card3 ="no past rsvp events"
+      }
     card3 =
     rsvp_past &&
     rsvp_past.map((show) => {
         return buildCard(show);
     });
+  }
+
+  if (rsvp_future) {
+    if (rsvp_future.length === 0)
+    {
+      card4 ="no future rsvp events"
+      }
     card4 =
     rsvp_future &&
     rsvp_future.map((show) => {
         return buildCard(show);
     });
+  }
 
   return (
     <section>
@@ -128,33 +165,35 @@ export default function Form() {
         <Grid container className={classes.grid} spacing={5}>
           <div>
           <h1>Hosted events - past</h1>
+          <br></br>
                         {card1}
                         <br></br>
                         <br></br>
                         </div>
                         <div>
                         <h1>Hosted events - future</h1>
+                        <br></br>
                         {card2}
                         <br></br>
                         <br></br>
                         </div>
                         <div>
                         <h1>RSVP'd events - past</h1>
+                        <br></br>
                         {card3}
                         <br></br>
                         <br></br>
                         </div>
                         <div>
                         <h1>RSVP'd events - future</h1>
+                        <br></br>
                         {card4}
                         <br></br>
                         <br></br>
                         </div>
                     </Grid>
       </div>):("")}
-      <div>
-      <button  className='project-btn project-btn-secondary' onClick={onSubmit4}>Reveal</button>
-      </div>
+  
     </section>
   )
 

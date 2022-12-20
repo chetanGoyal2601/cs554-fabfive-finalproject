@@ -9,8 +9,10 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Container } from "@mui/system";
+import { Circle } from "better-react-spinkit";
 
 export default function Form() {
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [found, setFound] = useState(false);
     const [validate, setValidate] = useState(false);
@@ -21,7 +23,9 @@ export default function Form() {
         const data2 = data1.split('/')
         data.userId = data2[2]
         data.resetString = data2[3]
-        const res = await axios.post('http://localhost:8000/forgot_password/reset', data)
+        setLoading(true)
+        const res = await axios.post('/forgot_password/reset', data)
+        setLoading(false)
         if (res.data.status === "SUCCESS" && res.data.message === "Password has been reset successfully.") {
             setValidate(true);
             setError(false);
@@ -49,7 +53,20 @@ export default function Form() {
         }
         //console.log(res);
     }
-
+    if (loading) {
+        return (
+          <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+              <div>
+                  <img src={require('../img/logo_transparent.png')}
+                      alt="Loading.."
+                      style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                      height={300}
+                  />
+                  <Circle color="black" size={120} />
+              </div>
+          </center>
+      );
+        }
     return (
         <section>
           <div className="Stevens-Background">

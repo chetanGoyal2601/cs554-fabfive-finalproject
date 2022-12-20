@@ -9,8 +9,10 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Container } from "@mui/system";
+import { Circle } from "better-react-spinkit";
 
 export default function Form() {
+    const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [r_n_f, setNf] = useState(false);
     const [in_valid, setIn_Valid] = useState(false);
@@ -28,7 +30,9 @@ export default function Form() {
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors1 } } = useForm()
     const onSubmit = async data => {
         data.redirectUrl = 'http://localhost:3000/new_password';
-        const res = await axios.post('http://localhost:8000/forgot_password/request', data)
+        setLoading(true)
+        const res = await axios.post('/forgot_password/request', data)
+        setLoading(false)
         setData2(data.email);
         if (res.data.status === "PENDING" && res.data.message === "Password reset email sent") {
             setValidate(true);
@@ -59,11 +63,13 @@ export default function Form() {
     const onSubmit1 = async data1 => {
         data1 = {};
         data1.email = data2;
-        const rem = await axios.post('http://localhost:8000/forgot_password_otp/request', data1)
+        setLoading(true)
+        const rem = await axios.post('/forgot_password_otp/request', data1)
+        setLoading(false)
         setDisplay(true);
         let dataa = {}
         dataa.email = data2
-        const rem1 = await axios.post('http://localhost:8000/user/userbyemail', dataa)
+        const rem1 = await axios.post('/user/userbyemail', dataa)
         setId(rem1.data[0]._id)
         document.getElementById("form").reset();
     }
@@ -73,7 +79,9 @@ export default function Form() {
     const onSubmit2 = async data3 => {
         //delete data3.email;
         data3.userId = id;
-        const rem = await axios.post('http://localhost:8000/forgot_password_otp/reset', data3)
+        setLoading(true)
+        const rem = await axios.post('/forgot_password_otp/reset', data3)
+        setLoading(false)
         console.log(rem);
         if (rem.data.status === "FAILED" && rem.data.message === "Password reset request not found.") {
             setNf(true);
@@ -114,7 +122,20 @@ export default function Form() {
 
         }
     }
-
+    if (loading) {
+        return (
+          <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+              <div>
+                  <img src={require('../img/logo_transparent.png')}
+                      alt="Loading.."
+                      style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                      height={300}
+                  />
+                  <Circle color="black" size={120} />
+              </div>
+          </center>
+      );
+        }
     return (
         <section>
             {!display ? (
