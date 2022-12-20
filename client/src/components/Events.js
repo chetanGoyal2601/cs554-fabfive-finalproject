@@ -165,7 +165,7 @@ const Events = () => {
                 fontSize: 25,
               }}
             >
-              <Typography class="text-uppercase">
+              <Typography className="text-uppercase">
                 {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
               </Typography>
               <Typography variant="body2" color="black" component="p">
@@ -193,71 +193,88 @@ const Events = () => {
             </CardContent>
           </Link>
           {loggedInUser &&
-            eventDate > currentDate &&
-            event.rsvps &&
-            event.host &&
-            event.seatsAvailable &&
-            !event.rsvps.includes(loggedInUser) &&
-            event.host !== loggedInUser &&
-            event.seatsAvailable > 0 ? (
-              <Button size="sm"
-                variant="dark"
+          eventDate > currentDate &&
+          event.rsvps &&
+          event.host &&
+          event.seatsAvailable &&
+          !event.rsvps.includes(loggedInUser) &&
+          event.host !== loggedInUser &&
+          event.seatsAvailable > 0 ? (
+            <Button
+              size="sm"
+              variant="dark"
+              onClick={() => {
+                updateRSVP(event._id);
+              }}
+            >
+              RSVP
+            </Button>
+          ) : undefined}
+          {loggedInUser &&
+          eventDate > currentDate &&
+          event.host &&
+          loggedInUser === event.host ? (
+            <div className="p-2">
+              <Button
+                size="sm"
+                variant="danger"
                 onClick={() => {
-                  updateRSVP(event._id);
+                  deleteEvent(event._id);
                 }}
               >
-                RSVP
+                Delete Event
+              </Button>{" "}
+              <Button
+                size="sm"
+                variant="secondary"
+                as={Link}
+                to={`/discussions/${event._id}`}
+              >
+                Enter Discussion
+              </Button>{" "}
+              <Button
+                size="sm"
+                variant="primary"
+                as={Link}
+                to={`/chat/${event._id}`}
+              >
+                Chat
               </Button>
-            ) : undefined}
-          {loggedInUser &&
-            eventDate > currentDate &&
-            event.host &&
-            loggedInUser === event.host ? (
-              <div className="p-2">
-                <Button size="sm"
-                  variant="danger"
-                  onClick={() => {
-                    deleteEvent(event._id);
-                  }}
-                >
-                  Delete Event
-                </Button>{" "}
-                <Button size="sm"
-                  variant="secondary"
-                  as={Link}
-                  to={`/discussions/${event._id}`}
-                >
-                  Enter Discussion
-                </Button>{" "}
-                <Button size="sm" variant="primary" as={Link} to={`/chat/${event._id}`}>
-                  Chat
-                </Button>
-              </div>
-            ) : undefined}
+            </div>
+          ) : undefined}
 
           {loggedInUser &&
-            event.rsvps &&
-            eventDate > currentDate &&
-            event.rsvps.includes(loggedInUser) ? (
-              <div>
-                  <Button size="sm" as={Link} to={`/chat/${event._id}`} variant="primary">Chat with host</Button>{' '}
-                <Button size="sm"
-                  variant="secondary"
-                  as={Link}
-                  to={`/discussions/${event._id}`}
-                >
-                  Enter Discussion
-                </Button>{" "}
-                <Button size="sm"
-                  variant="danger"
-                  onClick={() => {
-                    updateRSVP(event._id, loggedInUser);
-                  }}
-                >
-                  Remove RSVP
-                </Button>
-              </div>
-            ) : undefined}
+          event.rsvps &&
+          eventDate > currentDate &&
+          event.rsvps.includes(loggedInUser) ? (
+            <div>
+              <Button
+                size="sm"
+                as={Link}
+                to={`/chat/${event._id}`}
+                variant="primary"
+              >
+                Chat with host
+              </Button>{" "}
+              <Button
+                size="sm"
+                variant="secondary"
+                as={Link}
+                to={`/discussions/${event._id}`}
+              >
+                Enter Discussion
+              </Button>{" "}
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() => {
+                  updateRSVP(event._id, loggedInUser);
+                }}
+              >
+                Remove RSVP
+              </Button>
+            </div>
+          ) : undefined}
           <br />
           <br />
         </Card>
@@ -297,7 +314,7 @@ const Events = () => {
           </Button>
         )}
         {next && (
-          <Button  variant="secondary" as={Link} to={`/events/page/${nextId}`}>
+          <Button variant="secondary" as={Link} to={`/events/page/${nextId}`}>
             Next
           </Button>
         )}
