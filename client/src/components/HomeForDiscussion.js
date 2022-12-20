@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 //React Bootstrap
-import Container  from "react-bootstrap/Container";
+import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -184,32 +184,48 @@ const HomeForDiscussion = () => {
   };
 
   return (
-
-    <div className="Discussion-Background">
-    <Container>
-        <Row>
-            <Col>
-              <HeaderDiscussion />
-              <AddNewFormDiscussion onAdd={addPost} formType="post" />
-              {posts.length > 0 ? (
-                <PostsDiscussions
-                  userId={userId}
-                  posts={posts}
-                  onDelete={deletePost}
-                  onEdit={editPost}
-                  addCommentToPost={addCommentToPost}
-                  likePost={likePost}
-                  unlikePost={unlikePost}
-                />
+    <>
+      {rsvp ? (
+        <div className="Discussion-Background">
+          <Container>
+            <Row>
+              <Col>
+                <HeaderDiscussion eventName={eventName} />
+                <AddNewFormDiscussion onAdd={addPost} formType="post" />
+                {posts.length > 0 ? (
+                  <PostsDiscussions
+                    userId={userId}
+                    posts={posts}
+                    onDelete={deletePost}
+                    onEdit={editPost}
+                    addCommentToPost={addCommentToPost}
+                    likePost={likePost}
+                    unlikePost={unlikePost}
+                  />
                 ) : (
-                  <p className="text-uppercase" style={{fontWeight:"bold",fontStyle:"italic",fontSize:"20px",color:"crimson"}}>No Posts to Show!!</p>
+                  <p
+                    className="text-uppercase"
+                    style={{
+                      fontWeight: "bold",
+                      fontStyle: "italic",
+                      fontSize: "20px",
+                      color: "crimson",
+                    }}
+                  >
+                    No Posts to Show!!
+                  </p>
                 )}
-            </Col>
-          </Row>
-      </Container>
-      </div>
-      
-    
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      ) : (
+        <div>
+          <h1>RSVP to participate in discussion!</h1>
+          <button onClick={() => navigate(-1)}>Go back</button>
+        </div>
+      )}
+    </>
   );
 };
 
