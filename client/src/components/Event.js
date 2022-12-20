@@ -15,7 +15,7 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import Nav from "react-bootstrap/Nav";
 
-let path = "/";
+let path = "/images/";
 const labels = {
   0.5: "Useless",
   1: "Useless+",
