@@ -113,7 +113,7 @@ export default function Form() {
             setFailed1(false);
 
         }
-        if (rem.data.status === "FAILED") {
+        if (rem.data.status === "FAILED" && rem.data.message !== "Invalid code passed. Check your inbox." && rem.data.message !== "Code has expired. Please request again." && rem.data.message !== "Password reset request not found.") {
             setNf(false);
             setCode(false);
             setIn_Valid(false);
