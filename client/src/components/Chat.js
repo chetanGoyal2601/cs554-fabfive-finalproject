@@ -135,12 +135,12 @@ const Chat = () => {
     if (loading) return (
         <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
             <div>
-                <img src={person_placeholder}
-                    alt="placeholder"
-                    style={{ marginBottom: 10 }}
-                    height={200}
+                <img src={require('../img/logo_transparent.png')}
+                    alt="Loading.."
+                    style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                    height={300}
                 />
-                <Circle color="black" size={60} />
+                <Circle color="black" size={120} />
             </div>
         </center>
     );
@@ -151,9 +151,7 @@ const Chat = () => {
                 <div className={classes.sideHeader}>
                     <div>
                         <IconButton onClick={() => navigate(-1)}>
-                            
-                                <ArrowBackIcon />
-                            
+                            <ArrowBackIcon />
                         </IconButton>
                     </div>
                     <Nav.Link as={Link} onClick={fetchData}>
@@ -161,7 +159,6 @@ const Chat = () => {
                             Event Chat
                         </h3>
                     </Nav.Link>
-                    
                 </div>
                 {eventChats.map(chat => (
                     <div className={classes.chatTile} onClick={() => changeChat(chat._id)} key={chat._id}>
@@ -182,7 +179,7 @@ const Chat = () => {
                     <div className={classes.endOfMsg} ref={endOfMsgsRef}/>
                 </div>
                 <form className={classes.inputContainer}>
-                    <input className={classes.input} value={inputMsg} onChange={e => setInputMsg(e.target.value)} />
+                    <input className={classes.input} placeholder="Type a message" value={inputMsg} onChange={e => setInputMsg(e.target.value)} />
                     <button hidden disabled={!inputMsg.trim()} type="submit" onClick={() => sendMessage()} />
                 </form>
             </div>
