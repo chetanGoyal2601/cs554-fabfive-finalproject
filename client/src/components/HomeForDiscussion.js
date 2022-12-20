@@ -76,7 +76,11 @@ const HomeForDiscussion = () => {
     setPosts(
       posts.map((post) =>
         post._id === postId
-          ? { ...post, totalLikes: editLikeOnPost(post.likes, userId) }
+          ? {
+              ...post,
+              likes: editLikeOnPost(post.likes, userId),
+              totalLikes: post.totalLikes + 1,
+            }
           : post
       )
     );
@@ -102,7 +106,11 @@ const HomeForDiscussion = () => {
     setPosts(
       posts.map((post) =>
         post._id === postId
-          ? { ...post, totalLikes: editUnLikeOnPost(post.likes, userId) }
+          ? {
+              ...post,
+              likes: editUnLikeOnPost(post.likes, userId),
+              totalLikes: post.totalLikes - 1,
+            }
           : post
       )
     );
