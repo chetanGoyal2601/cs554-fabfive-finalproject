@@ -83,12 +83,11 @@ export default function Form({login, removeAuth}) {
                                     </div>
                                     <form  className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                                         <label className='mb-3 text-decor' for="email">Email:</label>
-                                        <input id="email" className='mb-3' type="email" {...register("email",{ required: true, pattern: /[a-zA-Z0-9]+@stevens\.edu/i})} placeholder='username@stevens.edu' />
+                                        <input id="email" className='mb-3' type="email" {...register("email",{ required: true, pattern: /[a-zA-Z0-9]+@stevens\.edu/i})} placeholder='username@stevens.edu' required/>
                                         {errors.email && <p className='exists'>Please enter Stevens mail id</p>}
                                         <label className='mb-3 text-decor' for="password">Password:</label>
-                                        <input className='mb-3' id="password" type="password" {...register("password",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='password' />
+                                        <input className='mb-3' id="password" type="password" {...register("password")} placeholder='password' required/>
                                         {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
-                                        {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                                         <button className='project-btn project-btn-primary'>SIGN IN</button>
                                     </form>
                                     {error ? (<span  className="exists">Invalid Credentials Entered</span>) : (validate ? (<span  className="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span  className="valid">Verification mail resent ! </span>) : ("")))}

@@ -4,13 +4,14 @@ import React, {
     useRef
 } from 'react';
 import io from 'socket.io-client';
-import {Link, useOutletContext, useParams} from 'react-router-dom';
+import {Link, useNavigate, useOutletContext, useParams} from 'react-router-dom';
 
 import {
     makeStyles,
     Avatar,
     IconButton
   } from '@material-ui/core';
+import Nav from 'react-bootstrap/Nav';
 import moment from 'moment';
 import axios from 'axios';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -38,23 +39,25 @@ const Chat = () => {
     const [eventChats, setEventChats] = useState([]);
     const [chatId, setChatId] = useState('');
     const [page404, setPage404] = useState(false);
+    const navigate = useNavigate();
+
+    async function fetchData() {
+        try {
+            setLoading(true);
+            const {data} = await axios.get(`/chat/${eventId}/${userId}`);
+            console.log(data);
+            setEventChats(data.eventChats);
+            setChatId(data.eventChats[0]?._id);
+            setLoading(false);
+            setPage404(false);
+        } catch (e) {
+            console.log(e);
+            setLoading(false);
+            setPage404(true);
+        }
+    }
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                setLoading(true);
-                const {data} = await axios.get(`/chat/${eventId}/${userId}`);
-                console.log(data);
-                setEventChats(data.eventChats);
-                setChatId(data.eventChats[0]?._id);
-                setLoading(false);
-                setPage404(false);
-            } catch (e) {
-                console.log(e);
-                setLoading(false);
-                setPage404(true);
-            }
-        }
         fetchData();
         socketRef.current = io('/');
         console.log('making connection');
@@ -147,13 +150,18 @@ const Chat = () => {
             <div className={classes.sideBar}>
                 <div className={classes.sideHeader}>
                     <div>
-                        <IconButton>
-                            <Link to={`/event/${eventId}`}>
+                        <IconButton onClick={() => navigate(-1)}>
+                            
                                 <ArrowBackIcon />
-                            </Link>
+                            
                         </IconButton>
                     </div>
-                    <h3>Event Chat</h3>
+                    <Nav.Link as={Link} onClick={fetchData}>
+                        <h3>
+                            Event Chat
+                        </h3>
+                    </Nav.Link>
+                    
                 </div>
                 {eventChats.map(chat => (
                     <div className={classes.chatTile} onClick={() => changeChat(chat._id)} key={chat._id}>
