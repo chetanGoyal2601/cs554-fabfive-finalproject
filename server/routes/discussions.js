@@ -25,10 +25,11 @@ router.route("/discussions/:id/:userId").get(async (req, res) => {
     let userId = req.params.userId;
     //console.log("Hello1");
     let rsvpBool = await eventData.checkRsvp(eventId, userId);
-    if (!rsvpBool) {
-      alert("You need to rsvp");
-      return res.status(200).redirect("/");
+    let event = await eventData.get(eventId);
+    if (userId == event.host) {
+      rsvpBool = true;
     }
+    let eventName = event.title;
     //idValidation(eventId);
     const postDataList = await postData.getAllPostsForEvent(eventId);
     //console.log(postDataList);
@@ -49,6 +50,7 @@ router.route("/discussions/:id/:userId").get(async (req, res) => {
       title: "Discussions",
       postList: output,
       rsvpBool: rsvpBool,
+      eventName: eventName,
       // isUserLoggedIn: isUserLoggedIn,
     });
   } catch (e) {

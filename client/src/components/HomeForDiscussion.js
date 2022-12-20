@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import HeaderDiscussion from "./HeaderDiscussion";
@@ -12,15 +12,18 @@ const HomeForDiscussion = () => {
   //const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [rsvp, setRsvp] = useState(false);
+  const [eventName, setEventName] = useState("");
   const userDetails = useOutletContext();
   const userId = userDetails.userId;
   const userName = userDetails.name;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPosts = async () => {
       const dataFromServer = await fetchPosts();
       setPosts(dataFromServer.postList);
       setRsvp(dataFromServer.rsvpBool);
+      setEventName(dataFromServer.eventName);
     };
     getPosts();
   }, []);
@@ -178,7 +181,7 @@ const HomeForDiscussion = () => {
     <>
       {rsvp ? (
         <div>
-          <HeaderDiscussion />
+          <HeaderDiscussion eventName={eventName} />
           <AddNewFormDiscussion onAdd={addPost} formType="post" />
           {posts.length > 0 ? (
             <PostsDiscussions
@@ -195,7 +198,10 @@ const HomeForDiscussion = () => {
           )}
         </div>
       ) : (
-        <div>RSVP to participate in discussion!</div>
+        <div>
+          <h1>RSVP to participate in discussion!</h1>
+          <button onClick={() => navigate(-1)}>Go back</button>
+        </div>
       )}
     </>
   );
