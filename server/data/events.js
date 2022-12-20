@@ -146,6 +146,15 @@ async function getAll(page) {
   return data;
 }
 
+async function checkRsvp(eventId, userId) {
+  eventId = validations.checkId(eventId, "Event ID");
+  const event = await this.get(eventId);
+  if (event.rsvps.includes(userId)) {
+    return true;
+  }
+  return false;
+}
+
 async function setRsvp(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
   // userId = validations.checkId(userId, "User ID");
@@ -289,4 +298,5 @@ module.exports = {
   setRsvp,
   remove,
   setRating,
+  checkRsvp,
 };
