@@ -360,7 +360,7 @@ const Event = () => {
                           size="md"
                           variant="dark"
                           as={Link}
-                          to={`/chat/${eventData._id}/${loggedInUser}`}
+                          to={`/chat/${eventData._id}`}
                         >
                           Chat with host
                         </Button>
@@ -376,7 +376,7 @@ const Event = () => {
                         <Button
                           size="md"
                           as={Link}
-                          to={`/chat/${eventData._id}/${loggedInUser}`}
+                          to={`/chat/${eventData._id}`}
                           variant="primary"
                         >
                           Chat with host
