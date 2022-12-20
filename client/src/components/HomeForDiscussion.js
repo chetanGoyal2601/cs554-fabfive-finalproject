@@ -32,7 +32,6 @@ const HomeForDiscussion = () => {
 
   // add a new post on discussion page
   const addPost = async (postText) => {
-    //console.log(postText);
     const res = await axios.post(
       `/discussions/${eventId}`,
       {

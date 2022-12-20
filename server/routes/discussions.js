@@ -56,13 +56,12 @@ router.route("/discussions/:id").post(async (req, res) => {
   const postInfo = req.body.data.newPost.text;
   const eventId = req.params.id;
   const userId = req.body.data.userId;
-  //console.log(eventId);
-  //console.log(req.body);
   try {
     // if (!checkUserLoggedIn(req)) {
     //   return res.status(200).redirect("/login");
     // }
     idValidation(userId); // ObjectIdValidation and if the user exists in db or not
+    idValidation(eventId);
     textValidation(postInfo);
   } catch (e) {
     return res
