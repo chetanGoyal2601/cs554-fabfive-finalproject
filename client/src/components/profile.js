@@ -199,9 +199,6 @@ export default function Form() {
                         </Row>
                     </Grid>
       </div>):("")}
-      <div>
-      <button  className='project-btn project-btn-secondary' onClick={onSubmit4}>Reveal</button>
-      </div>
     </section>
   )
 
