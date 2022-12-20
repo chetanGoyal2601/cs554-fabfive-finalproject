@@ -3,7 +3,7 @@ const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 const user = require("./users");
-const { createChat, deleteChat } = require("./chat");
+const { createChat, deleteChat, deleteChatByEvent } = require("./chat");
 
 const Months = {
   Jan: 0,
@@ -227,6 +227,8 @@ async function remove(eventId, userId) {
     throw `Error : Could not delete event with id of ${eventId}`;
   }
 
+  let chatCount = await deleteChatByEvent(eventId);
+  console.log("event chats deleted: ", chatCount);
   let updateAnswer = await user.removeUsers(eventId, event.host, event.rsvps);
 
   let answer;

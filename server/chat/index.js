@@ -4,6 +4,7 @@ const {
 const {
   updateChat
 } = require('../data/chat');
+
 const client = createClient();
 client.on("error", function (error) {
   console.error(error);
