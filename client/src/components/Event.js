@@ -269,7 +269,7 @@ const Event = () => {
                     eventData.rsvps &&
                     eventData.rsvps.includes(loggedInUser) &&
                     eventData.eventDate &&
-                    eventDate < currentDate && (
+                    eventDate < currentDate ? (
                       <div>
                         <Typography component="legend">
                           Rate the host
@@ -301,7 +301,7 @@ const Event = () => {
                           </Box>
                         )}
                       </div>
-                    )}
+                    ) : undefined}
                   {loggedInUser &&
                     eventData.eventDate &&
                     eventDate > currentDate &&
@@ -310,7 +310,7 @@ const Event = () => {
                     eventData.seatsAvailable &&
                     !eventData.rsvps.includes(loggedInUser) &&
                     eventData.host !== loggedInUser &&
-                    eventData.seatsAvailable > 0 && (
+                    eventData.seatsAvailable > 0 ? (
                       <Button
                         size="md"
                         variant="dark"
@@ -320,11 +320,11 @@ const Event = () => {
                       >
                         RSVP
                       </Button>
-                    )}
+                    ) : undefined}
                   {loggedInUser &&
                     eventDate < currentDate &&
                     eventData.host &&
-                    loggedInUser === eventData.host && (
+                    loggedInUser === eventData.host ? (
                       <div>
                         <Typography component="legend">Host Rating</Typography>
                         <Rating
@@ -333,11 +333,11 @@ const Event = () => {
                           readOnly
                         />
                       </div>
-                    )}
+                    ) : undefined}
                   {loggedInUser &&
                     eventDate > currentDate &&
                     eventData.host &&
-                    loggedInUser === eventData.host && (
+                    loggedInUser === eventData.host ? (
                       <div className="mb-2">
                         <Button
                           size="md"
@@ -365,13 +365,13 @@ const Event = () => {
                           Chat
                         </Button>
                       </div>
-                    )}
+                    ) : undefined}
 
                   {loggedInUser &&
                     eventDate &&
                     eventDate > currentDate &&
                     eventData.rsvps &&
-                    eventData.rsvps.includes(loggedInUser) && (
+                    eventData.rsvps.includes(loggedInUser) ? (
                       <div className="mb-2">
                         <Button
                           size="md"
@@ -399,7 +399,7 @@ const Event = () => {
                           Remove RSVP
                         </Button>
                       </div>
-                    )}
+                    ) : undefined}
                   <br />
                   <Nav.Link
                     as={Link}
