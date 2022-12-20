@@ -3,7 +3,7 @@ const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 const user = require("./users");
-const {createChat, deleteChat} = require('./chat');
+const { createChat, deleteChat, deleteChatByEvent } = require("./chat");
 
 const Months = {
   Jan: 0,
@@ -101,7 +101,7 @@ async function get(id) {
     throw { message: "Error : No event with that id", code: 404 };
 
   event._id = event._id.toString();
-  // event.hostName = await user.getUsername(event.host);
+  event.hostName = await user.getUsername(event.host);
 
   return event;
 }
@@ -137,7 +137,9 @@ async function getAll(page) {
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();
-    eventList[indexOne].hostName = user.getUsername(eventList[indexOne].host);
+    eventList[indexOne].hostName = await user.getUsername(
+      eventList[indexOne].host
+    );
   }
 
   let previous = page <= 0 || page > numOfPages ? null : page - 1;
@@ -170,12 +172,12 @@ async function setRsvp(eventId, userId) {
     event.rsvps.splice(event.rsvps.indexOf(userId), 1);
     seatsAvailable++;
     let deleteCount = await deleteChat(eventId, event.host, userId);
-    console.log('chat delete count', deleteCount);
+    console.log("chat delete count", deleteCount);
   } else {
     event.rsvps.push(userId);
     seatsAvailable--;
     let chatId = await createChat(eventId, event.host, userId);
-    console.log('created chat', chatId);
+    console.log("created chat", chatId);
   }
 
   let newEvent = {
@@ -225,6 +227,8 @@ async function remove(eventId, userId) {
     throw `Error : Could not delete event with id of ${eventId}`;
   }
 
+  let chatCount = await deleteChatByEvent(eventId);
+  console.log("event chats deleted: ", chatCount);
   let updateAnswer = await user.removeUsers(eventId, event.host, event.rsvps);
 
   let answer;

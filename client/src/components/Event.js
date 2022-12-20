@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useOutletContext } from "react-router-dom";
+import { useParams, Link, useOutletContext, Navigate } from "react-router-dom";
 import axios from "axios";
 import noImage from "../img/Party.jpeg";
 // import Button from "@mui/material/Button";
@@ -67,6 +67,7 @@ const Event = () => {
       }
     } catch (e) {
       setIsError(true);
+      console.log(e);
       setErrorMessage(e.response.data.error);
     }
   }
@@ -89,6 +90,7 @@ const Event = () => {
         setIsError(true);
       }
     } catch (e) {
+      console.log(e);
       setIsError(true);
       setErrorMessage(e.response.data.error);
     }
@@ -116,12 +118,11 @@ const Event = () => {
         setIsError(true);
       }
     } catch (e) {
+      console.log(e);
       setIsError(true);
       setErrorMessage(e.response.data.error);
     }
   }
-
-  function joinDiscussion(eventId, loggedInUser) {}
 
   useEffect(() => {
     async function fetchData() {
@@ -135,6 +136,7 @@ const Event = () => {
         }
       } catch (e) {
         setIsError(true);
+        console.log(e);
         setErrorMessage(e.response.data.error);
       }
     }
@@ -142,7 +144,8 @@ const Event = () => {
   }, [id]);
 
   if (isDeleted)
-    return <Alert severity="success">Event was successfully deleted</Alert>;
+    // return <Alert severity="success">Event was successfully deleted</Alert>;
+    return <Navigate to={`/events/page/0`} />;
 
   if (isError)
     return (
@@ -228,6 +231,12 @@ const Event = () => {
                   <Card.Header>N/A</Card.Header>
                 )}
                 <Card.Body>
+                  <Card.Title> Hostname :</Card.Title>
+                  {eventData && eventData.hostName ? (
+                    <Card.Text>{eventData.hostName}</Card.Text>
+                  ) : (
+                    <Card.Text>N/A</Card.Text>
+                  )}
                   <Card.Title> Time :</Card.Title>
                   {eventData && eventData.time ? (
                     <Card.Text>{eventData.time}</Card.Text>
