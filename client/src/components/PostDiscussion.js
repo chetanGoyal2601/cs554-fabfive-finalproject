@@ -68,6 +68,8 @@ const PostDiscussion = ({
         />
       )}
 
+      <div>Total Likes: {post.totalLikes}</div>
+
       {/* Button for liking and disliking */}
       {toLike() ? (
         <ButttonDiscussion
