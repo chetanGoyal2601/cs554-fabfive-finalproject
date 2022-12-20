@@ -103,6 +103,7 @@ const CreateEvent = () => {
         setResponse(result.data);
       } catch (e) {
         setIsError(true);
+        console.log(e);
         setErrorMessage(e.response.data.error);
       }
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useNavigate } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import noImage from "../img/Party.jpeg";
 import { useParams, Link, useOutletContext } from "react-router-dom";
@@ -10,9 +10,9 @@ import Typography from "@mui/material/Typography";
 // import Button from "@mui/material/Button";
 import { nanoid } from "nanoid";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+// import Container from "react-bootstrap/Container";
 import Alert from "@mui/material/Alert";
-import { CardHeader } from "@mui/material";
+// import { CardHeader } from "@mui/material";
 let path = "/";
 
 // let userId = "123";
@@ -49,6 +49,7 @@ const Events = () => {
       }
     } catch (e) {
       setIsError(true);
+      console.log(e);
       setErrorMessage(e.response.data.error);
     }
   }
@@ -80,13 +81,10 @@ const Events = () => {
       // }
     } catch (e) {
       setIsError(true);
+      console.log(e);
       setErrorMessage(e.response.data.error);
     }
   }
-
-  function joinDiscussion(eventId, loggedInUser) {}
-
-  function chatWithHost(eventId, loggedInUser) {}
 
   // function removeRsvp(eventId, loggedInUser) {}
 
@@ -111,6 +109,7 @@ const Events = () => {
         setLoading(false);
       } catch (e) {
         setIsError(true);
+        console.log(e);
         setErrorMessage(e.response.data.error);
       }
     }
@@ -168,6 +167,10 @@ const Events = () => {
             >
               <Typography class="text-uppercase">
                 {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
+              </Typography>
+              <Typography variant="body2" color="black" component="p">
+                Host :{" "}
+                {event.hostName ? event.hostName : "No Host name Mentioned"}
               </Typography>
               <Typography variant="body2" color="black" component="p">
                 {event.time ? event.time : "No Time Mentioned"}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 //React Bootstrap
 import Container  from "react-bootstrap/Container";
@@ -15,24 +15,31 @@ import AddNewFormDiscussion from "./AddNewFormDiscussion";
 const HomeForDiscussion = () => {
   let { eventId } = useParams();
   //const eventId = "2";
+  //const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const [rsvp, setRsvp] = useState(false);
+  const [eventName, setEventName] = useState("");
   const userDetails = useOutletContext();
   const userId = userDetails.userId;
   const userName = userDetails.name;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPosts = async () => {
-      const postsFromServer = await fetchPosts();
-      setPosts(postsFromServer);
+      const dataFromServer = await fetchPosts();
+      setPosts(dataFromServer.postList);
+      setRsvp(dataFromServer.rsvpBool);
+      setEventName(dataFromServer.eventName);
     };
     getPosts();
   }, []);
 
   //fetch posts for discussion page
   const fetchPosts = async () => {
-    const res = await fetch(`/discussions/${eventId}`);
-    const data = await res.json();
-    return data.postList;
+    const res = await axios.get(`/discussions/${eventId}/${userId}`);
+    //console.log(res);
+    const data = await res.data;
+    return data;
     //console.log(data.postList);
   };
 
@@ -177,6 +184,7 @@ const HomeForDiscussion = () => {
   };
 
   return (
+
     <div className="Discussion-Background">
     <Container>
         <Row>
@@ -199,7 +207,9 @@ const HomeForDiscussion = () => {
             </Col>
           </Row>
       </Container>
-    </div>
+      </div>
+      
+    
   );
 };
 

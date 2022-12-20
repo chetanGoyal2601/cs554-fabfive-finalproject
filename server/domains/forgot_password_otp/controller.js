@@ -331,6 +331,8 @@ const sendOTPPasswordResetEmail = async ({ _id, email }) => {
                                   <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
                                     <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Hi, </span></p>
                                     <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Don't Worry, Here is your otp below to reset your account password and be back with us! </span></p>
+                                    <br></br>
+                                    <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">This OTP is valid for 60 minutes! </span></p>
                                   </div>
     
                                 </td>

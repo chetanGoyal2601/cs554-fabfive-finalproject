@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
+const eventData = require("../data/events");
 const postData = data.posts;
 const { ObjectId } = require("mongodb");
-const xss = require("xss");
+
 const { posts } = require("../data");
 
 // to fetch all posts
-router.route("/discussions/:id").get(async (req, res) => {
+router.route("/discussions/:id/:userId").get(async (req, res) => {
   //let userId = null;
   //let currentUserName = "x";
   //let isUserLoggedIn = false;
@@ -21,8 +22,17 @@ router.route("/discussions/:id").get(async (req, res) => {
     //   idValidation(userId);
     // }
     let eventId = req.params.id;
+    let userId = req.params.userId;
+    //console.log("Hello1");
+    let rsvpBool = await eventData.checkRsvp(eventId, userId);
+    let event = await eventData.get(eventId);
+    if (userId == event.host) {
+      rsvpBool = true;
+    }
+    let eventName = event.title;
     //idValidation(eventId);
     const postDataList = await postData.getAllPostsForEvent(eventId);
+    //console.log(postDataList);
     for (const i in postDataList) {
       output.push({
         _id: postDataList[i]._id,
@@ -39,6 +49,8 @@ router.route("/discussions/:id").get(async (req, res) => {
     res.status(200).json({
       title: "Discussions",
       postList: output,
+      rsvpBool: rsvpBool,
+      eventName: eventName,
       // isUserLoggedIn: isUserLoggedIn,
     });
   } catch (e) {

@@ -16,6 +16,7 @@ import axios from 'axios';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Circle } from "better-react-spinkit";
 import person_placeholder from '../img/person_placeholder.jpeg';
+import PageNotFound from './404Page';
 // import '../css/Chat.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -36,6 +37,7 @@ const Chat = () => {
     const socketRef = useRef();
     const [eventChats, setEventChats] = useState([]);
     const [chatId, setChatId] = useState('');
+    const [page404, setPage404] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -46,9 +48,11 @@ const Chat = () => {
                 setEventChats(data.eventChats);
                 setChatId(data.eventChats[0]?._id);
                 setLoading(false);
+                setPage404(false);
             } catch (e) {
                 console.log(e);
                 setLoading(false);
+                setPage404(true);
             }
         }
         fetchData();
@@ -138,7 +142,7 @@ const Chat = () => {
         </center>
     );
 
-    return (
+    return page404 ? (<PageNotFound />) : (
         <div className={classes.page}>
             <div className={classes.sideBar}>
                 <div className={classes.sideHeader}>

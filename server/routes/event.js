@@ -35,7 +35,6 @@ router.post("/", upload.single("image"), async (req, res) => {
     req.body.userId = validations.checkId(req.body.userId, "User Id");
 
     if (req.file) {
-      req.file = xss(req.file);
       imageName = validations.checkString(req.file.filename, "Image Name");
     } else {
       imageName = null;
@@ -174,11 +173,11 @@ router.delete("/:id", async (req, res) => {
 
   try {
     let event = await eventData.remove(req.params.id, req.body.userId);
-    let user = await userData.setCurrentlyHosted(
-      req.params.id,
-      req.body.userId,
-      "Delete"
-    );
+    // let user = await userData.setCurrentlyHosted(
+    //   req.params.id,
+    //   req.body.userId,
+    //   "Delete"
+    // );
     let events = null;
     if (event.deleted && req.body.page != null) {
       req.body.page = validations.checkNumber(req.body.page, "Page Number");

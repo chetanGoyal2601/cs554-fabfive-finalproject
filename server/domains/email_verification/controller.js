@@ -313,6 +313,8 @@ const sendVerificationEmail = async ({ _id, email }) => {
                                     <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
                                       <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Hi, </span></p>
                                       <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">You're almost ready to get started. Please click on the button below to verify your email address and enjoy exclusive services with us! </span></p>
+                                      <br></br>
+                                      <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">This link is valid for 6 hours! </span></p>
                                     </div>
       
                                   </td>

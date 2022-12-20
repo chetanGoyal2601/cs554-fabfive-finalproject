@@ -3,7 +3,7 @@ const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 const user = require("./users");
-const {createChat, deleteChat} = require('./chat');
+const { createChat, deleteChat, deleteChatByEvent } = require("./chat");
 
 const Months = {
   Jan: 0,
@@ -58,7 +58,7 @@ async function createEvent(
   if (eventDate < new Date())
     throw {
       message: "Error : Date cannot be older than today's date",
-      code: 500,
+      code: 400,
     };
 
   let newEvent = {
@@ -101,7 +101,7 @@ async function get(id) {
     throw { message: "Error : No event with that id", code: 404 };
 
   event._id = event._id.toString();
-  // event.hostName = await user.getUsername(event.host);
+  event.hostName = await user.getUsername(event.host);
 
   return event;
 }
@@ -137,7 +137,9 @@ async function getAll(page) {
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();
-    //eventList[indexOne].hostName = user.getUsername(eventList[indexOne].host);
+    eventList[indexOne].hostName = await user.getUsername(
+      eventList[indexOne].host
+    );
   }
 
   let previous = page <= 0 || page > numOfPages ? null : page - 1;
@@ -146,9 +148,18 @@ async function getAll(page) {
   return data;
 }
 
+async function checkRsvp(eventId, userId) {
+  eventId = validations.checkId(eventId, "Event ID");
+  const event = await this.get(eventId);
+  if (event.rsvps.includes(userId)) {
+    return true;
+  }
+  return false;
+}
+
 async function setRsvp(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
 
   const eventCollection = await events();
   const event = await this.get(eventId);
@@ -161,12 +172,12 @@ async function setRsvp(eventId, userId) {
     event.rsvps.splice(event.rsvps.indexOf(userId), 1);
     seatsAvailable++;
     let deleteCount = await deleteChat(eventId, event.host, userId);
-    console.log('chat delete count', deleteCount);
+    console.log("chat delete count", deleteCount);
   } else {
     event.rsvps.push(userId);
     seatsAvailable--;
     let chatId = await createChat(eventId, event.host, userId);
-    console.log('created chat', chatId);
+    console.log("created chat", chatId);
   }
 
   let newEvent = {
@@ -198,7 +209,7 @@ async function setRsvp(eventId, userId) {
 
 async function remove(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
 
   const eventCollection = await events();
   const event = await this.get(eventId);
@@ -216,14 +227,20 @@ async function remove(eventId, userId) {
     throw `Error : Could not delete event with id of ${eventId}`;
   }
 
-  let answer = { eventId, deleted: true };
+  let chatCount = await deleteChatByEvent(eventId);
+  console.log("event chats deleted: ", chatCount);
+  let updateAnswer = await user.removeUsers(eventId, event.host, event.rsvps);
+
+  let answer;
+  if (updateAnswer.updated) answer = { eventId, deleted: true };
+
   return answer;
 }
 
 async function setRating(eventId, rating, userId) {
   let flag = false;
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
   rating = validations.checkFloat(rating, "Rating");
 
   if (rating < 0 || rating > 5)
@@ -235,11 +252,11 @@ async function setRating(eventId, rating, userId) {
   const eventCollection = await events();
   const event = await this.get(eventId);
 
-  // if (!event.rsvps.includes(userId))
-  //   throw {
-  //     message: "You are not authorised to rate the Host for this event",
-  //     code: 403,
-  //   };
+  if (!event.rsvps.includes(userId))
+    throw {
+      message: "You are not authorised to rate the Host for this event",
+      code: 403,
+    };
 
   for (let index = 0; index < event.ratings.length; index++) {
     let element = event.ratings[index];
@@ -292,4 +309,5 @@ module.exports = {
   setRsvp,
   remove,
   setRating,
+  checkRsvp,
 };

@@ -23,6 +23,7 @@ import Home from "./components/Home";
 import Validate from "./components/Validate";
 import Header from "./components/Header";
 import HomeForDiscussion from "./components/HomeForDiscussion";
+import PageNotFound from "./components/404Page";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -94,11 +95,7 @@ const App = () => {
               <Route exact path="/forgot_password" element={<Forgot_Password />} />
               <Route path="/new_password/:id/:hash" element={<New_Password />}/>
             </Route>
-            <Route
-              element={
-                <PrivateRoute auth={cookies.user} logout={removeAuthData} />
-              }
-            >
+            <Route element={<PrivateRoute auth={cookies.user} logout={removeAuthData} />}>
               <Route exact path="/createevent" element={<CreateEvent />} />
               <Route exact path="/events/page/:page" element={<Events />} />
               <Route exact path="/event/:id" element={<Event />} />
@@ -106,6 +103,7 @@ const App = () => {
               <Route path="/chat/:eventId" element={<Chat />} />
               <Route path="/discussions/:eventId" element={<HomeForDiscussion />} />
             </Route>
+            <Route path='*' element={<PageNotFound />} />
           </Routes>
         </div>
       </div>

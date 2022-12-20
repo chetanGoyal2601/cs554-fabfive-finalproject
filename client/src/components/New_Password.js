@@ -55,7 +55,7 @@ export default function Form() {
                         <label className="text-decor" for="password">Password</label>
                         <input className="text-decor mb-3" id="password" type="password" {...register("newPassword")} placeholder='new password' required />
 
-                        <button className='project-btn project-btn-primary'>SIGN IN</button>
+                        <button className='project-btn project-btn-primary'>RESET</button>
 
                     </form>
                     {error ? (<span className="exists">Invalid password reset details passed</span>) : (validate ? (<span className="valid">Password has been reset successfully </span>) : (found ? (<span className="exists">Password reset link is invalid!! </span>) : ("")))}

@@ -9,8 +9,30 @@ const {
 } = require('./users');
 
 
+const validateID = (id) => {
+    if (id === undefined) {
+        let e = new Error("The 'id' parameter does not exist !!");
+        e.code = 400;
+        throw e;
+    }
+    if (typeof (id) !== 'string' || id.trim().length === 0) {
+        let e = new Error("The 'id' parameter should be a non-empty string (excluding spaces) !!");
+        e.code = 400;
+        throw e;
+    }
+    id = id.trim();
+    if (!ObjectId.isValid(id) || ObjectId(id).toString() !== id) {
+        let e = new Error("The 'id' parameter is not a valid ObjectID!!");
+        e.code = 400;
+        throw e;
+    }
+    return id;
+};
+
 
 const getEventChats = async (eventId, userId) => {
+    eventId = validateID(eventId);
+    userId = validateID(userId);
     const chats = await getChats();
     const eventChats = await chats.find({
         eventId
@@ -18,6 +40,11 @@ const getEventChats = async (eventId, userId) => {
     let userChats = eventChats.filter(chat => {
         return userId === chat.userId || userId === chat.hostId;
     });
+    if (userChats.length === 0){
+        let e = new Error("Chat not found !!");
+        e.code = 404;
+        throw e;
+    }
     userChats.sort((a, b) => b.lastMsgTime - a.lastMsgTime);
     return userChats.map(chat => {
         chat._id = chat._id.toString();
@@ -25,7 +52,9 @@ const getEventChats = async (eventId, userId) => {
     });
 };
 
+
 const updateChat = async (chatId, userId, msgText, timestamp) => {
+
     const msgObj = {
         msgId: uuid.v4(),
         userId,
@@ -48,8 +77,12 @@ const updateChat = async (chatId, userId, msgText, timestamp) => {
     return result.value;
 };
 
+
 const createChat = async (eventId, hostId, userId) => {
     console.log(hostId, userId, 'in createChat');
+    eventId = validateID(eventId);
+    hostId = validateID(hostId);
+    userId = validateID(userId);
     const host = await getUser(hostId);
     const user = await getUser(userId);
     const newChat = {
@@ -62,7 +95,7 @@ const createChat = async (eventId, hostId, userId) => {
         messages: [{
             msgId: uuid.v4(),
             userId: hostId,
-            msgText: "Thank you for joining our event. Feel free to ping me if you have any questions.. :)",
+            msgText: "Thank you for joining the event. Feel free to ping me if you have any questions.. :)",
             timestamp: new Date().getTime()
         }]
     }
@@ -74,7 +107,11 @@ const createChat = async (eventId, hostId, userId) => {
     return insertedId.toString();
 }
 
+
 const deleteChat = async (eventId, hostId, userId) => {
+    eventId = validateID(eventId);
+    hostId = validateID(hostId);
+    userId = validateID(userId);
     const chats = await getChats();
     const res = await chats.deleteOne({
         eventId, 
@@ -84,10 +121,25 @@ const deleteChat = async (eventId, hostId, userId) => {
     return res.deletedCount;
 };
 
+const deleteChatByEvent = async (eventId) => {
+    eventId = validateID(eventId);
+    const chats = await getChats();
+    const eventChats = await chats.find({
+        eventId
+    }).toArray();
+    eventChats.forEach(async ({eventId, hostId, userId}) => {
+        await deleteChat(eventId, hostId, userId);
+    });
+    console.log('deleted chat count: ', eventChats.length);
+    return eventChats.length;
+};
+
 
 module.exports = {
+    validateID,
     getEventChats,
     createChat,
     updateChat,
-    deleteChat
+    deleteChat,
+    deleteChatByEvent
 };
