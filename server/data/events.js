@@ -137,7 +137,7 @@ async function getAll(page) {
 
   for (let indexOne = 0; indexOne < eventList.length; indexOne++) {
     eventList[indexOne]._id = eventList[indexOne]._id.toString();
-    //eventList[indexOne].hostName = user.getUsername(eventList[indexOne].host);
+    eventList[indexOne].hostName = user.getUsername(eventList[indexOne].host);
   }
 
   let previous = page <= 0 || page > numOfPages ? null : page - 1;
@@ -148,7 +148,7 @@ async function getAll(page) {
 
 async function setRsvp(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
 
   const eventCollection = await events();
   const event = await this.get(eventId);
@@ -195,7 +195,7 @@ async function setRsvp(eventId, userId) {
 
 async function remove(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
 
   const eventCollection = await events();
   const event = await this.get(eventId);
@@ -213,14 +213,18 @@ async function remove(eventId, userId) {
     throw `Error : Could not delete event with id of ${eventId}`;
   }
 
-  let answer = { eventId, deleted: true };
+  let updateAnswer = await user.removeUsers(eventId, event.host, event.rsvps);
+
+  let answer;
+  if (updateAnswer.updated) answer = { eventId, deleted: true };
+
   return answer;
 }
 
 async function setRating(eventId, rating, userId) {
   let flag = false;
   eventId = validations.checkId(eventId, "Event ID");
-  // userId = validations.checkId(userId, "User ID");
+  userId = validations.checkId(userId, "User ID");
   rating = validations.checkFloat(rating, "Rating");
 
   if (rating < 0 || rating > 5)

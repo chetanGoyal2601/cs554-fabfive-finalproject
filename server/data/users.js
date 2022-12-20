@@ -207,6 +207,88 @@ async function calcRating(inputEvents) {
   return overallAvg;
 }
 
+async function removeUsers(eventId, hostId, rsvpdUsers) {
+  hostId = validations.checkId(hostId, "Host ID");
+  eventId = validations.checkId(eventId, "Event ID");
+  const user = await this.get(hostId);
+
+  if (user.events.includes(eventId)) {
+    user.events.splice(user.events.indexOf(eventId), 1);
+  }
+
+  const newUserHost = {
+    name: user.name,
+    email: user.email,
+    password: user.password,
+    dateOfBirth: user.dateOfBirth,
+    gender: user.gender,
+    rating: user.rating,
+    is_host: user.is_host,
+    rsvp_d: user.rsvp_d,
+    reviews: user.reviews,
+    comments: user.comments,
+    events: user.events,
+    reviews_upvoted: user.reviews_upvoted,
+    reviews_downvoted: user.reviews_downvoted,
+    comments_upvoted: user.comments_upvoted,
+    comments_downvoted: user.comments_downvoted,
+    verified: user.verified,
+  };
+
+  const userCollection = await users();
+
+  const updatedInfoHost = await userCollection.updateOne(
+    { _id: ObjectId(user._id) },
+    { $set: newUserHost }
+  );
+  // let userInfo = await setCurrentlyHosted(eventId, hostId, "Delete");
+
+  for (let index = 0; index < rsvpdUsers.length; index++) {
+    rsvpdUsers[index] = validations.checkId(rsvpdUsers[index], "User ID");
+    rsvpdUsers[index] = ObjectId(rsvpdUsers[index]);
+  }
+
+  let allUsers = await userCollection
+    .find({ _id: { $in: rsvpdUsers } })
+    .toArray();
+
+  for (let index = 0; index < allUsers.length; index++) {
+    let singleUser = allUsers[index];
+    let flag = false;
+    if (singleUser.rsvp_d.includes(eventId)) {
+      singleUser.rsvp_d.splice(singleUser.rsvp_d.indexOf(eventId), 1);
+      flag = true;
+    }
+    if (flag) {
+      const newUser = {
+        name: singleUser.name,
+        email: singleUser.email,
+        password: singleUser.password,
+        dateOfBirth: singleUser.dateOfBirth,
+        gender: singleUser.gender,
+        rating: singleUser.rating,
+        is_host: singleUser.is_host,
+        rsvp_d: singleUser.rsvp_d,
+        reviews: singleUser.reviews,
+        comments: singleUser.comments,
+        events: singleUser.events,
+        reviews_upvoted: singleUser.reviews_upvoted,
+        reviews_downvoted: singleUser.reviews_downvoted,
+        comments_upvoted: singleUser.comments_upvoted,
+        comments_downvoted: singleUser.comments_downvoted,
+        verified: singleUser.verified,
+      };
+
+      const updatedInfo = await userCollection.updateOne(
+        { _id: ObjectId(singleUser._id) },
+        { $set: newUser }
+      );
+    }
+  }
+  let answer = { updated: true };
+  return answer;
+}
+
 module.exports = {
   get,
   getUsername,
@@ -214,4 +296,5 @@ module.exports = {
   setCurrentlyHosted,
   calcAvgRating,
   calcRating,
+  removeUsers,
 };
