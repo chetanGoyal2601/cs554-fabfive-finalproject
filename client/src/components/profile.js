@@ -51,7 +51,7 @@ export default function Form() {
   const regex = /(<([^>]+)>)/gi;
   const [data, setData] = useState(" ");
   const [host, setHost] = useState([]);
-  const [rsvp, setRsvp] = useState(" ");
+  const [rsvp, setRsvp] = useState([]);
   const auth = useOutletContext();
   let card = null;
   async function onSubmit4 () {
