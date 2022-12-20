@@ -58,7 +58,7 @@ async function createEvent(
   if (eventDate < new Date())
     throw {
       message: "Error : Date cannot be older than today's date",
-      code: 500,
+      code: 400,
     };
 
   let newEvent = {
@@ -252,11 +252,11 @@ async function setRating(eventId, rating, userId) {
   const eventCollection = await events();
   const event = await this.get(eventId);
 
-  // if (!event.rsvps.includes(userId))
-  //   throw {
-  //     message: "You are not authorised to rate the Host for this event",
-  //     code: 403,
-  //   };
+  if (!event.rsvps.includes(userId))
+    throw {
+      message: "You are not authorised to rate the Host for this event",
+      code: 403,
+    };
 
   for (let index = 0; index < event.ratings.length; index++) {
     let element = event.ratings[index];
