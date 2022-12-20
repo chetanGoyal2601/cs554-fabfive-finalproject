@@ -121,4 +121,18 @@ router.post("/userbyemail", async (req, res) => {
   }
 });
 
+
+router.post("/userwithemail", async (req, res) => {
+
+  let userById = null;
+  try {
+    let { email } = req.body;
+    userByEmail = await user.getUserWithEmail(email);
+    res.json(userByEmail);
+  } catch (e) {
+    res.json(e);
+    return;
+  }
+});
+
 module.exports = router;

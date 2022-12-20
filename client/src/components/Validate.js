@@ -9,8 +9,11 @@ import { Container } from "@mui/system";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { Circle } from "better-react-spinkit";
+
 
 export default function Form({validateAuth}) {
+    const [loading, setLoading] = useState(false);
     const [started, setStarted] = useState(true);
     const [validate, setValidate] = useState(false);
     const [validate1, setValidate1] = useState(false);
@@ -18,9 +21,11 @@ export default function Form({validateAuth}) {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm()
     const onSubmit = async data => {
+        setLoading(true);
         try{
-         setStarted(true);
+        setStarted(true);
         const res = await axios.post('https://python-selenium-validate.herokuapp.com/', data)
+        setLoading(false);
         setStarted(false);
         let stringArray = res.data.split(' ');
         if (stringArray[0].trim() === "Welcome") {
@@ -50,6 +55,17 @@ export default function Form({validateAuth}) {
         setMessage("Validation Failed, Please Try Again")
      }
     }
+
+    if (loading) return (
+        <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+        <div>
+        <h1>Please wait while we validate your status</h1>
+            <Circle color="black" size={60} />
+        </div>
+    </center>
+    );
+
+   
 
 
     return (
