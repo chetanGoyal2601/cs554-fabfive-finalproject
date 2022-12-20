@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 // import Container from "react-bootstrap/Container";
 import Alert from "@mui/material/Alert";
 // import { CardHeader } from "@mui/material";
+import { Circle } from "better-react-spinkit";
 let path = "/";
 
 // let userId = "123";
@@ -283,12 +284,6 @@ const Events = () => {
   };
 
   if (eventData) {
-    if (eventData.length === 0)
-      return (
-        <div>
-          <h2>No Events!</h2>
-        </div>
-      );
     card =
       eventData &&
       eventData.map((event) => {
@@ -298,14 +293,21 @@ const Events = () => {
 
   if (loading) {
     return (
-      <div>
-        <h4>Loading....</h4>
-      </div>
-    );
+      <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+          <div>
+              <img src={require('../img/logo_transparent.png')}
+                  alt="Loading.."
+                  style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                  height={300}
+              />
+              <Circle color="black" size={120} />
+          </div>
+      </center>
+  );
   } else {
     let prevId = parseInt(page) - 1;
     let nextId = parseInt(page) + 1;
-    return (
+    return eventData.length !== 0 ? (
       <div>
         <br />
         {previous && (
@@ -331,6 +333,10 @@ const Events = () => {
         >
           {card}
         </Grid>
+      </div>
+    ) : (
+      <div>
+        <h2>No Events!</h2>
       </div>
     );
   }

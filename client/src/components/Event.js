@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import Nav from "react-bootstrap/Nav";
+import { Circle } from "better-react-spinkit";
 
 let path = "/";
 const labels = {
@@ -164,10 +165,17 @@ const Event = () => {
 
   if (loading) {
     return (
-      <div>
-        <h2>Loading....</h2>
-      </div>
-    );
+      <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
+          <div>
+              <img src={require('../img/logo_transparent.png')}
+                  alt="Loading.."
+                  style={{ height:"20rem",width:"20rem", marginBottom: 10}}
+                  height={300}
+              />
+              <Circle color="black" size={120} />
+          </div>
+      </center>
+  );
   } else {
     let currentDate = new Date();
     let eventDate = new Date(eventData.eventDate);
