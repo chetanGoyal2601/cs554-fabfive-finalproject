@@ -20,7 +20,7 @@ const AddNewFormDiscussion = ({ onAdd, formType }) => {
   return (
   
     <Form className="mb-3" name="AddForm" onSubmit={onSubmit}>
-      <label for="my-input"></label>
+      <label htmlFor="my-input"></label>
         <InputGroup  className="mb-3">
           <Form.Control id="my-input"
             type="text"
