@@ -50,20 +50,25 @@ export default function Form() {
   const classes = useStyles();
   const regex = /(<([^>]+)>)/gi;
   const [data, setData] = useState(" ");
-  const [host, setHost] = useState([]);
-  const [rsvp, setRsvp] = useState([]);
+  const [host_past, setHost_past] = useState([]);
+  const [rsvp_past, setRsvp_past] = useState([]);
+  const [host_future, setHost_future] = useState([]);
+  const [rsvp_future, setRsvp_future] = useState([]);
   const auth = useOutletContext();
-  let card = null;
+  let card1 = null;
+  let card2= null;
+  let card3 = null;
+  let card4 = null;
   async function onSubmit4 () {
     let data2={}
     data2.email=auth.email
     console.log(data2)
     const res = await axios.post('http://localhost:8000/user/userwithemail', data2)
       setData(res?.data?.data)
-      setHost(res?.data?.hosted);
-      setRsvp(res?.data?.reserve)
-      console.log(data)
-      console.log(host)
+      setHost_past(res?.data?.hosted_past);
+      setHost_future(res?.data?.hosted_future);
+      setRsvp_past(res?.data?.reserve_past);
+      setRsvp_future(res?.data?.reserve_future);
     }
     const buildCard = (show) => {
       return (
@@ -90,9 +95,24 @@ export default function Form() {
       );
     };
 
-    card =
-    host &&
-    host.map((show) => {
+    card1 =
+    host_past &&
+    host_past.map((show) => {
+        return buildCard(show);
+    });
+    card2 =
+    host_future &&
+    host_future.map((show) => {
+        return buildCard(show);
+    });
+    card3 =
+    rsvp_past &&
+    rsvp_past.map((show) => {
+        return buildCard(show);
+    });
+    card4 =
+    rsvp_future &&
+    rsvp_future.map((show) => {
         return buildCard(show);
     });
 
@@ -106,7 +126,30 @@ export default function Form() {
         <h1>Rating : {data.rating}</h1>
 
         <Grid container className={classes.grid} spacing={5}>
-                        {card}
+          <div>
+          <h1>Hosted events - past</h1>
+                        {card1}
+                        <br></br>
+                        <br></br>
+                        </div>
+                        <div>
+                        <h1>Hosted events - future</h1>
+                        {card2}
+                        <br></br>
+                        <br></br>
+                        </div>
+                        <div>
+                        <h1>RSVP'd events - past</h1>
+                        {card3}
+                        <br></br>
+                        <br></br>
+                        </div>
+                        <div>
+                        <h1>RSVP'd events - future</h1>
+                        {card4}
+                        <br></br>
+                        <br></br>
+                        </div>
                     </Grid>
       </div>):("")}
       <div>

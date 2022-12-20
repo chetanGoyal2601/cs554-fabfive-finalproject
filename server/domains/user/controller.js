@@ -216,8 +216,10 @@ const getUserByEmail = async (email) => {
 
 const getUserWithEmail = async (email) => {
   // const eventCollection = await events();
-  let rsvp = [];
-  let host = [];
+  let rsvp_past = [];
+  let rsvp_future = [];
+  let host_past = [];
+  let host_future = [];
   try {
     const fetchedUsers = await User.find({ email });
     if (!fetchedUsers.length) {
@@ -231,9 +233,14 @@ const getUserWithEmail = async (email) => {
         id=user.rsvp_d[i];
         const eventCollection = await events();
         const event = await eventCollection.findOne({ _id: ObjectId(id) });
-        console.log(event);
         if(event!==null){
-          rsvp.push(event)
+        let time= new Date();
+        if(Date.parse(event.eventDate) < Date.parse(time)){
+         rsvp_past.push(event)
+       }else{
+        rsvp_future.push(event)
+       }
+        console.log(event);
           }
        
       }
@@ -247,12 +254,18 @@ const getUserWithEmail = async (email) => {
         const eventCollection = await events();
         const event = await eventCollection.findOne({ _id: ObjectId(id) });
         if(event!==null){
-        host.push(event)
-        }
+          let time= new Date();
+          if(Date.parse(event.eventDate) < Date.parse(time)){
+           host_past.push(event)
+         }else{
+          host_future.push(event)
+         }
+          console.log(event);
+            }
       }
     }
    // console.log('im here 2')
-   let data={data:user,reserve:rsvp,hosted:host}
+   let data={data:user,reserve_past:rsvp_past,reserve_future:rsvp_future,hosted_past:host_past,hosted_future:host_future}
    console.log(data);
     return data;
   } catch (error) {

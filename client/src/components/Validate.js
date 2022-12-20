@@ -45,11 +45,14 @@ export default function Form({validateAuth}) {
                 }, 10000);
         }
         else {
+            setLoading(false);
              setValidate1(true)
             setValidate(false);
+            
             setMessage("Validation Failed, Please Try Again")
         }
     }catch(e){
+        setLoading(false);
         setValidate1(true)
         setValidate(false);
         setMessage("Validation Failed, Please Try Again")
