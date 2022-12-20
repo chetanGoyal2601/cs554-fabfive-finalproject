@@ -140,7 +140,8 @@ async function calcAvgRating(userId) {
   //   ObjectId("6393bfecc11b8fef13463e15"),
   //   ObjectId("6393bfb7193c03e07eae8a5a"),
   // ]);
-  let averageRating = calcRating(user.events);
+  let averageRating = await calcRating(user.events);
+  if (isNaN(averageRating)) averageRating = 0;
 
   const newUser = {
     name: user.name,
@@ -161,6 +162,8 @@ async function calcAvgRating(userId) {
     verified: user.verified,
   };
 
+  const userCollection = await users();
+
   const updatedInfo = await userCollection.updateOne(
     { _id: ObjectId(userId) },
     { $set: newUser }
@@ -179,20 +182,28 @@ async function calcAvgRating(userId) {
 
 async function calcRating(inputEvents) {
   let eventCollection = await events();
+
+  for (let index = 0; index < inputEvents.length; index++) {
+    inputEvents[index] = ObjectId(inputEvents[index]);
+  }
+
   let allEvents = await eventCollection
     .find({ _id: { $in: inputEvents } })
     .toArray();
 
   let overallSum = 0;
+  let totalRating = 0;
   for (let index = 0; index < allEvents.length; index++) {
     let sum = 0;
     const ratings = allEvents[index].ratings;
     for (let rating of ratings) {
+      totalRating++;
       sum += rating.rating;
     }
-    overallSum = overallSum + sum / ratings.length;
+    if (isNaN(overallSum)) overallSum = 0;
+    overallSum = overallSum + sum;
   }
-  overallAvg = overallSum / allEvents.length;
+  overallAvg = overallSum / totalRating;
   return overallAvg;
 }
 
