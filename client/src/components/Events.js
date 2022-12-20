@@ -13,7 +13,7 @@ import Button from "react-bootstrap/Button";
 // import Container from "react-bootstrap/Container";
 import Alert from "@mui/material/Alert";
 // import { CardHeader } from "@mui/material";
-let path = "/images/";
+let path = "/";
 
 // let userId = "123";
 

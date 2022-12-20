@@ -1,6 +1,5 @@
-const path = require('path');
-
 const chatRoutes = require("./chat");
+
 const userRoutes = require("../domains/user");
 const EmailVerificationRoutes = require("../domains/email_verification");
 const EmailVerificationOTPRoutes = require("../domains/email_verification_otp");
@@ -28,10 +27,6 @@ const constructor = (app) => {
   app.use("/event", eventRoutes);
 
   app.use("/chat", chatRoutes);
-
-  app.get('/images/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/../images/Party.jpeg'));
-  });
 
   app.use("*", (req, res) => {
     res.status(404).json({
