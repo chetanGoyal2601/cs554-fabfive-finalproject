@@ -18,7 +18,7 @@ const Header = ({logout}) => {
                   />
                 {' '}Stevens Institute of Technology
               </Navbar.Brand>
-              <Navbar.Brand href="/">
+              <Navbar.Brand as={Link}  to="/">
               <img
                     alt="Stevens"
                     src={require('../img/logo_transparent.png')}
