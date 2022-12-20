@@ -21,6 +21,8 @@ export default function Form() {
     const [validate, setValidate] = useState(false);
     const [alreadyExist, setExist] = useState(false);
     const [mail, setMail] = useState(false);
+    const [failed, setFailed] = useState(false);
+    const [failed_resend, setFailedResend] = useState(false);
     const navigate = useNavigate();
     const { register,setValue, handleSubmit, formState: { errors } } = useForm()
 
@@ -32,17 +34,29 @@ export default function Form() {
         const res = await axios.post('http://localhost:8000/user/signup', data)
         if (res.data.status === "PENDING") {
             setValidate(true);
+            setFailed(false);
             setExist(false);
             setMail(true);
             setResend(false);
+            setFailedResend(false);
             setId(res.data.data.userId);
             setEmail(res.data.data.email);
         }
-        if (res.data.message === "User with the provided email already exists") {
+        if (res.data.status === "FAILED" && res.data.message === "User with the provided email already exists") {
             setExist(true);
             setValidate(false);
             setResend(false);
             setMail(false)
+            setFailed(false);
+            setFailedResend(false);
+        }
+        if (res.data.status === "FAILED" && res.data.message !== "User with the provided email already exists") {
+            setExist(false);
+            setValidate(false);
+            setResend(false);
+            setMail(false)
+            setFailed(true);
+            setFailedResend(false);
         }
     }
 
@@ -55,6 +69,16 @@ export default function Form() {
             setValidate(false);
             setExist(false);
             setMail(false);
+            setFailed(false);
+            setFailedResend(false);
+        }
+        if (res.data.status === "FAILED") {
+            setResend(false);
+            setValidate(false);
+            setExist(false);
+            setMail(false);
+            setFailed(false);
+            setFailedResend(true);
         }
     }
 
@@ -81,7 +105,7 @@ export default function Form() {
                         <input className="mb-3" id="password" type="password" {...register("password",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='password' required />
                         {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                         <label className="text-decor" for="dob">Date Of Birth</label>
-                        <input className="mb-3" id="dob" type="date" {...register("dateOfBirth")} />
+                        <input className="mb-3" id="dob" type="date" {...register("dateOfBirth")} required/>
                         {/* {errors.date && <p id='exists'>Please enter Date from the past</p>} */}
                         <label className="text-decor" for="gender">Gender</label>
                         <select className="mb-3" id="gender"{...register("gender")} required>
@@ -101,7 +125,7 @@ export default function Form() {
                                 </Button>
                             </div>
                    
-                    {validate && !alreadyExist ? (<span  className="valid">Verification email sent.</span>) : (resend ? (<span  className="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span  className="exists">User already exists. Please Log In</span>) : ("")))}
+                    {validate && !alreadyExist ? (<span  className="valid">Verification email sent.</span>) : (resend ? (<span  className="valid">Verification email sent again.</span>) : (alreadyExist && !validate ? (<span  className="exists">User already exists. Please Log In</span>) : (failed?(<span  className="exists">User Sign Up Failed</span>):(failed_resend?(<span  className="exists">Failed to resend Verification mail</span>):("")))))}
                     <br></br>
                     {mail ? (
                         <button className='project-btn project-btn-secondary' onClick={handleSubmit(onSubmit4)}>Resend Verification Mail</button>) : ("")}

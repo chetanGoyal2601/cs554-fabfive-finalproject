@@ -20,6 +20,7 @@ export default function Form({login, removeAuth}) {
     const [mail, setMail] = useState(false);
     const [error, setError] = useState(false);
     const [validate, setValidate] = useState(false);
+    const [failed_resend, setFailedResend] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     useEffect(() => {
@@ -54,7 +55,14 @@ export default function Form({login, removeAuth}) {
             setMail(false);
             setResponse(false);
         }
+        if(res.data.status === "FAILED" && res.data.message !== "Invalid credentials entered!" && res.data.message !== "Email hasn't been verified yet. Check your inbox."){
+            setError(true);
+            setValidate(false);
+            setMail(false);
+            setResponse(false);
+        }
     }
+   
 
     const onSubmit4 = async data1 => {
         data1.userId = id;
@@ -67,6 +75,14 @@ export default function Form({login, removeAuth}) {
             setValidate(false);
             setMail(false);
             setResponse(true);
+            setFailedResend(false);
+        }
+        if (res.data.status === "FAILED") {
+            setError(false);
+            setValidate(false);
+            setMail(false);
+            setResponse(true);
+            setFailedResend(true);
         }
     }
 
@@ -90,7 +106,7 @@ export default function Form({login, removeAuth}) {
                                         {/* <input type="text" {...register("mobile")}  placeholder='' /> */}
                                         <button className='project-btn project-btn-primary'>SIGN IN</button>
                                     </form>
-                                    {error ? (<span  className="exists">Invalid Credentials Entered</span>) : (validate ? (<span  className="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span  className="valid">Verification mail resent ! </span>) : ("")))}
+                                    {error ? (<span  className="exists">Invalid Credentials Entered</span>) : (validate ? (<span  className="exists">Email hasn't been verified yet. Check your inbox </span>) : (response ? (<span  className="valid">Verification mail resent ! </span>) : (failed_resend?(<span  className="exists">Failed to resend Verification mail</span>):(""))))}
                                     <br></br>
                                     
                                     {mail ? (

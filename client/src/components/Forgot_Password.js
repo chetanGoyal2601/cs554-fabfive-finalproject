@@ -21,6 +21,8 @@ export default function Form() {
     const [validate, setValidate] = useState(false);
     const [resend, setResend] = useState(false);
     const [data2, setData2] = useState("");
+    const [failed, setFailed] = useState(false);
+    const [failed1, setFailed1] = useState(false);
     const [id, setId] = useState("");
     const { register, handleSubmit, formState: { errors } } = useForm()
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors1 } } = useForm()
@@ -33,16 +35,25 @@ export default function Form() {
             setError(false);
             setEmail(false);
             setResend(true);
+            setFailed(false);
         }
         if (res.data.status === "FAILED" && res.data.message === "No account with the supplied email exists!") {
             setValidate(false);
             setError(true);
             setEmail(false);
+            setFailed(false);
         }
         if (res.data.status === "FAILED" && res.data.message === "Email hasn't been verified yet. Check your inbox.") {
             setEmail(true);
             setValidate(false);
             setError(false);
+            setFailed(false);
+        }
+        if (res.data.status === "FAILED" ) {
+            setEmail(true);
+            setValidate(false);
+            setError(false);
+            setFailed(true);
         }
     }
     const onSubmit1 = async data1 => {
@@ -69,18 +80,21 @@ export default function Form() {
             setIn_Valid(false);
             setCode(false);
             setSuccess(false);
+            setFailed1(false);
         }
         if (rem.data.status === "FAILED" && rem.data.message === "Code has expired. Please request again.") {
             setNf(false);
             setIn_Valid(false);
             setCode(true);
             setSuccess(false);
+            setFailed1(false);
         }
         if (rem.data.status === "FAILED" && rem.data.message === "Invalid code passed. Check your inbox.") {
             setNf(false);
             setCode(false);
             setIn_Valid(true);
             setSuccess(false);
+            setFailed1(false);
 
         }
         if (rem.data.status === "SUCCESS" && rem.data.message === "Password has been reset successfully.") {
@@ -88,6 +102,15 @@ export default function Form() {
             setCode(false);
             setIn_Valid(false);
             setSuccess(true);
+            setFailed1(false);
+
+        }
+        if (rem.data.status === "FAILED") {
+            setNf(false);
+            setCode(false);
+            setIn_Valid(false);
+            setSuccess(false);
+            setFailed1(true);
 
         }
     }
@@ -116,7 +139,7 @@ export default function Form() {
                          <button className='project-btn project-btn-primary'>SUBMIT</button>
 
                             </form>
-                            {error ? (<span className="exists">Invalid Credentials Entered</span>) : (validate ? (<span className="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span className="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : ("")))}
+                            {error ? (<span className="exists">Invalid Credentials Entered</span>) : (validate ? (<span className="valid">Password reset email sent. Please check your inbox/spam/junk folder </span>) : (email ? (<span className="exists">Account hasn't been verified yet. Please check your inbox/spam/junk folder</span>) : (failed?(<span className="valid">Password reset request failed </span>):(""))))}
                             <div className='d-grid'>
                                 <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">
                                 Back to Login!
@@ -152,7 +175,7 @@ export default function Form() {
                             <button className='project-btn project-btn-primary'>SUBMIT</button>
                             </div>
                         </form>
-                        {success ? (<span className="valid">Password has been reset successfully</span>) : (c_n_v ? (<span className="exists">OTP Expired Please Request Again</span>) : (in_valid ? (<span className="exists">Code Not Valid. Please Check </span>) : (r_n_f ? (<span className="exists">Password Reset Request Not Found</span>) : (""))))}
+                        {success ? (<span className="valid">Password has been reset successfully</span>) : (c_n_v ? (<span className="exists">OTP Expired Please Request Again</span>) : (in_valid ? (<span className="exists">Code Not Valid. Please Check </span>) : (r_n_f ? (<span className="exists">Password Reset Request Not Found</span>) : (failed?(<span className="exists">Password Reset Failed</span>):("")))))}
                         {success ? (
                              <div className='d-grid'>
                              <Button as={Link} to="/signin" className="mb-3" variant="dark" size="md">

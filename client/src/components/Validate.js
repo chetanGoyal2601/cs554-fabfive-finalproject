@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Circle } from "better-react-spinkit";
+import logo from '../img/logo_transparent.png';
 
 
 export default function Form({validateAuth}) {
@@ -42,7 +43,7 @@ export default function Form({validateAuth}) {
             validateAuth(vAuth);
             setTimeout(() => {
                navigate('/signup');
-                }, 10000);
+                }, 5000);
         }
         else {
             setLoading(false);
@@ -62,8 +63,13 @@ export default function Form({validateAuth}) {
     if (loading) return (
         <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
         <div>
-        <h1>Please wait while we validate your status</h1>
+        <img src={logo}
+                    alt="logo"
+                    style={{ marginBottom: 10 }}
+                    height={200}
+                />
             <Circle color="black" size={60} />
+            <h1>Please wait while we validate your status</h1>
         </div>
     </center>
     );
@@ -86,7 +92,8 @@ export default function Form({validateAuth}) {
 
                     <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label className='mb-3 text-decor' for="fullname">Enter your Steven's Username</label>
-                        <input className='mb-3' id="fullname" type="text" {...register("username")} placeholder='username' required />
+                        <input className='mb-3' id="fullname" type="text" {...register("username",{ required: true, pattern: /^[a-z0-9]+$/i})} placeholder='username' required />
+                        {errors.username && <p className="exists">Username should only contain alphanumeric characters</p>}
                         <button className='project-btn project-btn-primary'>Validate</button>
                     </form>
                     {validate ? (<span className="valid">{message}</span>) : (validate1 ? (<span className="exists">{message}</span>): (""))}
