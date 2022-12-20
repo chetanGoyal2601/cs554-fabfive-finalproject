@@ -30,7 +30,7 @@ async function getUsername(id) {
     };
   id = validations.checkId(id);
 
-  const user = this.get(id);
+  const user = await this.get(id);
 
   return user.name;
 }

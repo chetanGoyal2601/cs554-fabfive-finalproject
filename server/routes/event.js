@@ -35,7 +35,6 @@ router.post("/", upload.single("image"), async (req, res) => {
     req.body.userId = validations.checkId(req.body.userId, "User Id");
 
     if (req.file) {
-      req.file = xss(req.file);
       imageName = validations.checkString(req.file.filename, "Image Name");
     } else {
       imageName = null;
