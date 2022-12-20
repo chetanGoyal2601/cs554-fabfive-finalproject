@@ -27,7 +27,7 @@ export default function Form() {
     const [failed1, setFailed1] = useState(false);
     const [id, setId] = useState("");
     const { register, handleSubmit, formState: { errors } } = useForm()
-    const { register: register1, handleSubmit: handleSubmit1, formState: { errors1 } } = useForm()
+    const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm()
     const onSubmit = async data => {
         data.redirectUrl = 'http://localhost:3000/new_password';
         setLoading(true)
@@ -191,7 +191,7 @@ export default function Form() {
                             <input className="mb-2" id="number" type="number"  {...register1("otp")} placeholder='Enter OTP' required />
                             <label className="mb-2" for="password">New Password</label>
                             <input className="mb-2" id="password" type="password" {...register1("newPassword",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='new password' required />
-                            {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
+                            {errors1.newPassword && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                             <div className='d-grid'>
                             <button className='project-btn project-btn-primary'>SUBMIT</button>
                             </div>

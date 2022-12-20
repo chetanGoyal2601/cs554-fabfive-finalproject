@@ -7,16 +7,9 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     dateOfBirth: { type: Date },
     gender : { type: String, required: true },
-    rating:{ type: Number },
-    is_host:{ type: Boolean, required: true },
+    rating:{ type: Number, default: 0 },
     rsvp_d:Array,
     events:Array,
-    reviews:Array,
-    comments:Array,
-    reviews_upvoted:Array,
-    reviews_downvoted:Array,
-    comments_upvoted:Array,
-    comments_downvoted:Array,
     verified: { type: Boolean, required: true }
 });
 

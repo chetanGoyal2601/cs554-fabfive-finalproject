@@ -81,7 +81,7 @@ export default function Form() {
                     <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
                         <label className="text-decor" for="password">Password</label>
                         <input className="text-decor mb-3" id="password" type="password" {...register("newPassword",{ required: true, minLength: 8,maxLength:16,pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/})} placeholder='new password' required />
-                        {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
+                        {errors.newPassword && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
 
                         <button className='project-btn project-btn-primary'>RESET</button>
 

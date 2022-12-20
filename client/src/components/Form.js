@@ -127,7 +127,7 @@ export default function Form() {
                         {errors.password && <p className='exists'>Password should contain one Capital Letter, one Small Letter, and the number of characters should be between 8 to 15</p>}
                         <label className="text-decor" for="dob">Date Of Birth</label>
                         <input className="mb-3" id="dob" type="date" {...register("dateOfBirth")} required/>
-                        {/* {errors.date && <p id='exists'>Please enter Date from the past</p>} */}
+                         {errors.dateOfBirth && <p id='exists'>DOB cannot be a future date</p>}
                         <label className="text-decor" for="gender">Gender</label>
                         <select className="mb-3" id="gender"{...register("gender")} required>
                             <option value="Male">Male</option>
