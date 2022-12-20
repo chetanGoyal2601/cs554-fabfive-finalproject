@@ -271,13 +271,13 @@ async function setRating(eventId, rating, userId) {
     { $set: newEvent }
   );
 
-  if (updatedInfo.modifiedCount === 0) {
-    throw {
-      message:
-        "Error : Could not update event successfully. New value might be same as old value",
-      code: 500,
-    };
-  }
+  // if (updatedInfo.modifiedCount === 0) {
+  //   throw {
+  //     message:
+  //       "Error : Could not update event successfully. New value might be same as old value",
+  //     code: 500,
+  //   };
+  // }
   let answer = { event: await this.get(eventId), updated: true };
   return answer;
 }
