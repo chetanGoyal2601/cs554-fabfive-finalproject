@@ -9,24 +9,28 @@ import AddNewFormDiscussion from "./AddNewFormDiscussion";
 const HomeForDiscussion = () => {
   let { eventId } = useParams();
   //const eventId = "2";
+  //const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const [rsvp, setRsvp] = useState(false);
   const userDetails = useOutletContext();
   const userId = userDetails.userId;
   const userName = userDetails.name;
 
   useEffect(() => {
     const getPosts = async () => {
-      const postsFromServer = await fetchPosts();
-      setPosts(postsFromServer);
+      const dataFromServer = await fetchPosts();
+      setPosts(dataFromServer.postList);
+      setRsvp(dataFromServer.rsvpBool);
     };
     getPosts();
   }, []);
 
   //fetch posts for discussion page
   const fetchPosts = async () => {
-    const res = await fetch(`/discussions/${eventId}`);
-    const data = await res.json();
-    return data.postList;
+    const res = await axios.get(`/discussions/${eventId}/${userId}`);
+    //console.log(res);
+    const data = await res.data;
+    return data;
     //console.log(data.postList);
   };
 
@@ -76,7 +80,11 @@ const HomeForDiscussion = () => {
     setPosts(
       posts.map((post) =>
         post._id === postId
-          ? { ...post, totalLikes: editLikeOnPost(post.likes, userId) }
+          ? {
+              ...post,
+              likes: editLikeOnPost(post.likes, userId),
+              totalLikes: post.totalLikes + 1,
+            }
           : post
       )
     );
@@ -102,7 +110,11 @@ const HomeForDiscussion = () => {
     setPosts(
       posts.map((post) =>
         post._id === postId
-          ? { ...post, totalLikes: editUnLikeOnPost(post.likes, userId) }
+          ? {
+              ...post,
+              likes: editUnLikeOnPost(post.likes, userId),
+              totalLikes: post.totalLikes - 1,
+            }
           : post
       )
     );
@@ -163,23 +175,29 @@ const HomeForDiscussion = () => {
   };
 
   return (
-    <div>
-      <HeaderDiscussion />
-      <AddNewFormDiscussion onAdd={addPost} formType="post" />
-      {posts.length > 0 ? (
-        <PostsDiscussions
-          userId={userId}
-          posts={posts}
-          onDelete={deletePost}
-          onEdit={editPost}
-          addCommentToPost={addCommentToPost}
-          likePost={likePost}
-          unlikePost={unlikePost}
-        />
+    <>
+      {rsvp ? (
+        <div>
+          <HeaderDiscussion />
+          <AddNewFormDiscussion onAdd={addPost} formType="post" />
+          {posts.length > 0 ? (
+            <PostsDiscussions
+              userId={userId}
+              posts={posts}
+              onDelete={deletePost}
+              onEdit={editPost}
+              addCommentToPost={addCommentToPost}
+              likePost={likePost}
+              unlikePost={unlikePost}
+            />
+          ) : (
+            "No Posts To Show"
+          )}
+        </div>
       ) : (
-        "No Posts To Show"
+        <div>RSVP to participate in discussion!</div>
       )}
-    </div>
+    </>
   );
 };
 

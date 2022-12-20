@@ -71,12 +71,23 @@ const createChat = async (eventId, hostId, userId) => {
         acknowledged,
         insertedId
     } = await chats.insertOne(newChat);
-    return insertedId;
+    return insertedId.toString();
 }
+
+const deleteChat = async (eventId, hostId, userId) => {
+    const chats = await getChats();
+    const res = await chats.deleteOne({
+        eventId, 
+        hostId, 
+        userId
+    });
+    return res.deletedCount;
+};
 
 
 module.exports = {
     getEventChats,
     createChat,
-    updateChat
+    updateChat,
+    deleteChat
 };

@@ -3,7 +3,7 @@ const events = mongoCollections.events;
 const { ObjectId } = require("mongodb");
 const validations = require("./validation");
 const user = require("./users");
-const { createChat } = require("./chat");
+const {createChat, deleteChat} = require('./chat');
 
 const Months = {
   Jan: 0,
@@ -146,6 +146,15 @@ async function getAll(page) {
   return data;
 }
 
+async function checkRsvp(eventId, userId) {
+  eventId = validations.checkId(eventId, "Event ID");
+  const event = await this.get(eventId);
+  if (event.rsvps.includes(userId)) {
+    return true;
+  }
+  return false;
+}
+
 async function setRsvp(eventId, userId) {
   eventId = validations.checkId(eventId, "Event ID");
   userId = validations.checkId(userId, "User ID");
@@ -160,9 +169,13 @@ async function setRsvp(eventId, userId) {
   if (event.rsvps.includes(userId)) {
     event.rsvps.splice(event.rsvps.indexOf(userId), 1);
     seatsAvailable++;
+    let deleteCount = await deleteChat(eventId, event.host, userId);
+    console.log('chat delete count', deleteCount);
   } else {
     event.rsvps.push(userId);
     seatsAvailable--;
+    let chatId = await createChat(eventId, event.host, userId);
+    console.log('created chat', chatId);
   }
 
   let newEvent = {
@@ -188,7 +201,6 @@ async function setRsvp(eventId, userId) {
   if (updatedInfo.modifiedCount === 0) {
     throw { message: "Error : Could not update event successfully", code: 500 };
   }
-  let chatId = await createChat(eventId, newEvent.host, userId);
   let answer = { event: await this.get(eventId), updated: true };
   return answer;
 }
@@ -293,4 +305,5 @@ module.exports = {
   setRsvp,
   remove,
   setRating,
+  checkRsvp,
 };
