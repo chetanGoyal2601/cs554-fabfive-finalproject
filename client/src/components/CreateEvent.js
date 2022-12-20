@@ -215,10 +215,11 @@ const CreateEvent = () => {
                   />
                   <div className="red">{errors.capacity}</div>
                 </Form.Group>
-                <Form.Label>Select Date & Time:</Form.Label>
+               
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Form.Label> Select Date & Time:</Form.Label>
+                <Form.Label>
                   <DateTimePicker
-                    // label="Event Date & Time"
                     value={value}
                     onChange={handleChange}
                     type="datetime-local"
@@ -227,6 +228,7 @@ const CreateEvent = () => {
                     // minTime={dayjs("2018-01-01T08:00")}
                     renderInput={(params) => <TextField {...params} />}
                   />
+                 </Form.Label>
                 </LocalizationProvider>
                 <br />
                 <Button variant="primary" type="submit">
