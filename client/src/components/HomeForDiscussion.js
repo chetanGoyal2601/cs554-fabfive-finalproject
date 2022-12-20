@@ -28,7 +28,7 @@ const HomeForDiscussion = () => {
   //fetch posts for discussion page
   const fetchPosts = async () => {
     const res = await axios.get(`/discussions/${eventId}/${userId}`);
-    console.log(res);
+    //console.log(res);
     const data = await res.data;
     return data;
     //console.log(data.postList);
