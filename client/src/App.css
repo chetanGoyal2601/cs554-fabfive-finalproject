@@ -56,6 +56,16 @@
   background-size: cover;
   position: relative;
   background-image: url('../src/img/d.jpeg');
+  min-height: 100vh;
+}
+.concert-Background{
+  background-image: linear-gradient(#5200cc,white);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  min-height: 100vh;
+  background-image: url('../src/img/m.avif');
 }
 .Home-Page-Image{
   background-position: center;
@@ -78,6 +88,7 @@
   background-size: cover;
   position: relative;
   background-image: url('../src/img/logo_transparent.png');
+  min-height: 100vh;
 }
 .link{
   text-decoration: none;
