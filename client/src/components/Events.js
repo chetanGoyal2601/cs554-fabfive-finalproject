@@ -199,7 +199,7 @@ const Events = () => {
             event.seatsAvailable &&
             !event.rsvps.includes(loggedInUser) &&
             event.host !== loggedInUser &&
-            event.seatsAvailable > 0 && (
+            event.seatsAvailable > 0 ? (
               <Button size="sm"
                 variant="dark"
                 onClick={() => {
@@ -208,11 +208,11 @@ const Events = () => {
               >
                 RSVP
               </Button>
-            )}
+            ) : undefined}
           {loggedInUser &&
             eventDate > currentDate &&
             event.host &&
-            loggedInUser === event.host && (
+            loggedInUser === event.host ? (
               <div className="p-2">
                 <Button size="sm"
                   variant="danger"
@@ -233,12 +233,12 @@ const Events = () => {
                   Chat
                 </Button>
               </div>
-            )}
+            ) : undefined}
 
           {loggedInUser &&
             event.rsvps &&
             eventDate > currentDate &&
-            event.rsvps.includes(loggedInUser) && (
+            event.rsvps.includes(loggedInUser) ? (
               <div>
                   <Button size="sm" as={Link} to={`/chat/${event._id}`} variant="primary">Chat with host</Button>{' '}
                 <Button size="sm"
@@ -257,7 +257,7 @@ const Events = () => {
                   Remove RSVP
                 </Button>
               </div>
-            )}
+            ) : undefined}
           <br />
           <br />
         </Card>
