@@ -85,7 +85,7 @@ export default function Form({validateAuth}) {
                     <span>Note: If your email is apala1@stevens.edu, please enter only apala1</span>
 
                     <form id='form' className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
-                        <label className='mb-3 text-decor'>Enter your Steven's Username</label>
+                        <label className='mb-3 text-decor' for="fullname">Enter your Steven's Username</label>
                         <input className='mb-3' id="fullname" type="text" {...register("username")} placeholder='username' required />
                         <button className='project-btn project-btn-primary'>Validate</button>
                     </form>
