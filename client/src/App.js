@@ -23,6 +23,7 @@ import Home from "./components/Home";
 import Validate from "./components/Validate";
 import Header from "./components/Header";
 import HomeForDiscussion from "./components/HomeForDiscussion";
+import PageNotFound from "./components/404Page";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -102,6 +103,7 @@ const App = () => {
               <Route path="/chat/:eventId" element={<Chat />} />
               <Route path="/discussions/:eventId" element={<HomeForDiscussion />} />
             </Route>
+            <Route path='*' element={<PageNotFound />} />
           </Routes>
         </div>
       </div>

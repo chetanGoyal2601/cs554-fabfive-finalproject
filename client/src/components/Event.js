@@ -362,7 +362,7 @@ const Event = () => {
                           as={Link}
                           to={`/chat/${eventData._id}`}
                         >
-                          Chat with host
+                          Chat
                         </Button>
                       </div>
                     )}
