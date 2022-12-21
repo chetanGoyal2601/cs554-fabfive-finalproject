@@ -48,13 +48,17 @@ password - Jefferson123
 # Mandatory Requirements - 
 
 Node version 18.11.0
+
 MongoDB
+
 Redis
 
 # Optional Requirements -(To test python selenium on local device which is also hosted on heroku) 
 
 Python
+
 Python selenium, flask Dependencies
+
 Chromedriver (version compatible with chrome browser version)
 
 ----------------------------------------------------------
@@ -81,12 +85,15 @@ brew install redis
 ### If you still have the old mongodb installed from homebrew-core
 
 brew services stop mongodb
+
 brew uninstall homebrew/core/mongodb
 
 ### Use the migrated distribution from custom tap
 
 brew tap mongodb/brew
+
 brew install mongodb-community
+
 brew services start mongodb-community
 
 ## Start mongodb server-
@@ -121,12 +128,15 @@ https://chromedriver.chromium.org/downloads
 ## Changes to be made in python-selenium-heroku folder to run on local machine
 
 Step 1- Downgrade my.stevens.edu account from okta verify to google authenticator
+
 Step 2- When logging in first time after downgrading extract the secret key from the Google authenticator QR code
 
 In app.py
 
 Step 3 - Change the path in line number 40 and 41 to the chromedriver downloaded earlier
+
 Step 4- Replace the secret key on line number 61 with your extracted on step 2
+
 Step 5- Provide your stevens username and password on line 22 and 23 
 
 Run using the command flask run app.py
