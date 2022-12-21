@@ -144,17 +144,16 @@ const CreateEvent = () => {
                   onChange={(e) => setFile(e.target.files[0])}
                   type="file"
                   accept="image/*"
-                  alt="Jeff"
                   // required
                 ></input>
                 <br />
                 <Form.Group
                   className="mb-3"
-                  controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label>Title : </Form.Label>
+                  <Form.Label htmlFor="my-input1">Title : </Form.Label>
                   <br />
                   <Form.Control
+                    id="my-input1"
                     onChange={(e) => setField("title", e.target.value)}
                     type="text"
                     placeholder="My Title"
@@ -164,12 +163,11 @@ const CreateEvent = () => {
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
-                  controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label>Description : </Form.Label>
+                  <Form.Label htmlFor="my-input2">Description : </Form.Label>
                   <Form.Control
+                    id="my-input2"
                     onChange={(e) => setField("description", e.target.value)}
-                    type="text"
                     as="textarea"
                     rows={3}
                     cols={100}
@@ -179,8 +177,8 @@ const CreateEvent = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                   <Form.Label>Address : </Form.Label>
-                  <br />
                   <Form.Control
+                    
                     className="mb-3"
                     onChange={(e) => setField("address", e.target.value)}
                     type="text"
@@ -191,9 +189,9 @@ const CreateEvent = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formGridAddress2">
-                  <Form.Label>Address 2 : </Form.Label>
-                  <br />
+                  <Form.Label >Address 2 : </Form.Label>
                   <Form.Control
+                    
                     className="mb-3"
                     onChange={(e) => setField("address2", e.target.value)}
                     type="text"
@@ -203,10 +201,10 @@ const CreateEvent = () => {
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
-                  controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label>Capacity : </Form.Label>
+                  <Form.Label htmlFor="my-input3">Capacity : </Form.Label>
                   <Form.Control
+                    id="my-input3"
                     className="mb-3"
                     onChange={(e) => setField("capacity", e.target.value)}
                     type="number"
@@ -215,11 +213,11 @@ const CreateEvent = () => {
                   />
                   <div className="red">{errors.capacity}</div>
                 </Form.Group>
-               
+                
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Form.Label> Select Date & Time:</Form.Label>
-                <Form.Label>
+                <p> Select Date & Time:</p>
                   <DateTimePicker
+                    label="Event Date & Time"
                     value={value}
                     onChange={handleChange}
                     type="datetime-local"
@@ -228,10 +226,10 @@ const CreateEvent = () => {
                     // minTime={dayjs("2018-01-01T08:00")}
                     renderInput={(params) => <TextField {...params} />}
                   />
-                 </Form.Label>
+               
                 </LocalizationProvider>
-                <br />
-                <Button variant="primary" type="submit">
+
+                <Button className="mt-3" variant="primary" type="submit">
                   Submit
                 </Button>
               </Form>

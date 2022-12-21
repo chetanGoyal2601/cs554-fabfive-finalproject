@@ -150,28 +150,29 @@ const Chat = () => {
             <div className={classes.sideBar}>
                 <div className={classes.sideHeader}>
                     <div>
-                        <IconButton onClick={() => navigate(-1)}>
+                        <label htmlFor='back'></label>
+                        <IconButton id="back" onClick={() => navigate(-1)}>
                             <ArrowBackIcon />
                         </IconButton>
                     </div>
                     <Nav.Link as={Link} onClick={fetchData}>
-                        <h3>
+                        <h1>
                             Event Chat
-                        </h3>
+                        </h1>
                     </Nav.Link>
                 </div>
                 {eventChats.map(chat => (
                     <div className={classes.chatTile} onClick={() => changeChat(chat._id)} key={chat._id}>
-                        <Avatar className={classes.userAvatar} src={person_placeholder}/>
+                        <Avatar alt="avatar" className={classes.userAvatar} src={person_placeholder}/>
                         <p>{chat.userId===userId ? chat.hostName : chat.userName}</p>
                     </div >
                 ))}
             </div>
             <div className={classes.chatContainer}>
                 {chatMsgs ? <div className={classes.chatHeader}>
-                    <Avatar src={person_placeholder} />
+                    <Avatar  alt="avatar" src={person_placeholder} />
                     <div className={classes.headerInfo}>
-                        <h3>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h3>
+                        <h2>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h2>
                     </div>
                 </div> : undefined}
                 <div className={classes.msgContainer}>
@@ -179,7 +180,8 @@ const Chat = () => {
                     <div className={classes.endOfMsg} ref={endOfMsgsRef}/>
                 </div>
                 <form className={classes.inputContainer}>
-                    <input className={classes.input} placeholder="Type a message" value={inputMsg} onChange={e => setInputMsg(e.target.value)} />
+                    <label htmlFor='message'></label>
+                    <input id="message" className={classes.input} placeholder="Type a message" value={inputMsg} onChange={e => setInputMsg(e.target.value)} />
                     <button hidden disabled={!inputMsg.trim()} type="submit" onClick={() => sendMessage()} />
                 </form>
             </div>

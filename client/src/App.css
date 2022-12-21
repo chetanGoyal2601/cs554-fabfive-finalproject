@@ -278,7 +278,9 @@ span{
   --bs-btn-disabled-bg: #6c757d;
   --bs-btn-disabled-border-color: #6c757d;
 }
-
+#date{
+  color:grey;
+}
 
 .exists{
   color: red;

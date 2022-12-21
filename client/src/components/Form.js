@@ -130,6 +130,7 @@ export default function Form() {
                          {errors.dateOfBirth && <p id='exists'>DOB cannot be a future date</p>}
                         <label className="text-decor" for="gender">Gender</label>
                         <select className="mb-3" id="gender"{...register("gender")} required>
+                            <option value="">Choose a gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Others">Others</option>

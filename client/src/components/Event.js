@@ -198,7 +198,6 @@ const Event = () => {
         <div className="row">
           <div className="col p-4">
             <Card
-              variant="light"
               bg="light"
               style={{
                 width: "50rem",

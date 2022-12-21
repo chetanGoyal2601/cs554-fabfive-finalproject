@@ -86,17 +86,17 @@ export default function Form() {
     const buildCard = (show) => {
       return (
         <Grid className="mb-3" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card onClick={() => navigate(`/event/${show._id}`)} className={classes.card} variant="light" bg="light" text='dark' >
+          <Card onClick={() => navigate(`/event/${show._id}`)} className={classes.card}  bg="light" text='dark' >
             <CardActionArea component='div'>
                               <CardContent>
                                   <p style={{fontSize:"20px",fontWeight:"700"}}>
                                       {show.title}
                                   </p>
-                                  <Typography variant='body2' color='black' component='p' className='map'>
-                                      {show.description ? show.description.replace(regex, '').substring(0, 139) + '...' : 'No Description'}
-                    <br></br>
+                                  <Typography variant='body2' className='map'>
+                                      {show.description ? show.description.replace(regex, '').substring(0, 139) + '...' : 'No Description'}</Typography>
+                    
                     <p className="text-uppercase" style={{fontSize:"13px",fontWeight:"600",color:"crimson"}}>More Info..</p>
-                                  </Typography>
+                                  
                               </CardContent>
                           {/* </Link> */}
                       </CardActionArea>
@@ -157,7 +157,7 @@ export default function Form() {
     <section>
       {data !==null ?
       (<div  className="concert-Background">
-        <Card  variant="secondary" text="dark" className='mb-3 '
+        <Card text="dark" className='mb-3 '
               style={{
                 width: "50rem",
                 height: "auto",

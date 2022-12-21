@@ -7,12 +7,11 @@ const HeaderDiscussion = (props) => {
        
        <div className="d-grid mb-3">
           <Button style={{fontSize:"25px",fontWeight:"700",fontStyle:"italic"}} variant="light" size="lg" disabled>
-          <div className="mb-3">
-          <h1 style={{fontSize:"30px",fontWeight:"700",color:"#1e0a3c",fontStyle:"italic"}} variant="danger" size="lg">
-            Discussion Forum
-          </h1>
-        </div>
-            {props.eventName}
+          
+            Discussion Forum for 
+         
+       
+            {' '}{props.eventName}
           </Button>
         </div>
     </div>

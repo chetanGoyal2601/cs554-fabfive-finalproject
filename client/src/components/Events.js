@@ -150,7 +150,6 @@ const Events = () => {
         >
           <Link
             className="link"
-            sx={{ fontWeight: 600 }}
             to={`/event/${event._id}`}
           >
             <CardMedia
@@ -166,8 +165,8 @@ const Events = () => {
                 fontSize: 25,
               }}
             >
-              <Typography className="text-uppercase">
-                {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
+              <Typography style={{fontWeight:600,fontSize:"25px"}} className="text-uppercase">
+               {event.title.charAt(0).toUpperCase() + event.title.slice(1)}
               </Typography>
               <Typography variant="body2" color="black" component="p">
                 Host :{" "}
