@@ -1,6 +1,7 @@
 # if all requirements are already met - run the follwoing commands from the project folder -
 
 npm install - this is will install node modules in both server and client
+
 npm start - this is will start server for both backend and frontend
 
 # Server runs on -
