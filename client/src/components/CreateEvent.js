@@ -217,7 +217,7 @@ const CreateEvent = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <p> Select Date & Time:</p>
                   <DateTimePicker
-                    label="Event Date & Time"
+                    label=" "
                     value={value}
                     onChange={handleChange}
                     type="datetime-local"
