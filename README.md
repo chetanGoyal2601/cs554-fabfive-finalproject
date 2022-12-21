@@ -13,11 +13,13 @@ http://localhost:3000/
 # MongoDB - (ATLAS) uri -
 
 serverUrl - mongodb+srv://web2project:5Kh4usBMnmzZPFvj@cluster0.eqpuwlr.mongodb.net/?retryWrites=true&w=majority
+
 database - cs_554_web_project
 
 (DATA has already been fed into ATLAS for testing)
 
 # Testing - 
+
 LOGIN CREDENTIALS
 
 username - rgundam@stevens.edu
@@ -119,11 +121,13 @@ brew install python3
 ## install python dependencies 
 
 Go into the python-selenium-heroku folder and execute the below command 
+
 pip install -r requirements.txt
 
 ## Chrome driver installation -
 
 Download the appropriate chromedriver version from below link based on chrome browser version
+
 https://chromedriver.chromium.org/downloads
 
 ## Changes to be made in python-selenium-heroku folder to run on local machine
