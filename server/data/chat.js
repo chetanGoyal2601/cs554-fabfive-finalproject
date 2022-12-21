@@ -40,11 +40,11 @@ const getEventChats = async (eventId, userId) => {
     let userChats = eventChats.filter(chat => {
         return userId === chat.userId || userId === chat.hostId;
     });
-    if (userChats.length === 0){
-        let e = new Error("Chat not found !!");
-        e.code = 404;
-        throw e;
-    }
+    // if (userChats.length === 0){
+    //     let e = new Error("Chat not found !!");
+    //     e.code = 404;
+    //     throw e;
+    // }
     userChats.sort((a, b) => b.lastMsgTime - a.lastMsgTime);
     return userChats.map(chat => {
         chat._id = chat._id.toString();

@@ -2,6 +2,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from 'react-bootstrap/InputGroup';
+import shortid from 'shortid';
 
 const AddNewFormDiscussion = ({ onAdd, formType }) => {
   const [text, setText] = useState("");
@@ -17,12 +18,13 @@ const AddNewFormDiscussion = ({ onAdd, formType }) => {
     setText("");
   };
 
+  const shid = shortid.generate();
   return (
   
     <Form className="mb-3" name="AddForm" onSubmit={onSubmit}>
-      <label htmlFor="my-input"></label>
+      <label htmlFor={`my-input-${shid}`}></label>
         <InputGroup  className="mb-3">
-          <Form.Control id="my-input"
+          <Form.Control id={`my-input-${shid}`}
             type="text"
             placeholder={
               formType === "post"

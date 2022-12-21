@@ -90,7 +90,8 @@ const Chat = () => {
         setEventChats(copyChats);
     };
 
-    const sendMessage = () => {
+    const sendMessage = (e) => {
+        e.preventDefault();
         console.log(inputMsg);
         const msgObj = {
             chatId,
@@ -169,12 +170,12 @@ const Chat = () => {
                 ))}
             </div>
             <div className={classes.chatContainer}>
-                {chatMsgs ? <div className={classes.chatHeader}>
-                    <Avatar  alt="avatar" src={person_placeholder} />
-                    <div className={classes.headerInfo}>
-                        <h2>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h2>
-                    </div>
-                </div> : undefined}
+                <div className={classes.chatHeader}>
+                    {chatMsgs ? <Avatar alt="avatar" src={person_placeholder} /> : undefined}
+                    {chatMsgs ? <div className={classes.headerInfo}>
+                                    <h3>{chatMsgs.userId===userId ? chatMsgs.hostName : chatMsgs.userName}</h3>
+                                </div>  : undefined}
+                </div>
                 <div className={classes.msgContainer}>
                     {showMsgs()}
                     <div className={classes.endOfMsg} ref={endOfMsgsRef}/>
@@ -182,7 +183,7 @@ const Chat = () => {
                 <form className={classes.inputContainer}>
                     <label htmlFor='message'></label>
                     <input id="message" className={classes.input} placeholder="Type a message" value={inputMsg} onChange={e => setInputMsg(e.target.value)} />
-                    <button hidden disabled={!inputMsg.trim()} type="submit" onClick={() => sendMessage()} />
+                    <button hidden disabled={!inputMsg.trim()} type="submit" onClick={(e) => sendMessage(e)} />
                 </form>
             </div>
         </div>
