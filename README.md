@@ -1,3 +1,12 @@
+TEAM MEMBERS
+
+ANUDEEP PALA
+ROHIT GUNDAM
+DEVSHREE PARIKH
+JEFFERSON DIAS
+CHETAN GOYAL
+
+
 # if all requirements are already met - run the follwoing commands from the project folder -
 
 npm install - this is will install node modules in both server and client
