@@ -70,6 +70,7 @@ export default function Form() {
     data2.email=auth.email
     console.log(data2)
     const res = await axios.post('http://localhost:8000/user/userwithemail', data2)
+      res.data.data.rating=res.data.data.rating.toFixed(2);
       setData(res?.data?.data)
       setHost_past(res?.data?.hosted_past);
       setHost_future(res?.data?.hosted_future);
@@ -178,23 +179,23 @@ export default function Form() {
         </Card>
         <Grid item lg={8} container className={classes.grid} style={{marginLeft:"auto",marginRight:"auto",alignItems:"center"}}>
                         <Row  className='mb-3 justify-content-center w-100'>
-                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>Hosted Events in Past</p>
+                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>Previously Hosted Events</p>
                             {card1}
                         </Row>
                         <Row className='mb-3 justify-content-center w-100'>
                          
-                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>Upcoming Future Events</p>
+                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>Upcoming Hosted Events</p>
                           {card2}
                          
                         </Row>
                         <Row className='mb-3 justify-content-center w-100'>
                         
-                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>RSVP'd Events from Past</p>
+                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>Previously RSVP'd Events</p>
                         {card3}
                        
                         </Row>
                         <Row className='mb-3 justify-content-center w-100'>
-                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>RSVP'd Events in Future</p>
+                        <p className="text-uppercase" style={{fontSize:"28px",fontWeight:"bolder",fontStyle:"italic",color:"black",background:"white",opacity:"0.7",borderRadius:"20px"}}>Upcoming RSVP'd Events</p>
                         {card4}
                         </Row>
                     </Grid>
