@@ -20,18 +20,26 @@ database - cs_554_web_project
 LOGIN CREDENTIALS
 
 username - rgundam@stevens.edu
+
 password - Rohit123
 
+
 username - apala1@stevens.edu
+
 password - Anudeep123
 
+
 username - dparikh7@stevens.edu
+
 password - Devshree123
 
+
 username - cgoyal@stevens.edu
+
 password - Chetan123
 
 username - jdias@stevens.edu
+
 password - Jefferson123
 
 
@@ -129,8 +137,12 @@ Run using the command flask run app.py
 ### Note - The above commands are to be executed in terminal app on Mac OS only for windows please google the equivalent commands or download from the links provided of websites below
 
 Redis - https://redis.io/download/
+
 MongoDB -https://www.mongodb.com/try/download/community
+
 Node download -https://nodejs.org/en/download/
+
 Python download -https://www.python.org/downloads/
+
 Chrome Driver - https://chromedriver.chromium.org/downloads
 
