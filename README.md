@@ -1,5 +1,6 @@
 TEAM MEMBERS
 
+CHETAN GOYAL
 
 ANUDEEP PALA
 
@@ -9,7 +10,7 @@ DEVSHREE PARIKH
 
 JEFFERSON DIAS
 
-CHETAN GOYAL
+
 
 
 # if all requirements are already met - run the follwoing commands from the project folder -
